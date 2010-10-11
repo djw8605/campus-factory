@@ -36,7 +36,11 @@ class Factory:
             sys.exit(1)
             
         self._SetLogging()
-        self.condor_config = CondorConfig()
+        try:
+            self.condor_config = CondorConfig()
+        except Exception as ex:
+            logging.error("Unable to get the condor configuration.  If no condor configuration, assuming condor is not available.  Exiting...")
+            raise ex
 
     def _SetLogging(self):
         """

@@ -29,7 +29,9 @@ class CondorConfig:
     def __init__(self):
         (stdout, stderr) = RunExternal("condor_config_val -dump")
         if len(stdout) == 0:
-            raise Exception("Unable to get any output from condor_config_val.  Is condor binaries in the path?")
+            error_msg = "Unable to get any output from condor_config_val.  Is condor binaries in the path?"
+            logging.error(error_msg)
+            raise Exception(error_msg)
         
         # Parse the stdout
         line_re = re.compile("([\w|\d]+)\s+=\s+(.*)\Z")
