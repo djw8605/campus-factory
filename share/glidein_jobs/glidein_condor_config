@@ -4,9 +4,6 @@
 # Things you should edit:
 #
 
-# Main host for this resource.  This is the 'head node', where the condor collector is running
-COLLECTOR_HOST = ff-grid.unl.edu
-
 # This string is useful for monitoring.  You should change it to something unique to your resource.
 GLIDEIN_Site = "Firefly - HCC Campus Grid"
 

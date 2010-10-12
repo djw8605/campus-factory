@@ -5,7 +5,7 @@
 tar xzf glideinExec.tar.gz
 
 # Make the temporary directory
-local_dir=`mktemp -d -t -p /state/partition1/tmp/`
+local_dir=`mktemp -d -t -p $_campusfactory_wntmp`
 
 # All late-binding configurations
 export CONDOR_CONFIG=`pwd`/glidein_condor_config

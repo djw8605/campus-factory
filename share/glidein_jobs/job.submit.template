@@ -5,13 +5,15 @@ Executable = share/glidein_jobs/glidein_wrapper.sh
 Arguments = -dyn -f
 
 Environment = 	_condor_CONDOR_HOST=ff-grid.unl.edu; \
+				_condor_COLLECTOR_HOST=ff-grid.unl.edu; \
 				_condor_GLIDEIN_HOST=ff-grid.unl.edu; \
 				_condor_CONDOR_ADMIN=dweitzel@ff.unl.edu; \
 				_condor_NUM_CPUS=1; \
 				_condor_UID_DOMAIN=ff.unl.edu; \
 				_condor_FILESYSTEM_DOMAIN=ff.unl.edu; \
 				_condor_MAIL=/bin/mail; \
-				_condor_STARTD_NOCLAIM_SHUTDOWN=1200
+				_condor_STARTD_NOCLAIM_SHUTDOWN=1200; \
+				_campusfactory_wntmp=/state/partition1/tmp;
 
 Transfer_Executable = True
 transfer_input_files = share/glidein_jobs/glideinExec.tar.gz, share/glidein_jobs/glidein_condor_config, share/glidein_jobs/user_job_wrapper.sh
