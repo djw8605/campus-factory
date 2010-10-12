@@ -1,7 +1,30 @@
+# Glidein condor config
+
+#
+# Things you should edit:
+#
+
+# Main host for this resource.  This is the 'head node', where the condor collector is running
+COLLECTOR_HOST = ff-grid.unl.edu
+
+# This string is useful for monitoring.  You should change it to something unique to your resource.
+GLIDEIN_Site = "Firefly - HCC Campus Grid"
+
+
+# Thinks you can edit:
+
+# Which hosts would you like be able to shutdown/run this glidein.  Default is usually ok.
+ALLOW_ADMINISTRATOR = $(HOSTNAME), $(GLIDEIN_HOST)
+
+# How long should the glidein run if it's not running any jobs.  In seconds.
+STARTD_NOCLAIM_SHUTDOWN=1200
+
+#
+# Things you should probably leave alone
+#
 
 LOG = $(LOCAL_DIR)/log
 EXECUTE = $(LOCAL_DIR)/execute
-ALLOW_ADMINISTRATOR = $(HOSTNAME), $(GLIDEIN_HOST), ff.unl.edu, logon, ff-grid.unl.edu, ff-head
 
 MAIL = /bin/mail
 DAEMON_LIST = MASTER, STARTD
@@ -20,7 +43,6 @@ STARTER_LIST = STARTER, STARTER_STD
 USE_NFS = False
 USE_CKPT_SERVER = False
 
-COLLECTOR_HOST = ff-grid.unl.edu
 CCB_ADDRESS = $(COLLECTOR_HOST)
 
 LOCK = $(LOG)
@@ -40,7 +62,7 @@ SUSPEND_VANILLA = False
 WANT_SUSPEND_VANILLA = True
 KILL = False
 IS_GLIDEIN = True
-GLIDEIN_Site = "Firefly - HCC Campus Grid"
+
 STARTD_EXPRS = IS_GLIDEIN, START, DaemonStopTime, GLIDEIN_Site
 
 MASTER_WAITS_FOR_GCB_BROKER = False
@@ -60,5 +82,5 @@ SEC_DEFAULT_ENCRYPTION=OPTIONAL
 SEC_DEFAULT_INTEGRITY=REQUIRED
 
 
-STARTD_NOCLAIM_SHUTDOWN=1200
+
 
