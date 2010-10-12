@@ -38,9 +38,9 @@ class Factory:
         self._SetLogging()
         try:
             self.condor_config = CondorConfig()
-        except Exception as ex:
+        except Exception:
             logging.error("Unable to get the condor configuration.  If no condor configuration, assuming condor is not available.  Exiting...")
-            raise ex
+            raise Exception("Unable to get the condor configuration.  If no condor configuration, assuming condor is not available.  Exiting...")
 
     def _SetLogging(self):
         """
@@ -106,7 +106,7 @@ class Factory:
 
 
             # Check for idle jobs to flock from
-            if self.config.get("general", "FLOCK_FROM"):
+            if self.config.has_option("general", "FLOCK_FROM"):
                 schedds = self.config.get("general", "FLOCK_FROM").split(",")
             else:
                 schedds = self.condor_config.get('FLOCK_FROM').split(",")
