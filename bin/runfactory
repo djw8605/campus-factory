@@ -7,18 +7,22 @@ from  campus_factory.Factory import *
 
 
 def AddArgs(parser):
-    parser.add_option("-d", "--daemonize", dest="daemonize", help="Daemonize the factory", action="store_true", default="true")
-    parser.add_option("-c", "--config", dest="config", help="Location of configuration file", action="store", default="/etc/campus_factory/campus_factory.conf")
+    parser.add_option(	"-d", "--daemonize", dest="daemonize", help="Daemonize the factory", 
+    					action="store_true", default="true")
+    					
+    parser.add_option(	"-c", "--config", dest="config", 
+    					help="Location of configuration file", 
+    					action="store", default="/etc/campus_factory/campus_factory.conf")
 
 def ParseArgs():
     parser = OptionParser()
     AddArgs(parser)
     (options, args) = parser.parse_args()
-    return options
+    return options, args
 
 
 if __name__ == "__main__":
-    options = ParseArgs()
+    options, args = ParseArgs()
     new_factory = Factory(options)
     new_factory.Start()
 
