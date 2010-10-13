@@ -162,7 +162,7 @@ class Factory:
         
         options_str = ""
         for key in options.keys():
-            options_str += "-a %s=\"%s\"" % (key, options[key])
+            options_str += " -a %s=\"%s\"" % (key, options[key])
             
         (stdout, stderr) = RunExternal("condor_submit %s %s" % (file, options_str))
         logging.debug("stdout: %s" % stdout)
