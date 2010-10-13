@@ -153,6 +153,12 @@ class Factory:
         # Delete the submit file
 
     def SingleSubmit(self, file):
+        """
+        Submit a single glidein job
+        
+        @param file: The file (string) to submit
+        
+        """
         options = {"WN_TMP": self.config.get("general", "worker_tmp"), \
                    "GLIDEIN_HOST": self.condor_config.get("CONDOR_HOST"), \
                    "GLIDEIN_Site": self.condor_config.get("COLLECTOR_NAME")}
