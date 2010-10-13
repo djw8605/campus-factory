@@ -1,0 +1,11 @@
+universe = local
+
+executable = bin/runfactory
+arguments = -c etc/campus_factory.conf
+getenv = true
+
++IsFactory = TRUE
+
+queue
+
+
