@@ -159,6 +159,8 @@ class Factory:
         @param file: The file (string) to submit
         
         """
+        
+        # TODO: These options should be moved to a better location
         options = {"WN_TMP": self.config.get("general", "worker_tmp"), \
                    "GLIDEIN_HOST": self.condor_config.get("CONDOR_HOST"), \
                    "GLIDEIN_Site": self.condor_config.get("COLLECTOR_NAME")}
