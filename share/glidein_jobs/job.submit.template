@@ -1,19 +1,28 @@
+# Glidein Job submission
+
+# Define the default variables that will be used below
+GLIDEIN_HOST = example.com
+WN_TMP = /tmp
+GLIDEIN_Site = Grid site
+
+
 Universe = Grid
 
 Executable = share/glidein_jobs/glidein_wrapper.sh
 
 Arguments = -dyn -f
 
-Environment = 	_condor_CONDOR_HOST=ff-grid.unl.edu; \
-				_condor_COLLECTOR_HOST=ff-grid.unl.edu; \
-				_condor_GLIDEIN_HOST=ff-grid.unl.edu; \
+Environment = 	_condor_CONDOR_HOST=$(GLIDEIN_HOST); \
+				_condor_COLLECTOR_HOST=$(GLIDEIN_HOST); \
+				_condor_GLIDEIN_HOST=$(GLIDEIN_HOST); \
 				_condor_CONDOR_ADMIN=dweitzel@ff.unl.edu; \
 				_condor_NUM_CPUS=1; \
 				_condor_UID_DOMAIN=ff.unl.edu; \
 				_condor_FILESYSTEM_DOMAIN=ff.unl.edu; \
 				_condor_MAIL=/bin/mail; \
 				_condor_STARTD_NOCLAIM_SHUTDOWN=1200; \
-				_campusfactory_wntmp=/state/partition1/tmp;
+				_campusfactory_wntmp=$(WN_TMP); \
+				_condor_GLIDEIN_Site="$(GLIDEIN_Site)"
 
 Transfer_Executable = True
 transfer_input_files = share/glidein_jobs/glideinExec.tar.gz, share/glidein_jobs/glidein_condor_config, share/glidein_jobs/user_job_wrapper.sh

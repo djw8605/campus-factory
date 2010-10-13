@@ -153,7 +153,24 @@ class Factory:
         # Delete the submit file
 
     def SingleSubmit(self, file):
-        (stdout, stderr) = RunExternal("condor_submit %s" % file)
+        """
+        Submit a single glidein job
+        
+        @param file: The file (string) to submit
+        
+        """
+        options = {"WN_TMP": self.config.get("general", "worker_tmp"), \
+                   "GLIDEIN_HOST": self.condor_config.get("CONDOR_HOST"), \
+                   "GLIDEIN_Site": self.condor_config.get("COLLECTOR_NAME")}
+        
+        if self.config.has_option("general", "GLIDEIN_Site"):
+            options["GLIDEIN_Site"] = self.config.get("general", "GLIDEIN_Site")
+        
+        options_str = ""
+        for key in options.keys():
+            options_str += " -a %s=\"%s\"" % (key, options[key])
+            
+        (stdout, stderr) = RunExternal("condor_submit %s %s" % (file, options_str))
         logging.debug("stdout: %s" % stdout)
         logging.debug("stderr: %s" % stderr)
 

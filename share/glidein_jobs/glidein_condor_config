@@ -5,7 +5,7 @@
 #
 
 # This string is useful for monitoring.  You should change it to something unique to your resource.
-GLIDEIN_Site = "Firefly - HCC Campus Grid"
+#GLIDEIN_Site = "Firefly - HCC Campus Grid"
 
 
 # Thinks you can edit:
