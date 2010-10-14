@@ -1,0 +1,35 @@
+2010-10-14 18:09  djw8605
+
+	* etc/campus_factory.conf: Reworked configuration file to make more
+	  obvious the things you have to change.
+
+2010-10-14 19:49  djw8605
+
+	* python-lib/campus_factory/ClusterStatus.py,
+	  python-lib/campus_factory/Factory.py: Added better logging of
+	  errors when parsing the condor configuration. This applies to
+	  Ticket #1.
+
+2010-10-14 21:00  djw8605
+
+	* bin/runfactory, python-lib/campus_factory/ClusterStatus.py,
+	  python-lib/campus_factory/Factory.py,
+	  python-lib/campus_factory/Parsers.py: Added ability for
+	  runfactory to stop, restart, and of course start the factory. If
+	  no argument is given, it will start the factory.
+
+2010-10-14 21:30  djw8605
+
+	* bin/runfactory: Setting the runfactory as executable.
+
+2010-10-14 21:36  djw8605
+
+	* bin/runfactory: Fixed bug that caused runfactory to fail if no
+	  argument was given.
+
+2010-10-14 21:47  djw8605
+
+	* python-lib/campus_factory/Factory.py: Changed the initialization
+	  so that the restart and stop commands do not need the location of
+	  the configuration to start/stop the factory.
+

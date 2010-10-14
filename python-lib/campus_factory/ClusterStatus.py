@@ -5,6 +5,7 @@ import logging
 from campus_factory.Parsers import AvailableGlideins
 from campus_factory.Parsers import IdleGlideins
 from campus_factory.Parsers import IdleJobs
+from campus_factory.Parsers import FactoryID
 from campus_factory.Parsers import RunExternal
 
 
@@ -30,8 +31,7 @@ class CondorConfig:
         (stdout, stderr) = RunExternal("condor_config_val -dump")
         if len(stdout) == 0:
             error_msg = "Unable to get any output from condor_config_val.  Is condor binaries in the path?"
-            logging.error(error_msg)
-            raise Exception(error_msg)
+            raise EnvironmentError(error_msg)
         
         # Parse the stdout
         line_re = re.compile("([\w|\d]+)\s+=\s+(.*)\Z")
@@ -114,4 +114,13 @@ class ClusterStatus:
 
         return sumidlejobs
 
+
+    def GetFactoryID(self):
+        """
+        Returns the condor ClusterId for the factory.
+        
+        @return: str - ClusterId of the factory
+        """
+        factoryID = FactoryID()
+        return factoryID.GetId()
 

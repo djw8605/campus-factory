@@ -24,9 +24,19 @@ class Factory:
         @param options: A set of options in the form of an options parser
                 Required options: config - location of configuration File
         """
+        
+        self.options = options
 
+        
+    
+    def Intialize(self):
+        """
+        
+        Function to initialize the factory's variables such as configuration
+        and logging
+        """
         # Read in the configuration file
-        self.config_file = options.config
+        self.config_file = self.options.config
         self.config = ConfigParser.ConfigParser()
         files_read = self.config.read([self.config_file])
 
@@ -38,10 +48,11 @@ class Factory:
         self._SetLogging()
         try:
             self.condor_config = CondorConfig()
-        except Exception:
-            logging.error("Unable to get the condor configuration.  If no condor configuration, assuming condor is not available.  Exiting...")
-            raise Exception("Unable to get the condor configuration.  If no condor configuration, assuming condor is not available.  Exiting...")
-
+        except EnvironmentError, inst:
+            logging.exception(str(inst))
+            raise inst
+        
+        
     def _SetLogging(self):
         """
         Setting the logging level and set the logging.
@@ -63,6 +74,32 @@ class Factory:
         root_logger.addHandler(handler)
         
         
+    def Restart(self):
+        status = ClusterStatus()
+        
+        # Get the factory id
+        factoryID = status.GetFactoryID()
+        
+        # Hold then release the factory in the queue
+        (stderr, stdout) = RunExternal("condor_hold %s" % factoryID)
+        print "Stderr = %s" % stderr.strip()
+        #print "Stdout = %s" % stdout.strip()
+        
+        (stderr, stdout) = RunExternal("condor_release %s" % factoryID)
+        print "Stderr = %s" % stderr.strip()
+        #print "Stdout = %s" % stdout.strip()
+        
+    
+    
+    def Stop(self):
+        status = ClusterStatus()
+        
+        # Get the factory id
+        factoryID = status.GetFactoryID()
+        
+        # Remove the factory job
+        (stderr, stdout) = RunExternal("condor_rm %s" % factoryID)
+        print "Stderr = %s" % stderr.strip()
 
 
 
@@ -71,7 +108,7 @@ class Factory:
         Start the Factory 
         
         """
-
+        self.Intialize()
 
         status = ClusterStatus()
 
@@ -108,9 +145,12 @@ class Factory:
             # Check for idle jobs to flock from
             if self.config.has_option("general", "FLOCK_FROM"):
                 schedds = self.config.get("general", "FLOCK_FROM").split(",")
+                logging.debug("Using FLOCK_FROM from the factory config.")
             else:
                 schedds = self.condor_config.get('FLOCK_FROM').split(",")
+                logging.debug("Using FLOCK_FROM from the condor configuration")
                 
+            logging.debug("Schedds to query: %s" % str(schedds))
             idleuserjobs = status.GetIdleJobs(schedds)
             if idleuserjobs == None:
                 logging.info("Received None from idle user jobs, going to try later")
