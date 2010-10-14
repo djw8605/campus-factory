@@ -24,9 +24,19 @@ class Factory:
         @param options: A set of options in the form of an options parser
                 Required options: config - location of configuration File
         """
+        
+        self.options = options
 
+        
+    
+    def Intialize(self):
+        """
+        
+        Function to initialize the factory's variables such as configuration
+        and logging
+        """
         # Read in the configuration file
-        self.config_file = options.config
+        self.config_file = self.options.config
         self.config = ConfigParser.ConfigParser()
         files_read = self.config.read([self.config_file])
 
@@ -87,6 +97,7 @@ class Factory:
         # Get the factory id
         factoryID = status.GetFactoryID()
         
+        # Remove the factory job
         (stderr, stdout) = RunExternal("condor_rm %s" % factoryID)
         print "Stderr = %s" % stderr.strip()
 
@@ -97,7 +108,7 @@ class Factory:
         Start the Factory 
         
         """
-
+        self.Intialize()
 
         status = ClusterStatus()
 
