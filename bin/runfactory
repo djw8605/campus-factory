@@ -25,13 +25,15 @@ def ParseArgs():
 if __name__ == "__main__":
     options, args = ParseArgs()
     new_factory = Factory(options)
-    
-    if args[0] == "restart":
-    	new_factory.Restart()
-    elif args[0] == "stop":
-    	new_factory.Stop()
+    if len(args) > 0:
+        if args[0] == "restart":
+    	    new_factory.Restart()
+        elif args[0] == "stop":
+    	    new_factory.Stop()
+        else:
+            print "Unknown argument %s" % args[0]
     else:
-    	new_factory.Start()
+        new_factory.Start()
 
 
 
