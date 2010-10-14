@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import sys
 from optparse import OptionParser
+import logging
 
 from  campus_factory.Factory import *
 
@@ -24,6 +25,13 @@ def ParseArgs():
 if __name__ == "__main__":
     options, args = ParseArgs()
     new_factory = Factory(options)
-    new_factory.Start()
+    
+    if args[0] == "restart":
+    	new_factory.Restart()
+    elif args[0] == "stop":
+    	new_factory.Stop()
+    else:
+    	new_factory.Start()
+
 
 

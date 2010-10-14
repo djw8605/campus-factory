@@ -5,6 +5,7 @@ import logging
 from campus_factory.Parsers import AvailableGlideins
 from campus_factory.Parsers import IdleGlideins
 from campus_factory.Parsers import IdleJobs
+from campus_factory.Parsers import FactoryID
 from campus_factory.Parsers import RunExternal
 
 
@@ -113,4 +114,13 @@ class ClusterStatus:
 
         return sumidlejobs
 
+
+    def GetFactoryID(self):
+        """
+        Returns the condor ClusterId for the factory.
+        
+        @return: str - ClusterId of the factory
+        """
+        factoryID = FactoryID()
+        return factoryID.GetId()
 

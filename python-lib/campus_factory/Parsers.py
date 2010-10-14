@@ -71,4 +71,15 @@ class IdleJobs(AvailableGlideins):
         self.command = self.command % schedd
 
 
+class FactoryID(AvailableGlideins):
+    command = "condor_q -const '(IsUndefined(IsFactory) == FALSE)' -format '<factory id=\"%s\"/>' 'ClusterId'"
+    
+    def startElement(self, name, attributes):
+        if name == "factory":
+            self.factory_id = attributes.getValue("id")
+            self.found = True
+
+    def GetId(self):
+        self.GetIdle()
+        return self.factory_id
 

@@ -38,9 +38,9 @@ class Factory:
         self._SetLogging()
         try:
             self.condor_config = CondorConfig()
-        except EnvironmentError as strerror:
-            logging.exception(strerror)
-            raise EnvironmentError(strerror)
+        except EnvironmentError, inst:
+            logging.exception(str(inst))
+            raise inst
         
         
     def _SetLogging(self):
@@ -64,6 +64,31 @@ class Factory:
         root_logger.addHandler(handler)
         
         
+    def Restart(self):
+        status = ClusterStatus()
+        
+        # Get the factory id
+        factoryID = status.GetFactoryID()
+        
+        # Hold then release the factory in the queue
+        (stderr, stdout) = RunExternal("condor_hold %s" % factoryID)
+        print "Stderr = %s" % stderr.strip()
+        #print "Stdout = %s" % stdout.strip()
+        
+        (stderr, stdout) = RunExternal("condor_release %s" % factoryID)
+        print "Stderr = %s" % stderr.strip()
+        #print "Stdout = %s" % stdout.strip()
+        
+    
+    
+    def Stop(self):
+        status = ClusterStatus()
+        
+        # Get the factory id
+        factoryID = status.GetFactoryID()
+        
+        (stderr, stdout) = RunExternal("condor_rm %s" % factoryID)
+        print "Stderr = %s" % stderr.strip()
 
 
 
