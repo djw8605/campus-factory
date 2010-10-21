@@ -194,14 +194,19 @@ class Factory:
         # If we have already submitted enough glideins to fufill the request,
         # don't submit more.
         if max([idlejobs, idleslots]) >= idleuserjobs:
+            logging.debug("The number of idlejobs or idleslots fufills the requested idleuserjobs, not submitting any glideins")
             return 0
         
         status = ClusterStatus()
         
         # Check that running glideins are reporting to the collector
         running_glidein_jobs = status.GetRunningGlideinJobs()
+        logging.debug("Number of running_glidein_jobs = %i", running_glidein_jobs)
         running_glideins = status.GetRunningGlideins()
+        logging.debug("Number of running glideins = %i", running_glideins)
+        
         if ((running_glidein_jobs * .9) > running_glideins):
+            logging.debug("I'm guessing glideins are not reporting to the collector, not submitting")
             return 0
         
         # Ok, so now submit until we can't submit any more, or there are less user jobs
