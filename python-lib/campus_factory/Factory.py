@@ -210,7 +210,7 @@ class Factory:
             return 0
         
         # Ok, so now submit until we can't submit any more, or there are less user jobs
-        return min([self.config.get("general", "maxqueuedjobs") - idlejobs, idleuserjobs])
+        return min([int(self.config.get("general", "maxqueuedjobs")) - idlejobs, idleuserjobs])
         
         
 
