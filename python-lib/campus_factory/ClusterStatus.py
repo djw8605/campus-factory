@@ -6,6 +6,8 @@ from campus_factory.Parsers import AvailableGlideins
 from campus_factory.Parsers import IdleGlideins
 from campus_factory.Parsers import IdleJobs
 from campus_factory.Parsers import FactoryID
+from campus_factory.Parsers import RunningGlideinsJobs
+from campus_factory.Parsers import RunningGlideins
 from campus_factory.Parsers import RunExternal
 
 
