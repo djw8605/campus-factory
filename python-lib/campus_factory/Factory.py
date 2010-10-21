@@ -210,7 +210,9 @@ class Factory:
             return 0
         
         # Ok, so now submit until we can't submit any more, or there are less user jobs
-        return min([int(self.config.get("general", "maxqueuedjobs")) - idlejobs, idleuserjobs])
+        return min([int(self.config.get("general", "maxqueuedjobs")) - idlejobs, \
+                    idleuserjobs,\
+                    int(self.config.get("general", "MaxIdleGlideins") - idleslots)])
         
         
 
@@ -244,7 +246,7 @@ class Factory:
         
         if self.config.has_option("general", "GLIDEIN_Site"):
             options["GLIDEIN_Site"] = self.config.get("general", "GLIDEIN_Site")
-        
+
         options_str = ""
         for key in options.keys():
             options_str += " -a %s=\"%s\"" % (key, options[key])
