@@ -123,4 +123,20 @@ class ClusterStatus:
         """
         factoryID = FactoryID()
         return factoryID.GetId()
-
+    
+    def GetRunningGlideinJobs(self):
+        """
+        @return: int - Number of running glidein jobs
+        """
+        running = RunningGlideinsJobs()
+        return running.Run()
+        
+    def GetRunningGlideins(self):
+        """
+        @return: int - Number of running glidein startds
+        """
+        running = RunningGlideins()
+        return running.Run()
+    
+    
+    

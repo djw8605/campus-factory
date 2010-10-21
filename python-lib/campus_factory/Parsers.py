@@ -51,6 +51,12 @@ class AvailableGlideins(xml.sax.handler.ContentHandler):
             return None
 
         return self.idle
+    
+    def Run(self):
+        """
+        Generic function for when this class is inherited
+        """
+        return self.GetIdle()
 
     def startElement(self, name, attributes):
         if name == "glidein":
@@ -83,3 +89,21 @@ class FactoryID(AvailableGlideins):
         self.GetIdle()
         return self.factory_id
 
+class RunningGlideinsJobs(AvailableGlideins):
+    """
+    Gets the number of running glidein jobs (condor_q)
+    """
+    
+    command = "condor_q -const '(GlideinJob == true) && (JobStatus == 2)' -format '<glidein owner=\"%s\"/>' 'Owner'"
+    
+
+class RunningGlideins(AvailableGlideins):
+    """
+    Returns the number of startd's reporting to the collector (condor_status)
+    """
+    
+    command = "condor_status -const '(IsUndefined(IS_GLIDEIN) == FALSE) && (IS_GLIDEIN == TRUE)' -format '<glidein name=\"%s\"/>' 'Name'"
+    
+    
+    
+    

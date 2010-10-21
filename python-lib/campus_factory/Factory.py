@@ -164,9 +164,11 @@ class Factory:
 
             # Got this far, so submit some glideins
             #logging.debug("idleslots = %i, idleuserjobs = %i" % (idleslots, idleuserjobs))
-            if max([idlejobs, idleslots]) < idleuserjobs:
-                logging.info("Submtting 1 glidein")
-                self.SubmitGlideins(1)
+            
+            # Determine how many glideins to submit
+            num_submit = self.GetNumSubmit(idleslots, idlejobs, idleuserjobs)
+            logging.info("Submitting %i glidein jobs", num_submit)
+            self.SubmitGlideins(num_submit)
 
             self.SleepFactory()
 
@@ -176,6 +178,36 @@ class Factory:
         sleeptime = int(self.config.get("general", "iterationtime"))
         logging.info("Sleeping for %i seconds" % sleeptime)
         time.sleep(sleeptime)
+        
+        
+    def GetNumSubmit(self, idleslots, idlejobs, idleuserjobs):
+        """
+        Calculate the number of glideins to submit.
+        
+        @param idleslots: Number of idle startd's
+        @param idlejobs: Number of glideins in queue, but not active
+        @param idleuserjobs: Number of idle user jobs from FLOCK_FROM
+        
+        @return: int - Number of glideins to submit
+        """
+        
+        # If we have already submitted enough glideins to fufill the request,
+        # don't submit more.
+        if max([idlejobs, idleslots]) >= idleuserjobs:
+            return 0
+        
+        status = ClusterStatus()
+        
+        # Check that running glideins are reporting to the collector
+        running_glidein_jobs = status.GetRunningGlideinJobs()
+        running_glideins = status.GetRunningGlideins()
+        if ((running_glidein_jobs * .9) > running_glideins):
+            return 0
+        
+        # Ok, so now submit until we can't submit any more, or there are less user jobs
+        return min([self.config.get("general", "maxqueuedjobs") - idlejobs, idleuserjobs])
+        
+        
 
     def SubmitGlideins(self, numSubmit):
         """
