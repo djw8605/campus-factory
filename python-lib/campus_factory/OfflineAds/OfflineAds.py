@@ -23,6 +23,8 @@ class OfflineAds():
         self.numclassads = numclassads
         self.lastmatchtime = lastmatchtime
         
+        self.lastupdatetime = 0
+        
 
     def _Initialize(self):
         pass
@@ -37,8 +39,10 @@ class OfflineAds():
         #self.RemoveExpiredClassads()
         
         # Check for new startd's reporting, save them while deleting the older ones (max numclassads)
+        new_ads = self.GetNewStartdAds()
         
         
+        self.lastupdatetime = int(time.time())
         return matched_sites
     
     
@@ -68,6 +72,20 @@ class OfflineAds():
         
         
         """
+    
+    def GetNewStartdAds(self):
+        """
+        Get the startd's that reported since last checked
+        
+        @return list: List of full classads for newly reported startds
+        
+        """
+        cmd = "condor_status -l -const '(IsUndefined(Offline) == TRUE) && (DaemonStartTime > %(lastupdate)i)"
+        query_opts = {"lastupdate": int(time.time()) - (int(time.time()) - self.lastupdatetime)}
+        new_cmd = cmd % query_opts
+        (stdout, stderr) = RunExternal(new_cmd)
+        
+        return stdout.split('\n\n')
     
     
     def GetUniqueAliveSites(self):
