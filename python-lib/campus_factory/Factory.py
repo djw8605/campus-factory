@@ -206,7 +206,7 @@ class Factory:
         logging.debug("Number of running glideins = %i", running_glideins)
         
         if ((running_glidein_jobs * .9) > running_glideins):
-            logging.debug("I'm guessing glideins are not reporting to the collector, not submitting")
+            logging.error("I'm guessing glideins are not reporting to the collector, not submitting")
             return 0
         
         # Ok, so now submit until we can't submit any more, or there are less user jobs
