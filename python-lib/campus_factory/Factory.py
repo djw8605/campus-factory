@@ -212,7 +212,7 @@ class Factory:
         # Ok, so now submit until we can't submit any more, or there are less user jobs
         return min([int(self.config.get("general", "maxqueuedjobs")) - idlejobs, \
                     idleuserjobs,\
-                    int(self.config.get("general", "MaxIdleGlideins") - idleslots)])
+                    int(self.config.get("general", "MaxIdleGlideins")) - idleslots])
         
         
 
