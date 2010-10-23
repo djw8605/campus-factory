@@ -150,7 +150,7 @@ class OfflineAds:
         
         @return: list of ClassAd objects
         """
-        cmd = "condor_status -l -const '(IsUndefined(Offline) == FALSE) && (Offline == true) && (%(uniquesite)s =?= %(sitename)s)"
+        cmd = "condor_status -l -const '(IsUndefined(Offline) == FALSE) && (Offline == true) && (%(uniquesite)s =?= %(sitename)s)'"
         query_opts = {"uniquesite": self.siteunique, "sitename": site}
         new_cmd = cmd % query_opts
         (stdout, stderr) = RunExternal(new_cmd)
