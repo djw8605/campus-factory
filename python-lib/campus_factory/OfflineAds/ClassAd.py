@@ -24,7 +24,7 @@ class ClassAd(dict):
 
     def ConvertToOffline(self, classadlifetime):
         self["PreviousName"] = self["Name"]
-        self["Name"] = "\"offline@%s\"" % random.randint(1, 10000)
+        self["Name"] = "\"offline@%s.%s\"" % (str(int(time.time())), random.randint(1, 10000000))
         self["MyCurrentTime"] = self["LastHeardFrom"] = str(int(time.time()))
         self["ClassAdLifetime"] = str(classadlifetime)
         
