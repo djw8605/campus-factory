@@ -37,7 +37,7 @@ class OfflineAds:
         
         # Check last match times for an recent match
         matched_sites = self.GetLastMatchedSites()
-        
+
         # Check for expired classads, delete them (OFFLINE_EXPIRE_ADS_AFTER should do this)
         #self.RemoveExpiredClassads()
         
@@ -50,7 +50,7 @@ class OfflineAds:
             if (self.numclassads - (len(offline_ads) + len(new_ads))) < 0:
                 # Remove old ads
                 sorted_offline = sorted(offline_ads, key=lambda ad: int(ad["LastHeardFrom"]))
-                self.DeAdvertiseAds(sorted_offline[:len(new_ads)])
+                self.DeAdvertiseAds(sorted_offline[:len(offline_ads) - (self.numclassads - len(new_ads))])
             
             for ad in new_ads:
                 ad.ConvertToOffline(self.timekeep)   
@@ -87,7 +87,7 @@ class OfflineAds:
         for ad in ads:
             str_query = "MyType = \"Query\"\n"
             str_query += "TargetType = \"Machine\"\n"
-            str_query += "Requirements = Name == \"%s\"\n\n" % ad["Name"]
+            str_query += "Requirements = Name == %s\n\n" % ad["Name"]
             RunExternal(cmd, str_query)
 
 
@@ -98,7 +98,7 @@ class OfflineAds:
         @return: list of sites with last match
         """
         cmd = "condor_status -const '(IsUndefined(Offline) == FALSE) && (Offline == TRUE) && \
-                 (IsUndefined(MachineLastMatchTime) == False) && (MachineLastMatchTime > %(matchtime)i) \
+                 (IsUndefined(MachineLastMatchTime) == False) && (MachineLastMatchTime > %(matchtime)i)' \
                  -format '%%s\\n' '%(siteunique)s' | sort | uniq "
         
         query_opts = {"matchtime": int(time.time()) - self.lastmatchtime, "siteunique": self.siteunique}
@@ -176,7 +176,7 @@ class OfflineAds:
         (stdout, stderr) = RunExternal(cmd)
         
         if len(stdout.split('\n')) > 1:
-            return stdout.split('\n')
+            return stdout.split('\n')[:len(stdout.split('\n')) -1]
         else:
             return []
 
