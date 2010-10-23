@@ -1,6 +1,8 @@
 import logging
 import xml.sax.handler
 import os
+from popen2 import Popen3
+from select import select
 
 def RunExternal(command, str_stdin=""):
     """Run an external command 
@@ -13,11 +15,28 @@ def RunExternal(command, str_stdin=""):
     """
 
     logging.debug("Running external command: %s" % command)
-    (stdin, stdout, stderr) = os.popen3(command, 'r')
-    stdin.write(str_stdin)
-    stdin.close()
-    str_stdout = stdout.read()
-    str_stderr = stderr.read()
+    popen_inst = Popen3(command, True)
+    str_stdout = str_stderr = ""
+    while 1:
+        (rlist, wlist, xlist) = select([popen_inst.fromchild, popen_inst.childerr], \
+                                       [popen_inst.tochild], [])
+        
+        if popen_inst.fromchild in rlist:
+            str_stdout += popen_inst.fromchild.read(4096)
+        
+        if popen_inst.childerr in rlist:
+            str_stderr += popen_inst.childerr.read(4096)
+            
+        if popen_inst.tochild in wlist and len(str_stdin) > 0:
+            popen_inst.tochild.write(str_stdin[:min( [ len(str_stdin), 4096])])
+            str_stdin = str_stdin[min( [ len(str_stdin), 4096]):]
+
+        if popen_inst.poll() != -1 and ( popen_inst.fromchild in rlist or popen_inst.childerr in rlist) :
+            break
+    
+    logging.debug("Exit code: %i", popen_inst.wait())
+    logging.debug("stdout: %s", str_stdout)
+    logging.debug("strerr: %s", str_stderr)
     return str_stdout, str_stderr
 
 
