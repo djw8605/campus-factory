@@ -7,6 +7,7 @@ from campus_factory.Parsers import RunExternal
 from campus_factory.OfflineAds.ClassAd import ClassAd
 import time
 import random
+import logging
 
 class OfflineAds:
     
@@ -69,7 +70,10 @@ class OfflineAds:
         """
         cmd = "condor_advertise UPDATE_STARTD_AD"
         for ad in ads:
-            RunExternal(cmd, str(ad))
+            (stdout, stderr) = RunExternal(cmd, str(ad))
+            logging.debug("stdin: %s", str(ad))
+            logging.debug("stdout: %s", stdout)
+            logging.debug("stderr: %s", stderr)
         
         
     def DeAdvertiseAds(self, ads):
