@@ -14,7 +14,7 @@ def RunExternal(command, str_stdin=""):
     
     """
 
-    logging.debug("Running external command: %s" % command)
+    logging.info("Running external command: %s" % command)
     popen_inst = Popen3(command, True)
     logging.debug("stdin = %s" % str_stdin)
     str_stdout = str_stderr = ""
@@ -43,7 +43,7 @@ def RunExternal(command, str_stdin=""):
         elif popen_inst.tochild in wlist:
             popen_inst.tochild.close()
 
-        logging.debug("len(str_stdin) = %i, read_from_child = %i, rlist = %s, wlist = %s", len(str_stdin), read_from_child, rlist, wlist)
+        #logging.debug("len(str_stdin) = %i, read_from_child = %i, rlist = %s, wlist = %s", len(str_stdin), read_from_child, rlist, wlist)
         if popen_inst.poll() != -1 and len(str_stdin) == 0 and (read_from_child == -1 or read_from_child == 0):
             break
     
