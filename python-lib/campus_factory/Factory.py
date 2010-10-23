@@ -9,6 +9,7 @@ import os
 from campus_factory.ClusterStatus import ClusterStatus
 from campus_factory.ClusterStatus import CondorConfig
 from campus_factory.Parsers import RunExternal
+from campus_factory.OfflineAds import OfflineAds
 
 class Factory:
     """
@@ -111,11 +112,14 @@ class Factory:
         self.Intialize()
 
         status = ClusterStatus()
+        offline = OfflineAds()
 
         # First, daemonize?
 
         while 1:
             logging.info("Starting iteration...")
+            
+            offline.Update()
 
             # Check for idle glideins (idle startd's)
             idleslots = status.GetIdleGlideins()

@@ -4,6 +4,7 @@ MINUTE = 60
 HOUR = MINUTE * 60
 
 from campus_factory.Parsers import RunExternal
+from campus_factory.OfflineAds import ClassAd
 import time
 
 class OfflineAds():
@@ -39,13 +40,52 @@ class OfflineAds():
         #self.RemoveExpiredClassads()
         
         # Check for new startd's reporting, save them while deleting the older ones (max numclassads)
-        new_ads = self.GetNewStartdAds()
+        for site in self.GetUniqueAliveSites():
+            new_ads = self.GetNewStartdAds(site)
+            # Limit new_ads to the number of ads we care about
+            new_ads = new_ads[:self.numclassads]
+            offline_ads = self.GetOfflineAds(site)
+            if (self.numclassads - (len(offline_ads) + len(new_ads))) < 0:
+                # Remove old ads
+                sorted_offline = sorted(offline_ads, key=lambda ad: int(ad["LastHeardFrom"]))
+                self.DeAdvertiseAds(sorted_offline[:len(new_ads)])
+            
+            for ad in new_ads:
+                ad.ConvertToOffline()   
+            self.AdvertiseAds(new_ads)
         
         
         self.lastupdatetime = int(time.time())
         return matched_sites
     
     
+    def AdvertiseAds(self, ads):
+        """
+        Advertise ads to the collector
+        
+        @param ads: List of ClassAd objects to advertise
+        
+        """
+        cmd = "condor_advertise UPDATE_STARTD_AD"
+        for ad in ads:
+            RunExternal(cmd, str(ad))
+        
+        
+    def DeAdvertiseAds(self, ads):
+        """
+        DeAdvertise ads to the collector
+        
+        @param ads: List of ClassAd objects to deadvertise
+        
+        """
+        cmd = "condor_advertise INVALIDATE_STARTD_ADS"
+        for ad in ads:
+            str_query = "MyType = \"Query\"\n"
+            str_query += "TargetType = \"Machine\"\n"
+            str_query += "Requirements = Name == \"%s\"\n\n" % ad["Name"]
+            RunExternal(cmd, str_query)
+
+
     def GetLastMatchedSites(self):
         """
         Return the last matched sites as configured with lastmatchtime
@@ -73,20 +113,45 @@ class OfflineAds():
         
         """
     
-    def GetNewStartdAds(self):
+    def GetNewStartdAds(self, site):
         """
         Get the startd's that reported since last checked
         
-        @return list: List of full classads for newly reported startds
+        @return list: List of ClassAd objects
         
         """
-        cmd = "condor_status -l -const '(IsUndefined(Offline) == TRUE) && (DaemonStartTime > %(lastupdate)i)"
-        query_opts = {"lastupdate": int(time.time()) - (int(time.time()) - self.lastupdatetime)}
+        cmd = "condor_status -l -const '(IsUndefined(Offline) == TRUE) && (DaemonStartTime > %(lastupdate)i && (%(uniquesite)s == \"%(sitename)s\")"
+        query_opts = {"lastupdate": int(time.time()) - (int(time.time()) - self.lastupdatetime),
+                      "uniquesite": self.siteunique,
+                      "sitename": site}
         new_cmd = cmd % query_opts
         (stdout, stderr) = RunExternal(new_cmd)
         
-        return stdout.split('\n\n')
+        ad_list = []
+        for str_classad in stdout.split('\n\n'):
+            ad_list.append(ClassAd(str_classad))
+            
+        return ad_list
     
+    def GetOfflineAds(self, site):
+        """
+        Get the full classads of the offline startds
+        
+        @param site: The site to restrict the offline ads
+        
+        @return: list of ClassAd objects
+        """
+        cmd = "condor_status -l -const '(IsUndefined(Offline) == FALSE) && (Offline == true) && (%(uniquesite)s == \"%(sitename)s\")"
+        query_opts = {"uniquesite": self.siteunique, "sitename": site}
+        new_cmd = cmd % query_opts
+        (stdout, stderr) = RunExternal(new_cmd)
+        
+        ad_list = []
+        for str_classad in stdout.split('\n\n'):
+            ad_list.append(ClassAd(str_classad))
+            
+        return ad_list
+        
     
     def GetUniqueAliveSites(self):
         """

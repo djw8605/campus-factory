@@ -15,7 +15,7 @@ def RunExternal(command, str_stdin=""):
     logging.debug("Running external command: %s" % command)
     (stdin, stdout, stderr) = os.popen3(command, 'r')
     stdin.write(str_stdin)
-    close(stdin)
+    stdin.close()
     str_stdout = stdout.read()
     str_stderr = stderr.read()
     return str_stdout, str_stderr
