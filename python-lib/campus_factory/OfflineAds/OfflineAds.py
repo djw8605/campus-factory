@@ -6,6 +6,7 @@ HOUR = MINUTE * 60
 from campus_factory.Parsers import RunExternal
 from campus_factory.OfflineAds.ClassAd import ClassAd
 import time
+import random
 
 class OfflineAds:
     

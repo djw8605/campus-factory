@@ -1,7 +1,8 @@
 
 
 
-
+import time
+import random
 
 class ClassAd(dict):
     """
@@ -23,6 +24,9 @@ class ClassAd(dict):
 
     def ConvertToOffline(self):
         self["PreviousName"] = self["Name"]
+        self["Name"] = "offline@%s" % random.randint(1, 10000)
+        self["MyCurrentTime"] = self["LastHeardFrom"] = str(int(time.time()))
+        
         
     
     def __str__(self):
