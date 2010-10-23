@@ -14,9 +14,12 @@ class ClassAd(dict):
         
     def ParseClassad(self, str_classad):
         ad_dict = {}
+        if len(str_classad) == 0:
+            return
+
         for line in str_classad.split('\n'):
-            (key, value) = line.split('=')
-            self[key] = value
+            (key, value) = line.split('=', 1)
+            self[key.strip()] = value.strip()
 
     def ConvertToOffline(self):
         self["PreviousName"] = self["Name"]

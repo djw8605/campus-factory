@@ -4,10 +4,10 @@ MINUTE = 60
 HOUR = MINUTE * 60
 
 from campus_factory.Parsers import RunExternal
-from campus_factory.OfflineAds import ClassAd
+from campus_factory.OfflineAds.ClassAd import ClassAd
 import time
 
-class OfflineAds():
+class OfflineAds:
     
     def __init__(self, siteunique="GLIDEIN_Site", timekeep=HOUR*24, numclassads=10, lastmatchtime=MINUTE*5):
         """
@@ -94,7 +94,7 @@ class OfflineAds():
         """
         cmd = "condor_status -const '(IsUndefined(Offline) == FALSE) && (Offline == TRUE) && \
                  (IsUndefined(MachineLastMatchTime) == False) && (MachineLastMatchTime > %(matchtime)i) \
-                 -format '%%s' '%(siteunique)s' | sort | uniq -c"
+                 -format '%%s\\n' '%(siteunique)s' | sort | uniq "
         
         query_opts = {"matchtime": int(time.time()) - self.lastmatchtime, "siteunique": self.siteunique}
         new_cmd = cmd % query_opts
@@ -120,7 +120,7 @@ class OfflineAds():
         @return list: List of ClassAd objects
         
         """
-        cmd = "condor_status -l -const '(IsUndefined(Offline) == TRUE) && (DaemonStartTime > %(lastupdate)i && (%(uniquesite)s == \"%(sitename)s\")"
+        cmd = "condor_status -l -const '(IsUndefined(Offline) == TRUE) && (DaemonStartTime > %(lastupdate)i) && (%(uniquesite)s =?= %(sitename)s)'"
         query_opts = {"lastupdate": int(time.time()) - (int(time.time()) - self.lastupdatetime),
                       "uniquesite": self.siteunique,
                       "sitename": site}
@@ -129,8 +129,9 @@ class OfflineAds():
         
         ad_list = []
         for str_classad in stdout.split('\n\n'):
-            ad_list.append(ClassAd(str_classad))
-            
+            if len(str_classad) > 0:
+                ad_list.append(ClassAd(str_classad))
+
         return ad_list
     
     def GetOfflineAds(self, site):
@@ -141,14 +142,15 @@ class OfflineAds():
         
         @return: list of ClassAd objects
         """
-        cmd = "condor_status -l -const '(IsUndefined(Offline) == FALSE) && (Offline == true) && (%(uniquesite)s == \"%(sitename)s\")"
+        cmd = "condor_status -l -const '(IsUndefined(Offline) == FALSE) && (Offline == true) && (%(uniquesite)s =?= %(sitename)s)"
         query_opts = {"uniquesite": self.siteunique, "sitename": site}
         new_cmd = cmd % query_opts
         (stdout, stderr) = RunExternal(new_cmd)
         
         ad_list = []
         for str_classad in stdout.split('\n\n'):
-            ad_list.append(ClassAd(str_classad))
+            if len(str_classad) > 0:
+                ad_list.append(ClassAd(str_classad))
             
         return ad_list
         
@@ -162,8 +164,11 @@ class OfflineAds():
         """
         
         # Is there a better way? Absolutely...
-        cmd = "condor_status -format '%%s' '%s' -const '(IsUndefined(Offline) == TRUE)' | sort | uniq"
+        cmd = "condor_status -format '%%s\\n' '%s' -const '(IsUndefined(Offline) == TRUE)' | sort | uniq" % self.siteunique
         (stdout, stderr) = RunExternal(cmd)
         
-        return stdout.split('\n')
+        if len(stdout.split('\n')) > 1:
+            return stdout.split('\n')
+        else:
+            return []
 
