@@ -22,10 +22,11 @@ class ClassAd(dict):
             (key, value) = line.split('=', 1)
             self[key.strip()] = value.strip()
 
-    def ConvertToOffline(self):
+    def ConvertToOffline(self, classadlifetime):
         self["PreviousName"] = self["Name"]
         self["Name"] = "\"offline@%s\"" % random.randint(1, 10000)
         self["MyCurrentTime"] = self["LastHeardFrom"] = str(int(time.time()))
+        self["ClassAdLifetime"] = str(classadlifetime)
         
         
     

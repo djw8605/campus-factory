@@ -53,7 +53,7 @@ class OfflineAds:
                 self.DeAdvertiseAds(sorted_offline[:len(new_ads)])
             
             for ad in new_ads:
-                ad.ConvertToOffline()   
+                ad.ConvertToOffline(self.timekeep)   
             self.AdvertiseAds(new_ads)
         
         
@@ -105,7 +105,10 @@ class OfflineAds:
         new_cmd = cmd % query_opts
         (stdout, stderr) = RunExternal(new_cmd)
 
-        return stdout.split('\n')
+        if len(stdout.split('\n')) > 1:
+            return stdout.split('\n')
+        else:
+            return []
         
     
     def RemoveExpiredClassads(self):
