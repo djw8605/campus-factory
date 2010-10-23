@@ -24,7 +24,7 @@ class ClassAd(dict):
 
     def ConvertToOffline(self):
         self["PreviousName"] = self["Name"]
-        self["Name"] = "offline@%s" % random.randint(1, 10000)
+        self["Name"] = "\"offline@%s\"" % random.randint(1, 10000)
         self["MyCurrentTime"] = self["LastHeardFrom"] = str(int(time.time()))
         
         
@@ -32,6 +32,6 @@ class ClassAd(dict):
     def __str__(self):
         str_toreturn = ""
         for key in self.keys():
-            str_toreturn += key + " = " + self[key]
+            str_toreturn += key + " = " + self[key] + "\n"
         return str_toreturn
     
