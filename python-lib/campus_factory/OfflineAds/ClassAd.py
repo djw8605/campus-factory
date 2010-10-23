@@ -23,7 +23,7 @@ class ClassAd(dict):
             self[key.strip()] = value.strip()
 
     def ConvertToOffline(self, classadlifetime):
-        self["Offline"] = True
+        self["Offline"] = "true"
         self["PreviousName"] = self["Name"]
         self["Name"] = "\"offline@%s.%s\"" % (str(int(time.time())), random.randint(1, 10000000))
         self["MyCurrentTime"] = self["LastHeardFrom"] = str(int(time.time()))
