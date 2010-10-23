@@ -2,7 +2,7 @@ import logging
 import xml.sax.handler
 import os
 
-def RunExternal(command, stdin=""):
+def RunExternal(command, str_stdin=""):
     """Run an external command 
     
     @param command: String of the command to execute
@@ -14,7 +14,8 @@ def RunExternal(command, stdin=""):
 
     logging.debug("Running external command: %s" % command)
     (stdin, stdout, stderr) = os.popen3(command, 'r')
-    stdin.write(stdin)
+    stdin.write(str_stdin)
+    close(stdin)
     str_stdout = stdout.read()
     str_stderr = stderr.read()
     return str_stdout, str_stderr
