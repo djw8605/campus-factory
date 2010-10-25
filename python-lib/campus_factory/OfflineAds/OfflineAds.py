@@ -21,11 +21,20 @@ class OfflineAds:
         @param lastmatchtime: Only consider matches that occured between now and now-lastmachtime
         
         """
+        
+        # Classad attributed that uniquely identifies a site
         self.siteunique = siteunique
+        
+        # Seconds to keep the classad
         self.timekeep = timekeep
+        
+        # Maximum number of classads to keep for each Site
         self.numclassads = numclassads
+        
+        # Only consider matches that occured between now and now-lastmachtime
         self.lastmatchtime = lastmatchtime
         
+        # Hold the last time we ran the update.
         self.lastupdatetime = 0
         
 
@@ -33,7 +42,15 @@ class OfflineAds:
         pass
     
     
-    def Update(self):
+    def Update(self, available_sites):
+        """
+        Main function used in the OfflineAds class.  This function will
+        calculate all of the offline ad needs of the class, and return
+        what it believes should be submitted.
+        
+        @param available_sites: List of site names that we should look for.
+        @return list - Sites that should have a glidein matched to it.
+        """
         
         # Check last match times for an recent match
         matched_sites = self.GetLastMatchedSites()
@@ -60,6 +77,34 @@ class OfflineAds:
         self.lastupdatetime = int(time.time())
         return matched_sites
     
+    
+    def GetDelinquentSites(self, available_sites):
+        """
+        Get the sites that have less than self.numclassads offline ads
+        
+        @param available_sites: list of sites to look for
+        @return: list of lists - [ ["site", num_delinquent], ... ]
+        """
+        cmd =   "condor_status -const '(IsUndefined(Offline) == FALSE) && (Offline == true)' \
+                 -format '%s' '%(siteuniq)s' | sort | uniq -c"
+        query_opts = {"siteuniq": self.siteunique}
+        new_cmd = cmd % query_opts
+        (stdout, stderr) = RunExternal(new_cmd)
+        
+        # Split the lines
+        split_out = stdout.split('\n')
+        site_dict = {}
+        for line in split_out:
+            # Split output should look like:
+            # 3 Firefly ...
+            words = line.split()
+            # multi-word support for the unique site name
+            site_dict[" ".join(words[1:])] = int(words[0])
+            
+        return site_dict
+            
+        
+        
     
     def AdvertiseAds(self, ads):
         """
