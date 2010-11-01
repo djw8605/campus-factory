@@ -28,6 +28,8 @@ class ClassAd(dict):
         self["Name"] = "\"offline@%s.%s\"" % (str(int(time.time())), random.randint(1, 10000000))
         self["MyCurrentTime"] = self["LastHeardFrom"] = str(int(time.time()))
         self["ClassAdLifetime"] = str(classadlifetime)
+        self["State"] = "Unclaimed"
+        self["Activity"] = "Idle"
         
         
     
