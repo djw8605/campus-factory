@@ -107,7 +107,7 @@ class OfflineAds:
                 continue
             # multi-word support for the unique site name
             logging.debug("words = %s", str(words))
-            site_dict[" ".join(words[1:])] = min( [0, self.numclassads - int(words[0])])
+            site_dict[" ".join(words[1:])] = max( [0, self.numclassads - int(words[0])])
             
         return site_dict
             
