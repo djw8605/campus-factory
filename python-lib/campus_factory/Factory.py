@@ -152,8 +152,8 @@ class Factory:
                     
                 if (len(toSubmit) > 0) or num_submit[self.GetClusterUnique()]:
                     num_submit = self.GetNumSubmit(idleslots, idlejobs, num_submit[self.GetClusterUnique()])
-                    logging.info("Submitting %i glidein jobs", num_submit[self.GetClusterUnique()])
-                    self.SubmitGlideins(num_submit[self.GetClusterUnique()])
+                    logging.info("Submitting %i glidein jobs", num_submit)
+                    self.SubmitGlideins(num_submit)
                 else:
                     logging.debug("Offline ads did not detect any matches or Delinquencies.")
                 
