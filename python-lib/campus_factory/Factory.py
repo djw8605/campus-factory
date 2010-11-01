@@ -152,7 +152,7 @@ class Factory:
                 logging.debug("num_submit = %s\n", str(num_submit))
                     
                 if (len(toSubmit) > 0) or num_submit[self.GetClusterUnique()]:
-                    num_submit = self.GetNumSubmit(idleslots, idlejobs, num_submit[self.GetClusterUnique()])
+                    num_submit = self.GetNumSubmit(idleslots, idlejobs, max([ num_submit[self.GetClusterUnique()], 5 ]))
                     logging.info("Submitting %i glidein jobs", num_submit)
                     self.SubmitGlideins(num_submit)
                 else:
