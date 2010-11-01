@@ -34,6 +34,20 @@ class ClassAd(dict):
     def __str__(self):
         str_toreturn = ""
         for key in self.keys():
-            str_toreturn += key + " = " + self[key] + "\n"
+            str_toreturn += key + " = " + str(self[key]) + "\n"
         return str_toreturn
+    
+
+
+def SortClassAdsByElement(classads, element_name):
+    """
+    Sort the classads (or any dictionary really) by an attribute
+    
+    @param classads: list of classad objects
+    @param element_name: string of element name
+    """
+    sorted_ads = sorted(classads, key=lambda ad: int(ad[element_name]))
+    return sorted_ads
+    
+    
     

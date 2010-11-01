@@ -4,7 +4,7 @@ MINUTE = 60
 HOUR = MINUTE * 60
 
 from campus_factory.Parsers import RunExternal
-from campus_factory.OfflineAds.ClassAd import ClassAd
+from campus_factory.OfflineAds.ClassAd import ClassAd, SortClassAdsByElement
 import time
 import random
 import logging
@@ -66,7 +66,7 @@ class OfflineAds:
             offline_ads = self.GetOfflineAds(site)
             if (self.numclassads - (len(offline_ads) + len(new_ads))) < 0:
                 # Remove old ads
-                sorted_offline = sorted(offline_ads, key=lambda ad: int(ad["LastHeardFrom"]))
+                sorted_offline = SortClassAdsByElement(offline_ads, "LastHeardFrom")
                 self.DeAdvertiseAds(sorted_offline[:len(offline_ads) - (self.numclassads - len(new_ads))])
             
             for ad in new_ads:
@@ -93,13 +93,18 @@ class OfflineAds:
         
         # Split the lines
         split_out = stdout.split('\n')
+        
+        # Initialize the dictionary to return
         site_dict = {}
+        for key in available_sites.keys():
+            site_dict[key] = 10
+            
         for line in split_out:
             # Split output should look like:
             # 3 Firefly ...
             words = line.split()
             # multi-word support for the unique site name
-            site_dict[" ".join(words[1:])] = int(words[0])
+            site_dict[" ".join(words[1:])] = min( [0, self.numclassads - int(words[0])])
             
         return site_dict
             
