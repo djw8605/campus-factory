@@ -159,7 +159,7 @@ class OfflineAds:
         (stdout, stderr) = RunExternal(new_cmd)
 
         if len(stdout.split('\n')) > 1:
-            return stdout.split('\n')
+            return stdout.split('\n')[:len(stdout.split('\n')) -1]
         else:
             return []
         
