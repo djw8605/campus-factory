@@ -86,7 +86,7 @@ class OfflineAds:
         @return: list of lists - [ ["site", num_delinquent], ... ]
         """
         cmd =   "condor_status -const '(IsUndefined(Offline) == FALSE) && (Offline == true)' \
-                 -format '%s' '%(siteuniq)s' | sort | uniq -c"
+                 -format '%%s\\n' '%(siteuniq)s' | sort | uniq -c"
         query_opts = {"siteuniq": self.siteunique}
         new_cmd = cmd % query_opts
         (stdout, stderr) = RunExternal(new_cmd)
@@ -96,14 +96,17 @@ class OfflineAds:
         
         # Initialize the dictionary to return
         site_dict = {}
-        for key in available_sites.keys():
-            site_dict[key] = 10
+        for site in available_sites:
+            site_dict[site] = 10
             
         for line in split_out:
             # Split output should look like:
             # 3 Firefly ...
             words = line.split()
+            if len(words) == 0:
+                continue
             # multi-word support for the unique site name
+            logging.debug("words = %s", str(words))
             site_dict[" ".join(words[1:])] = min( [0, self.numclassads - int(words[0])])
             
         return site_dict
