@@ -56,7 +56,7 @@ def RunExternal(command, str_stdin=""):
 class AvailableGlideins(xml.sax.handler.ContentHandler):
     
     # Command to query the collector for available glideins
-    command = "condor_status -avail -format '<glidein name=\"%s\"/>' 'Name'"
+    command = "condor_status -avail -const '(IsUndefined(Offline) == True) || (Offline == false)' -format '<glidein name=\"%s\"/>' 'Name'"
     
     def __init__(self):
         pass

@@ -119,7 +119,7 @@ class Factory:
         while 1:
             logging.info("Starting iteration...")
             
-            
+            toSubmit = offline.Update( [self.GetClusterUnique()] )
 
             # Check for idle glideins (idle startd's)
             idleslots = status.GetIdleGlideins()
@@ -147,7 +147,6 @@ class Factory:
 
             # Get the offline ads to update.
             if self.config.get("general", "useoffline").lower() == "true":
-                toSubmit = offline.Update( [self.GetClusterUnique()] )
                 num_submit = offline.GetDelinquentSites( [self.GetClusterUnique()] )
                     
                 if (len(toSubmit) > 0) or num_submit[self.GetClusterUnique()]:
