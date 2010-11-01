@@ -148,6 +148,7 @@ class Factory:
             # Get the offline ads to update.
             if self.config.get("general", "useoffline").lower() == "true":
                 num_submit = offline.GetDelinquentSites( [self.GetClusterUnique()] )
+                logging.debug("toSubmit from offline %s", str(toSubmit))
                 logging.debug("num_submit = %s\n", str(num_submit))
                     
                 if (len(toSubmit) > 0) or num_submit[self.GetClusterUnique()]:
