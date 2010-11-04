@@ -47,6 +47,12 @@ class Factory:
             sys.exit(1)
             
         self._SetLogging()
+        
+        if self.config.get("general", "useoffline").lower() == "true":
+            self.UseOffline = True
+        else:
+            self.UseOffline = False
+        
         try:
             self.condor_config = CondorConfig()
         except EnvironmentError, inst:
@@ -119,7 +125,8 @@ class Factory:
         while 1:
             logging.info("Starting iteration...")
             
-            toSubmit = offline.Update( [self.GetClusterUnique()] )
+            if self.UseOffline:
+                toSubmit = offline.Update( [self.GetClusterUnique()] )
 
             # Check for idle glideins (idle startd's)
             idleslots = status.GetIdleGlideins()
@@ -146,15 +153,14 @@ class Factory:
                 continue
 
             # Get the offline ads to update.
-            if self.config.get("general", "useoffline").lower() == "true":
+            if self.UseOffline:
                 num_submit = offline.GetDelinquentSites( [self.GetClusterUnique()] )
                 logging.debug("toSubmit from offline %s", str(toSubmit))
                 logging.debug("num_submit = %s\n", str(num_submit))
                     
                 if (len(toSubmit) > 0) or num_submit[self.GetClusterUnique()]:
-                    num_submit = self.GetNumSubmit(idleslots, idlejobs, max([ num_submit[self.GetClusterUnique()], 5 ]))
-                    logging.info("Submitting %i glidein jobs", num_submit)
-                    self.SubmitGlideins(num_submit)
+                    idleuserjobs = max([ num_submit[self.GetClusterUnique()], 5 ])
+                    logging.debug("OFfline ads detected jobs should be submitted.  Idle user jobs set to %i", idleuserjobs)
                 else:
                     logging.debug("Offline ads did not detect any matches or Delinquencies.")
                 
