@@ -163,6 +163,7 @@ class Factory:
                     logging.debug("OFfline ads detected jobs should be submitted.  Idle user jobs set to %i", idleuserjobs)
                 else:
                     logging.debug("Offline ads did not detect any matches or Delinquencies.")
+                    idleuserjobs = 0
                 
             else:    
                 # Check for idle jobs to flock from
