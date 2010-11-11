@@ -137,7 +137,7 @@ class RunningGlideins(AvailableGlideins):
     Returns the number of startd's reporting to the collector (condor_status)
     """
     
-    command = "condor_status -const '(IsUndefined(IS_GLIDEIN) == FALSE) && (IS_GLIDEIN == TRUE) && (Offline == FALSE)' -format '<glidein name=\"%s\"/>' 'Name'"
+    command = "condor_status -const '(IsUndefined(IS_GLIDEIN) == FALSE) && (IS_GLIDEIN == TRUE) && (IsUndefined(Offline))' -format '<glidein name=\"%s\"/>' 'Name'"
     
     
     
