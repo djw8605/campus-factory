@@ -9,6 +9,7 @@ import os
 from campus_factory.ClusterStatus import ClusterStatus
 from campus_factory.ClusterStatus import CondorConfig
 from campus_factory.Parsers import RunExternal
+from campus_factory.OfflineAds.OfflineAds import OfflineAds
 
 class Factory:
     """
@@ -46,6 +47,12 @@ class Factory:
             sys.exit(1)
             
         self._SetLogging()
+        
+        if self.config.get("general", "useoffline").lower() == "true":
+            self.UseOffline = True
+        else:
+            self.UseOffline = False
+        
         try:
             self.condor_config = CondorConfig()
         except EnvironmentError, inst:
@@ -111,11 +118,15 @@ class Factory:
         self.Intialize()
 
         status = ClusterStatus()
+        offline = OfflineAds()
 
         # First, daemonize?
 
         while 1:
             logging.info("Starting iteration...")
+            
+            if self.UseOffline:
+                toSubmit = offline.Update( [self.GetClusterUnique()] )
 
             # Check for idle glideins (idle startd's)
             idleslots = status.GetIdleGlideins()
@@ -141,29 +152,40 @@ class Factory:
                 self.SleepFactory()
                 continue
 
-
-            # Check for idle jobs to flock from
-            if self.config.has_option("general", "FLOCK_FROM"):
-                schedds = self.config.get("general", "FLOCK_FROM").split(",")
-                logging.debug("Using FLOCK_FROM from the factory config.")
-            else:
-                schedds = self.condor_config.get('FLOCK_FROM').split(",")
-                logging.debug("Using FLOCK_FROM from the condor configuration")
+            # Get the offline ads to update.
+            if self.UseOffline:
+                num_submit = offline.GetDelinquentSites( [self.GetClusterUnique()] )
+                logging.debug("toSubmit from offline %s", str(toSubmit))
+                logging.debug("num_submit = %s\n", str(num_submit))
+                    
+                if (len(toSubmit) > 0) or num_submit[self.GetClusterUnique()]:
+                    idleuserjobs = max([ num_submit[self.GetClusterUnique()], 5 ])
+                    logging.debug("OFfline ads detected jobs should be submitted.  Idle user jobs set to %i", idleuserjobs)
+                else:
+                    logging.debug("Offline ads did not detect any matches or Delinquencies.")
+                    idleuserjobs = 0
                 
-            logging.debug("Schedds to query: %s" % str(schedds))
-            idleuserjobs = status.GetIdleJobs(schedds)
-            if idleuserjobs == None:
-                logging.info("Received None from idle user jobs, going to try later")
-                self.SleepFactory()
-                continue
-            logging.debug("Idle jobs = %i" % idleuserjobs)
-            if idleuserjobs < 1:
-                logging.info("No idle jobs")
-                self.SleepFactory()
-                continue
+            else:    
+                # Check for idle jobs to flock from
+                if self.config.has_option("general", "FLOCK_FROM"):
+                    schedds = self.config.get("general", "FLOCK_FROM").split(",")
+                    logging.debug("Using FLOCK_FROM from the factory config.")
+                else:
+                    schedds = self.condor_config.get('FLOCK_FROM').split(",")
+                    logging.debug("Using FLOCK_FROM from the condor configuration")
+                    
+                logging.debug("Schedds to query: %s" % str(schedds))
+                idleuserjobs = status.GetIdleJobs(schedds)
+                if idleuserjobs == None:
+                    logging.info("Received None from idle user jobs, going to try later")
+                    self.SleepFactory()
+                    continue
+                logging.debug("Idle jobs = %i" % idleuserjobs)
+                if idleuserjobs < 1:
+                    logging.info("No idle jobs")
+                    self.SleepFactory()
+                    continue
 
-            # Got this far, so submit some glideins
-            #logging.debug("idleslots = %i, idleuserjobs = %i" % (idleslots, idleuserjobs))
             
             # Determine how many glideins to submit
             num_submit = self.GetNumSubmit(idleslots, idlejobs, idleuserjobs)
@@ -242,11 +264,8 @@ class Factory:
         # TODO: These options should be moved to a better location
         options = {"WN_TMP": self.config.get("general", "worker_tmp"), \
                    "GLIDEIN_HOST": self.condor_config.get("CONDOR_HOST"), \
-                   "GLIDEIN_Site": self.condor_config.get("COLLECTOR_NAME")}
+                   "GLIDEIN_Site": self.GetClusterUnique()}
         
-        if self.config.has_option("general", "GLIDEIN_Site"):
-            options["GLIDEIN_Site"] = self.config.get("general", "GLIDEIN_Site")
-
         options_str = ""
         for key in options.keys():
             options_str += " -a %s=\"%s\"" % (key, options[key])
@@ -256,4 +275,13 @@ class Factory:
         logging.debug("stderr: %s" % stderr)
 
 
+
+    def GetClusterUnique(self):
+        """
+        @return: str - The unique identifier for each cluster.  Assuming only 1 cluster for now.
+        """
+        if self.config.has_option("general", "GLIDEIN_Site"):
+            return self.config.get("general", "GLIDEIN_Site")
+        else:
+            return self.condor_config.get("COLLECTOR_NAME")
 
