@@ -1,3 +1,7 @@
+2010-12-02 11:36  djw8605
+    * share/condor/condor-7.5.4-glite.patch: Renamed the patch for 7.5.4
+
+
 2010-10-14 18:09  djw8605
 
 	* etc/campus_factory.conf: Reworked configuration file to make more
