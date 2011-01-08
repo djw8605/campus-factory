@@ -67,6 +67,7 @@ class OfflineAds:
         # Check for new startd's reporting, save them while deleting the older ones (max numclassads)
         for site in self.GetUniqueAliveSites():
             new_ads = self.GetNewStartdAds(site)
+            
             # Limit new_ads to the number of ads we care about
             new_ads = new_ads[:self.numclassads]
             offline_ads = self.GetOfflineAds(site)
@@ -106,8 +107,12 @@ class OfflineAds:
             if fetched[key][self.siteunique] not in sites:
                 sites[fetched[key][self.siteunique]] = 0
             sites[fetched[key][self.siteunique]] += 1
-               
-        return sites
+            
+        final_sites = []   
+        for site in sites:
+            if sites[site] < self.numclassads:
+                final_sites.append(site)
+        return final_sites
     
         cmd =   "condor_status -const '(IsUndefined(Offline) == FALSE) && (Offline == true)' \
                  -format '%%s\\n' '%(siteuniq)s' | sort | uniq -c"
