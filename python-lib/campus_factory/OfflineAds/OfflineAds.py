@@ -71,9 +71,13 @@ class OfflineAds:
             # Limit new_ads to the number of ads we care about
             new_ads = new_ads[:self.numclassads]
             offline_ads = self.GetOfflineAds(site)
+            logging.debug(new_ads)
+            logging.debug(site)
             if (self.numclassads - (len(offline_ads) + len(new_ads))) < 0:
+                logging.debug("Removing old ads")
                 # Remove old ads
                 sorted_offline = SortClassAdsByElement(offline_ads, "LastHeardFrom")
+                logging.debug(sorted_offline)
                 self.DeAdvertiseAds(sorted_offline[:len(offline_ads) - (self.numclassads - len(new_ads))])
             
             for ad in new_ads:
@@ -113,11 +117,11 @@ class OfflineAds:
         for site in sites:
             if sites[site] < self.numclassads:
                 final_sites[site] = self.numclassads - sites[site]
-                
+        
         # Fill in the missing sites
         for site in available_sites:
             if site not in final_sites.keys():
-                final_sites[site] = 0
+                final_sites[site] = self.numclassads
                 
         return final_sites
             
@@ -204,8 +208,16 @@ class OfflineAds:
             return False
             
         fetched = self.condor_status.fetchStored(NewAds)
+
+        for name in fetched.keys():
+            fetched[name]["Name"] = "\"" + name + "\""
+
+        ads = []
+        for ad in fetched.values():
+            ads.append(ClassAd(ad))
+
+        return ads
         
-        return fetched.values()
         
     
     def GetOfflineAds(self, site):
@@ -225,7 +237,14 @@ class OfflineAds:
         
         fetched = self.condor_status.fetchStored(OfflineAds)
         
-        return fetched.values()
+        for name in fetched.keys():
+            fetched[name]["Name"] = "\"" + name + "\""
+
+        ads = []
+        for ad in fetched.values():
+            ads.append(ClassAd(ad))
+
+        return ads
         
         
     
