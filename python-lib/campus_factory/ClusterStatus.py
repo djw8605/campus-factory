@@ -87,16 +87,6 @@ class ClusterStatus:
         
         pass
 
-    def RunExternal(self, command):
-        """ 
-        Run an external command 
-        
-        @param command: Shell command to execute
-        @return: str - stdout from command
-        """
-        (stdin, stdout, stderr) = os.popen3(command, 'r')
-        str_stdout = stdout.read()
-        return str_stdout
     
     def GetCondorQ(self):
         """
