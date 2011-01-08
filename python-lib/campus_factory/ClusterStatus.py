@@ -69,7 +69,7 @@ class ClusterStatus:
     
     """
 
-    def __init__(self, constraint=None):
+    def __init__(self, status_constraint=None, queue_constraint=None):
         """
         Initialize the ClusterStatus
         
@@ -77,10 +77,13 @@ class ClusterStatus:
         
         """
         # Constraint
+        self.status_constraint = status_constraint
+        self.queue_constraint = queue_constraint
         
         # Timer to update cluster status
         self.q_refresh_timer = 0
         self.status_refresh_timer = 0
+        
         
         # Timer to refresh cached information
         self.refresh_interval = 30
@@ -99,7 +102,7 @@ class ClusterStatus:
         # Refresh the condor_q, if necessary
         if self.q_refresh_timer < int(time.time()):
             condorq = CondorQ()
-            self.condor_q = condorq.fetch()
+            self.condor_q = condorq.fetch(constraint=self.queue_constraint)
             self.q_refresh_timer = int(time.time()) + self.refresh_interval
         
         # Return the queue
@@ -115,7 +118,7 @@ class ClusterStatus:
         # Refresh the condor_q, if necessary
         if self.status_refresh_timer < int(time.time()):
             condorstatus = CondorStatus()
-            self.condor_status = condorstatus.fetch(constraint="IsUndefined(Offline)")
+            self.condor_status = condorstatus.fetch(constraint=self.status_constraint)
             self.status_refresh_timer = int(time.time()) + self.refresh_interval
         
         # Return the queue
