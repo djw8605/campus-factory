@@ -71,13 +71,9 @@ class OfflineAds:
             # Limit new_ads to the number of ads we care about
             new_ads = new_ads[:self.numclassads]
             offline_ads = self.GetOfflineAds(site)
-            logging.debug(new_ads)
-            logging.debug(site)
             if (self.numclassads - (len(offline_ads) + len(new_ads))) < 0:
-                logging.debug("Removing old ads")
                 # Remove old ads
                 sorted_offline = SortClassAdsByElement(offline_ads, "LastHeardFrom")
-                logging.debug(sorted_offline)
                 self.DeAdvertiseAds(sorted_offline[:len(offline_ads) - (self.numclassads - len(new_ads))])
             
             for ad in new_ads:
