@@ -108,38 +108,18 @@ class OfflineAds:
                 sites[fetched[key][self.siteunique]] = 0
             sites[fetched[key][self.siteunique]] += 1
             
+        # Set the number of classads we need
         final_sites = []   
         for site in sites:
             if sites[site] < self.numclassads:
                 final_sites[site] = self.numclassads - sites[site]
                 
-        return final_sites
-    
-        cmd =   "condor_status -const '(IsUndefined(Offline) == FALSE) && (Offline == true)' \
-                 -format '%%s\\n' '%(siteuniq)s' | sort | uniq -c"
-        query_opts = {"siteuniq": self.siteunique}
-        new_cmd = cmd % query_opts
-        (stdout, stderr) = RunExternal(new_cmd)
-        
-        # Split the lines
-        split_out = stdout.split('\n')
-        
-        # Initialize the dictionary to return
-        site_dict = {}
+        # Fill in the missing sites
         for site in available_sites:
-            site_dict[site] = 10
-            
-        for line in split_out:
-            # Split output should look like:
-            # 3 Firefly ...
-            words = line.split()
-            if len(words) == 0:
-                continue
-            # multi-word support for the unique site name
-            logging.debug("words = %s", str(words))
-            site_dict[" ".join(words[1:])] = max( [0, self.numclassads - int(words[0])])
-            
-        return site_dict
+            if site not in final_sites.keys():
+                final_sites[site] = 0
+                
+        return final_sites
             
         
         
@@ -196,18 +176,6 @@ class OfflineAds:
         
         return sites
         
-        cmd = "condor_status -const '(IsUndefined(Offline) == FALSE) && (Offline == TRUE) && \
-                 (IsUndefined(MachineLastMatchTime) == False) && (MachineLastMatchTime > %(matchtime)i)' \
-                 -format '%%s\\n' '%(siteunique)s' | sort | uniq "
-        
-        query_opts = {"matchtime": int(time.time()) - self.lastmatchtime, "siteunique": self.siteunique}
-        new_cmd = cmd % query_opts
-        (stdout, stderr) = RunExternal(new_cmd)
-
-        if len(stdout.split('\n')) > 1:
-            return stdout.split('\n')[:len(stdout.split('\n')) -1]
-        else:
-            return []
         
     
     def RemoveExpiredClassads(self):
@@ -239,19 +207,6 @@ class OfflineAds:
         
         return fetched.values()
         
-        cmd = "condor_status -l -const '(IsUndefined(Offline) == TRUE) && (DaemonStartTime > %(lastupdate)i) && (%(uniquesite)s =?= %(sitename)s)'"
-        query_opts = {"lastupdate": int(time.time()) - (int(time.time()) - self.lastupdatetime),
-                      "uniquesite": self.siteunique,
-                      "sitename": site}
-        new_cmd = cmd % query_opts
-        (stdout, stderr) = RunExternal(new_cmd)
-        
-        ad_list = []
-        for str_classad in stdout.split('\n\n'):
-            if len(str_classad) > 0:
-                ad_list.append(ClassAd(str_classad))
-
-        return ad_list
     
     def GetOfflineAds(self, site):
         """
@@ -272,17 +227,6 @@ class OfflineAds:
         
         return fetched.values()
         
-        cmd = "condor_status -l -const '(IsUndefined(Offline) == FALSE) && (Offline == true) && (%(uniquesite)s =?= %(sitename)s)'"
-        query_opts = {"uniquesite": self.siteunique, "sitename": site}
-        new_cmd = cmd % query_opts
-        (stdout, stderr) = RunExternal(new_cmd)
-        
-        ad_list = []
-        for str_classad in stdout.split('\n\n'):
-            if len(str_classad) > 0:
-                ad_list.append(ClassAd(str_classad))
-            
-        return ad_list
         
     
     def GetUniqueAliveSites(self):
@@ -305,12 +249,4 @@ class OfflineAds:
         
         return sites
         
-        # Is there a better way? Absolutely...
-        cmd = "condor_status -format '%%s\\n' '%s' -const '(IsUndefined(Offline) == TRUE)' | sort | uniq" % self.siteunique
-        (stdout, stderr) = RunExternal(cmd)
-        
-        if len(stdout.split('\n')) > 1:
-            return stdout.split('\n')[:len(stdout.split('\n')) -1]
-        else:
-            return []
 
