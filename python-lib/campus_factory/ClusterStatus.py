@@ -108,17 +108,20 @@ class ClusterStatus:
         # Return the queue
         return self.condor_q
     
-    def GetCondorStatus(self):
+    def GetCondorStatus(self, constraint=None):
         """
         Returns the current condor_status.  Refreshes data if necessary
         
         @return: [(ClusterID, ProcID): [classad,...]]
         
         """
-        # Refresh the condor_q, if necessary
+        if constraint == None:
+            constraint = self.status_constraint
+        
+        # Refresh the condor_status, if necessary
         if self.status_refresh_timer < int(time.time()):
             condorstatus = CondorStatus()
-            self.condor_status = condorstatus.fetch(constraint=self.status_constraint)
+            self.condor_status = condorstatus.fetch(constraint=constraint)
             self.status_refresh_timer = int(time.time()) + self.refresh_interval
         
         # Return the queue

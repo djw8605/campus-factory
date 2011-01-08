@@ -9,6 +9,8 @@ import time
 import random
 import logging
 
+from GlideinWMS.condorMonitor import CondorStatus
+
 class OfflineAds:
     
     def __init__(self, siteunique="GLIDEIN_Site", timekeep=HOUR*24, numclassads=10, lastmatchtime=MINUTE*5):
@@ -52,6 +54,10 @@ class OfflineAds:
         @return list - Sites that should have a glidein matched to it.
         """
         
+        # Query the status
+        self.condor_status = CondorStatus()
+        self.condor_status.load()
+        
         # Check last match times for an recent match
         matched_sites = self.GetLastMatchedSites()
 
@@ -85,6 +91,24 @@ class OfflineAds:
         @param available_sites: list of sites to look for
         @return: list of lists - [ ["site", num_delinquent], ... ]
         """
+        def Delinquent(data):
+            if data.has_key("Offline"):
+                if data["Offline"] == True:
+                    return True
+            return False
+        
+        fetched = self.condor_status.fetchStored(Delinquent)
+        
+        sites = {}
+        
+        # Count the number of unique sites
+        for key in fetched.keys():
+            if fetched[key][self.siteunique] not in sites:
+                sites[fetched[key][self.siteunique]] = 0
+            sites[fetched[key][self.siteunique]] += 1
+               
+        return sites
+    
         cmd =   "condor_status -const '(IsUndefined(Offline) == FALSE) && (Offline == true)' \
                  -format '%%s\\n' '%(siteuniq)s' | sort | uniq -c"
         query_opts = {"siteuniq": self.siteunique}
@@ -150,6 +174,22 @@ class OfflineAds:
         
         @return: list of sites with last match
         """
+        
+        def Matched(data):
+            if data.has_key("Offline") and data.has_key("MachineLastMatchTime"):
+                if data["Offline"] == True and int(data["MachineLastMatchTime"]) > (int(time.time()) - self.lastmatchtime):
+                    return True
+            return False
+        
+        fetched = self.condor_status.fetchStored(Matched)
+        
+        sites = []
+        for key in fetched.keys():
+            if fetched[key][self.siteunique] not in sites:
+                sites.append(fetched[key][self.siteunique])
+        
+        return sites
+        
         cmd = "condor_status -const '(IsUndefined(Offline) == FALSE) && (Offline == TRUE) && \
                  (IsUndefined(MachineLastMatchTime) == False) && (MachineLastMatchTime > %(matchtime)i)' \
                  -format '%%s\\n' '%(siteunique)s' | sort | uniq "
@@ -181,6 +221,18 @@ class OfflineAds:
         @return list: List of ClassAd objects
         
         """
+        def NewAds(data):
+            if data.has_key("Offline"):
+                if data["Offline"] == True and \
+                   int(data["DaemonStartTime"]) > int(time.time()) - (int(time.time()) - self.lastupdatetime) and \
+                   data[self.siteunique] == site:
+                    return True
+            return False
+            
+        fetched = self.condor_status.fetchStored(NewAds)
+        
+        return fetched.values()
+        
         cmd = "condor_status -l -const '(IsUndefined(Offline) == TRUE) && (DaemonStartTime > %(lastupdate)i) && (%(uniquesite)s =?= %(sitename)s)'"
         query_opts = {"lastupdate": int(time.time()) - (int(time.time()) - self.lastupdatetime),
                       "uniquesite": self.siteunique,
@@ -203,6 +255,17 @@ class OfflineAds:
         
         @return: list of ClassAd objects
         """
+        def OfflineAds(data):
+            if data.has_key("Offline"):
+                if data["Offline"] == True and data[self.siteunique] == site:
+                    return True
+            return False
+        
+        
+        fetched = self.condor_status.fetchStored(OfflineAds)
+        
+        return fetched.values()
+        
         cmd = "condor_status -l -const '(IsUndefined(Offline) == FALSE) && (Offline == true) && (%(uniquesite)s =?= %(sitename)s)'"
         query_opts = {"uniquesite": self.siteunique, "sitename": site}
         new_cmd = cmd % query_opts
@@ -223,6 +286,18 @@ class OfflineAds:
         @return: list of sites
         
         """
+        def AliveSites(data):
+            if not data.has_key("Offline"):
+                return True
+        
+        fetched = self.condor_status.fetchStored(AliveSites)
+        
+        sites = []
+        for key in fetched.keys():
+            if fetched[key][self.siteunique] not in sites:
+                sites.append(fetched[key][self.siteunique])
+        
+        return sites
         
         # Is there a better way? Absolutely...
         cmd = "condor_status -format '%%s\\n' '%s' -const '(IsUndefined(Offline) == TRUE)' | sort | uniq" % self.siteunique
