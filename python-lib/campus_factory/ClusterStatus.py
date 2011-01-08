@@ -163,8 +163,6 @@ class ClusterStatus:
         """
         
         return self.CountDict(self.GetCondorStatus(), IS_GLIDEIN = True, State = "Unclaimed")
-        #availglideins = AvailableGlideins()
-        #return availglideins.GetIdle()
 
 
     def GetIdleGlideinJobs(self):
@@ -174,8 +172,7 @@ class ClusterStatus:
         @return: int - Number of glidein jobs submitted but still idle.
         """
         return self.CountDict(self.GetCondorQ(), GlideinJob = True, JobStatus = 1)
-        #idleglideins = IdleGlideins()
-        #return idleglideins.GetIdle()
+
 
     def GetIdleJobs(self, schedds):
         """ 
@@ -208,16 +205,14 @@ class ClusterStatus:
         @return: int - Number of running glidein jobs
         """
         return self.CountDict(self.GetCondorQ(), GlideinJob = True, JobStatus = 2)
-        #running = RunningGlideinsJobs()
-        #return running.Run()
+
         
     def GetRunningGlideins(self):
         """
         @return: int - Number of running glidein startds
         """
         return self.CountDict(self.GetCondorStatus(), IS_GLIDEIN = True)
-        #running = RunningGlideins()
-        #return running.Run()
+
     
     
     
