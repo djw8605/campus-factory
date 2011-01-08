@@ -117,7 +117,7 @@ class Factory:
         """
         self.Intialize()
 
-        status = ClusterStatus(constraint="IsUndefined(Offline)")
+        status = ClusterStatus(status_constraint="IsUndefined(Offline)")
         offline = OfflineAds()
 
         # First, daemonize?
