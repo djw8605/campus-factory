@@ -208,8 +208,8 @@ class ClusterStatus:
         @return: int - Number of running glidein jobs
         """
         return self.CountDict(self.GetCondorQ(), GlideinJob = True, JobStatus = 2)
-        running = RunningGlideinsJobs()
-        return running.Run()
+        #running = RunningGlideinsJobs()
+        #return running.Run()
         
     def GetRunningGlideins(self):
         """

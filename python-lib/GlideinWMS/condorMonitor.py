@@ -14,8 +14,8 @@
 #   Igor Sfiligoi (Aug 30th 2006)
 #
 
-import GlideinWMS.condorExe
-import GlideinWMS.condorSecurity
+import GlideinWMS.condorExe as condorExe
+import GlideinWMS.condorSecurity as condorSecurity
 import os,string
 import copy
 import xml.parsers.expat
