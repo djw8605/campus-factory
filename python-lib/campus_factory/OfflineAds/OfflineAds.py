@@ -109,7 +109,7 @@ class OfflineAds:
             sites[fetched[key][self.siteunique]] += 1
             
         # Set the number of classads we need
-        final_sites = []   
+        final_sites = {}  
         for site in sites:
             if sites[site] < self.numclassads:
                 final_sites[site] = self.numclassads - sites[site]
