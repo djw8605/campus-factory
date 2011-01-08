@@ -219,7 +219,7 @@ class Factory:
             logging.debug("The number of idlejobs or idleslots fufills the requested idleuserjobs, not submitting any glideins")
             return 0
         
-        status = ClusterStatus()
+        status = ClusterStatus(status_constraint="IsUndefined(Offline)")
         
         # Check that running glideins are reporting to the collector
         running_glidein_jobs = status.GetRunningGlideinJobs()
