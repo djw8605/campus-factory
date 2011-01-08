@@ -111,7 +111,8 @@ class OfflineAds:
         final_sites = []   
         for site in sites:
             if sites[site] < self.numclassads:
-                final_sites.append(site)
+                final_sites[site] = self.numclassads - sites[site]
+                
         return final_sites
     
         cmd =   "condor_status -const '(IsUndefined(Offline) == FALSE) && (Offline == true)' \
