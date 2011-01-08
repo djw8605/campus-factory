@@ -67,6 +67,7 @@ class OfflineAds:
         # Check for new startd's reporting, save them while deleting the older ones (max numclassads)
         for site in self.GetUniqueAliveSites():
             new_ads = self.GetNewStartdAds(site)
+            logging.debug("New Ads = %i", len(new_ads))
             
             # Limit new_ads to the number of ads we care about
             new_ads = new_ads[:self.numclassads]
@@ -195,24 +196,37 @@ class OfflineAds:
         @return list: List of ClassAd objects
         
         """
-        def NewAds(data):
-            if data.has_key("Offline"):
-                if data["Offline"] == True and \
-                   int(data["DaemonStartTime"]) > int(time.time()) - (int(time.time()) - self.lastupdatetime) and \
-                   data[self.siteunique] == site:
-                    return True
-            return False
+        #def NewAds(data):
+        #    if data.has_key("Offline") == False:
+                #if data["Offline"] == True and \
+                #   int(data["DaemonStartTime"]) > (int(time.time()) - (int(time.time()) - self.lastupdatetime)) and \
+                #   data[self.siteunique] == site:
+        #        return True
+        #    return False
             
-        fetched = self.condor_status.fetchStored(NewAds)
+        #fetched = self.condor_status.fetchStored(NewAds)
+        cmd = "condor_status -l -const '(IsUndefined(Offline) == TRUE) && (DaemonStartTime > %(lastupdate)i) && (%(uniquesite)s =?= %(sitename)s)'"
+        query_opts = {"lastupdate": int(time.time()) - (int(time.time()) - self.lastupdatetime),
+                      "uniquesite": self.siteunique,
+                      "sitename": site}
+        new_cmd = cmd % query_opts
+        (stdout, stderr) = RunExternal(new_cmd)
+        
+        ad_list = []
+        for str_classad in stdout.split('\n\n'):
+            if len(str_classad) > 0:
+                ad_list.append(ClassAd(str_classad))
+            
+        return ad_list
 
-        for name in fetched.keys():
-            fetched[name]["Name"] = "\"" + name + "\""
+        #for name in fetched.keys():
+        #    fetched[name]["Name"] = "\"" + name + "\""
 
-        ads = []
-        for ad in fetched.values():
-            ads.append(ClassAd(ad))
+        #ads = []
+        #for ad in fetched.values():
+        #    ads.append(ClassAd(ad))
 
-        return ads
+        #return ads
         
         
     
@@ -224,23 +238,35 @@ class OfflineAds:
         
         @return: list of ClassAd objects
         """
-        def OfflineAds(data):
-            if data.has_key("Offline"):
-                if data["Offline"] == True and data[self.siteunique] == site:
-                    return True
-            return False
+        #def OfflineAds(data):
+        #    if data.has_key("Offline"):
+        #        if data["Offline"] == True and data[self.siteunique] == site:
+        #            return True
+        #    return False
         
         
-        fetched = self.condor_status.fetchStored(OfflineAds)
+        #fetched = self.condor_status.fetchStored(OfflineAds)
         
-        for name in fetched.keys():
-            fetched[name]["Name"] = "\"" + name + "\""
+        cmd = "condor_status -l -const '(IsUndefined(Offline) == FALSE) && (Offline == true) && (%(uniquesite)s =?= %(sitename)s)'"
+        query_opts = {"uniquesite": self.siteunique, "sitename": site}
+        new_cmd = cmd % query_opts
+        (stdout, stderr) = RunExternal(new_cmd)
+                
+        ad_list = []
+        for str_classad in stdout.split('\n\n'):
+            if len(str_classad) > 0:
+                ad_list.append(ClassAd(str_classad))
+                   
+        return ad_list
 
-        ads = []
-        for ad in fetched.values():
-            ads.append(ClassAd(ad))
+        #for name in fetched.keys():
+        #    fetched[name]["Name"] = "\"" + name + "\""
 
-        return ads
+        #ads = []
+        #for ad in fetched.values():
+        #    ads.append(ClassAd(ad))
+
+        #return ads
         
         
     

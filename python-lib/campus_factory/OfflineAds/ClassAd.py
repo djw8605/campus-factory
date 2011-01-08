@@ -9,13 +9,18 @@ class ClassAd(dict):
     This class acts as a dictionary object.
     
     """
-    def __init__(self, dict_classad):
-        self.ParseClassad(dict_classad)
+    def __init__(self, str_classad):
+        self.ParseClassad(str_classad)
         
         
-    def ParseClassad(self, dict_classad):
-        for key in dict_classad:
-            self[key] = dict_classad[key]
+    def ParseClassad(self, str_classad):
+        ad_dict = {}
+        if len(str_classad) == 0:
+            return
+       
+        for line in str_classad.split('\n'):
+            (key, value) = line.split('=', 1)
+            self[key.strip()] = value.strip()
 
     def ConvertToOffline(self, classadlifetime):
         self["Offline"] = "true"
@@ -25,17 +30,14 @@ class ClassAd(dict):
         self["ClassAdLifetime"] = str(classadlifetime)
         self["State"] = "\"Unclaimed\""
         self["Activity"] = "\"Idle\""
-        self["Rank"] = "-1"
+        self["Rank"] = 0
         
         
     
     def __str__(self):
         str_toreturn = ""
         for key in self.keys():
-            if isinstance(key, str):
-                str_toreturn += key + " = \"" + str(self[key]) + "\"\n"
-            else:
-                str_toreturn += key + " = " + str(self[key]) + "\n"
+            str_toreturn += key + " = " + str(self[key]) + "\n"
         return str_toreturn
     
 
