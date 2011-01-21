@@ -102,8 +102,12 @@ class ClusterStatus:
         # Refresh the condor_q, if necessary
         if self.q_refresh_timer < int(time.time()):
             condorq = CondorQ()
-            self.condor_q = condorq.fetch(constraint=self.queue_constraint)
-            self.q_refresh_timer = int(time.time()) + self.refresh_interval
+            try:
+                self.condor_q = condorq.fetch(constraint=self.queue_constraint)
+                self.q_refresh_timer = int(time.time()) + self.refresh_interval
+            except:
+                # There was an error getting information from condor_q
+                self.condor_q = {}
         
         # Return the queue
         return self.condor_q
@@ -121,8 +125,12 @@ class ClusterStatus:
         # Refresh the condor_status, if necessary
         if self.status_refresh_timer < int(time.time()):
             condorstatus = CondorStatus()
-            self.condor_status = condorstatus.fetch(constraint=constraint)
-            self.status_refresh_timer = int(time.time()) + self.refresh_interval
+            try:
+                self.condor_status = condorstatus.fetch(constraint=constraint)
+                self.status_refresh_timer = int(time.time()) + self.refresh_interval
+            except:
+                # There was an error in getting the information from condor_status
+                self.condor_status = {}
         
         # Return the queue
         return self.condor_status
