@@ -9,11 +9,11 @@ from  campus_factory.Factory import *
 
 def AddArgs(parser):
     parser.add_option(	"-d", "--daemonize", dest="daemonize", help="Daemonize the factory", 
-    					action="store_true", default="true")
-    					
+                        action="store_true", default="true")
+    
     parser.add_option(	"-c", "--config", dest="config", 
-    					help="Location of configuration file", 
-    					action="store", default="/etc/campus_factory/campus_factory.conf")
+                        help="Location of configuration file", 
+                        action="store", default="/etc/campus_factory/campus_factory.conf")
 
 def ParseArgs():
     parser = OptionParser()
