@@ -17,7 +17,7 @@ class ClassAd(dict):
         ad_dict = {}
         if len(str_classad) == 0:
             return
-
+       
         for line in str_classad.split('\n'):
             (key, value) = line.split('=', 1)
             self[key.strip()] = value.strip()
@@ -30,6 +30,7 @@ class ClassAd(dict):
         self["ClassAdLifetime"] = str(classadlifetime)
         self["State"] = "\"Unclaimed\""
         self["Activity"] = "\"Idle\""
+        self["Rank"] = 0
         
         
     
