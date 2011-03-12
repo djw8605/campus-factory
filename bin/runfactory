@@ -1,37 +1,49 @@
 #!/usr/bin/python
-import sys
 from optparse import OptionParser
-import logging
 
-from  campus_factory.Factory import *
-
+from campus_factory.Factory import Factory
 
 
-def AddArgs(parser):
-    parser.add_option(	"-d", "--daemonize", dest="daemonize", help="Daemonize the factory", 
+
+def add_args(parser):
+    """
+    Add arguments to the parser.
+
+    @param parser: An OptionParser
+
+    """
+    parser.add_option(	"-d", "--daemonize", dest="daemonize", 
+                        help="Daemonize the factory", 
                         action="store_true", default="true")
     
     parser.add_option(	"-c", "--config", dest="config", 
                         help="Location of configuration file", 
-                        action="store", default="/etc/campus_factory/campus_factory.conf")
+                        action="store", 
+                        default="/etc/campus_factory/campus_factory.conf")
 
-def ParseArgs():
+def parse_args():
+    """
+    Used to parse the args
+
+    @return (options, args): values returned from parser.parse_args()
+    """
     parser = OptionParser()
-    AddArgs(parser)
-    (options, args) = parser.parse_args()
-    return options, args
+    add_args(parser)
+    (returned_options, returned_args) = parser.parse_args()
+    return returned_options, returned_args
 
+
+OPTIONS, ARGS = parse_args()
 
 if __name__ == "__main__":
-    options, args = ParseArgs()
-    new_factory = Factory(options)
-    if len(args) > 0:
-        if args[0] == "restart":
-    	    new_factory.Restart()
-        elif args[0] == "stop":
-    	    new_factory.Stop()
+    new_factory = Factory(OPTIONS)
+    if len(ARGS) > 0:
+        if ARGS[0] == "restart":
+            new_factory.Restart()
+        elif ARGS[0] == "stop":
+            new_factory.Stop()
         else:
-            print "Unknown argument %s" % args[0]
+            print "Unknown argument %s" % ARGS[0]
     else:
         new_factory.Start()
 
