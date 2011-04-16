@@ -5,6 +5,11 @@
 tar xzf glideinExec.tar.gz
 
 # Make the temporary directory
+if [! -d $_campusfactory_wntmp ]
+then
+  # See if we can make the designated directory
+  mkdir -p $_campusfactory_wntmp
+fi
 local_dir=`mktemp -d -t -p $_campusfactory_wntmp`
 
 # All late-binding configurations
