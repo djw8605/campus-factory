@@ -115,8 +115,7 @@ class OfflineAds:
         # Set the number of classads we need
         final_sites = {}  
         for site in sites:
-            if sites[site] < self.numclassads:
-                final_sites[site] = self.numclassads - sites[site]
+            final_sites[site] = max(self.numclassads - sites[site], 0)
         
         # Fill in the missing sites
         for site in available_sites:
