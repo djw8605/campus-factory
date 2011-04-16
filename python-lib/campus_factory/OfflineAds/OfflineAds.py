@@ -56,7 +56,10 @@ class OfflineAds:
         
         # Query the status
         self.condor_status = CondorStatus()
-        self.condor_status.load()
+        try:
+            self.condor_status.load()
+        except:
+            return {}
         
         # Check last match times for an recent match
         matched_sites = self.GetLastMatchedSites()
