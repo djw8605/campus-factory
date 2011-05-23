@@ -3,6 +3,7 @@ from optparse import OptionParser
 
 from campus_factory.Factory import Factory
 
+import os,sys
 
 
 def add_args(parser):
@@ -12,6 +13,10 @@ def add_args(parser):
     @param parser: An OptionParser
 
     """
+    # Guess the configuration location
+    script_dir = os.path.dirname(sys.argv[0])
+    guessed_configuration = os.path.join(script_dir, "../etc/campus_factory.conf")
+
     parser.add_option(	"-d", "--daemonize", dest="daemonize", 
                         help="Daemonize the factory", 
                         action="store_true", default="true")
@@ -19,7 +24,7 @@ def add_args(parser):
     parser.add_option(	"-c", "--config", dest="config", 
                         help="Location of configuration file", 
                         action="store", 
-                        default="/etc/campus_factory/campus_factory.conf")
+                        default=guessed_configuration)
 
 def parse_args():
     """
