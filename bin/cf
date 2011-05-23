@@ -1,19 +1,104 @@
-#!/bin/sh  -x
+#!/bin/sh
 #
 # Really simple script to start/stop/restart the factory
 #
 
 
-if [ "$#" -eq 1 ]; then
-    if [ $1 == "start" ]; then
-        condor_submit `dirname $0`/../share/factory.job
-    elif [ $1 == "stop" ]; then
-        condor_rm -const 'IsFactory =?= true'
-    elif [ $1 == "restart" ]; then
-        condor_hold -const 'IsFactory =?= true'
-        condor_resume -const 'IsFactory =?= true'
+script_location=`dirname $0`
+original_path=$PATH
+. /etc/rc.d/init.d/functions
+
+exec="$script_location/runfactory"
+prog="Campus Factory"
+config="$script_location/../etc/campus_factory.conf"
+
+start() {
+
+    [ -x $exec ] || exit 5
+    [ -f $config ] || exit 6
+    echo -n $"Starting $prog: "
+    export PATH=$PATH:$original_path
+    condor_submit $script_location/../share/factory.job > /dev/null 2>&1
+    sleep 1
+    rh_status_q
+    retval=$?
+    if [ "$retval" -eq "0" ]; then
+        echo_success
+    else
+        echo_failure
     fi
-else
-    echo "usage [start|stop|restart]"
-fi
+    echo
+    return $retval
+
+}
+
+stop() {
+    export PATH=$PATH:$original_path
+    echo -n $"Stopping $prog: "
+    condor_rm -const 'IsFactory =?= true' > /dev/null 2>&1
+    sleep 1
+    rh_status_q
+    retval=$?
+    if [ "$retval" -eq "0" ]; then
+        echo_failure
+    else
+        echo_success
+    fi
+    echo
+    return $retval
+}
+
+restart() {
+    stop
+    start
+}
+
+reload() {
+    restart
+}
+
+
+
+rh_status() {
+    # run checks to determine if the service is running or use generic status
+    export PATH=$PATH:$original_path
+    condoroutput=`condor_q -const 'IsFactory =?= true' -format '%s' 'MyType'`
+    if [ -z "$condoroutput" ]; then
+        echo  $"$prog is stopped"
+        return 3
+    else
+        echo  $"$prog is running"
+        return 0
+    fi
+    #status $prog
+}
+
+rh_status_q() {
+    rh_status >/dev/null 2>&1
+}
+
+case "$1" in
+    start)
+        rh_status_q && exit 0
+        $1
+        ;;
+    stop)
+        rh_status_q || exit 0
+        $1
+        ;;
+    restart)
+        $1
+        ;;
+    reload)
+        rh_status_q || exit 7
+        $1
+        ;;
+    status)
+        rh_status
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|restart|reload}"
+        exit 2
+esac
+exit $?
 
