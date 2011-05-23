@@ -27,7 +27,8 @@ def parse_args():
 
     @return (options, args): values returned from parser.parse_args()
     """
-    parser = OptionParser()
+    usage = "usage: %prog [options] [start|stop|restart]"
+    parser = OptionParser(usage)
     add_args(parser)
     (returned_options, returned_args) = parser.parse_args()
     return returned_options, returned_args
@@ -42,6 +43,8 @@ if __name__ == "__main__":
             new_factory.Restart()
         elif ARGS[0] == "stop":
             new_factory.Stop()
+        elif ARGS[0] == "start":
+            new_factory.Start()
         else:
             print "Unknown argument %s" % ARGS[0]
     else:
