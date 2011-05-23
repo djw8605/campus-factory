@@ -59,7 +59,7 @@ class CondorConfig:
                         
         """
         if self.config_dict.has_key(key):
-            return self.config_dict.has_key(key)
+            return self.config_dict[key]
         else:
             (stdout, stderr) = RunExternal("condor_config_val %s" % key)
             if len(stdout) == 0:
