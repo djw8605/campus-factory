@@ -1,0 +1,89 @@
+#
+# Things you have to edit
+#
+
+##  What machine is your central manager?
+CONDOR_HOST = ff-grid.unl.edu
+
+##  When something goes wrong with condor at your site, who should get
+##  the email?
+CONDOR_ADMIN        = dweitzel@cse.unl.edu
+
+##  Internet domain of machines sharing a common UID space.
+UID_DOMAIN      = ff.unl.edu
+
+##  Internet domain of machines sharing a common file system.
+FILESYSTEM_DOMAIN   = ff.unl.edu
+
+##  This macro is used to specify a short description of your pool. 
+COLLECTOR_NAME      = Firefly
+
+# What hosts can run jobs to this cluster.
+FLOCK_FROM = glidein.unl.edu, prairiefire.unl.edu
+
+# Jobs submitted here can run at.
+FLOCK_TO = prairiefire.unl.edu
+
+# Internal ip addresses of the cluster
+INTERNAL_IPS = 10.158.* ff-grid.unl.edu 129.93.227.* 
+
+##############################################
+# Things that are 'safe' to leave
+#
+
+# Where the certificate mapfile is located.
+CERTIFICATE_MAPFILE=$(RELEASE_DIR)/etc/condor_mapfile
+
+# What daemons should I run?
+DAEMON_LIST = COLLECTOR, SCHEDD, NEGOTIATOR, MASTER
+
+# Location of the PBS_GAHP to be used to submit the glideins.
+GLITE_LOCATION = $(LIB)/glite
+PBS_GAHP       = $(GLITE_LOCATION)/bin/batch_gahp
+
+# Remove glidein jobs that get put on hold for over 24 hours.
+SYSTEM_PERIODIC_REMOVE = (GlideinJob == TRUE && JobStatus == 5 && CurrentTime - EnteredCurrentStatus > 3600*24*1)
+
+#
+# Security definitions
+#
+SEC_ENABLE_MATCH_PASSWORD_AUTHENTICATION = TRUE
+
+SEC_DEFAULT_NEGOTIATION = OPTIONAL
+SEC_DEFAULT_AUTHENTICATION = PREFERRED
+SEC_DEFAULT_AUTHENTICATION_METHODS = FS,CLAIMTOBE
+
+ALLOW_WRITE = $(FLOCK_FROM) $(FLOCK_TO) execute-side@matchsession $(INTERNAL_IPS) $(HOSTNAME)
+ALLOW_READ = $(ALLOW_WRITE)
+
+SEC_DEFAULT_ENCRYPTION = OPTIONAL
+SEC_DEFAULT_INTEGRITY = REQUIRED
+
+
+#DENY_WRITE = anonymous@*
+#ALLOW_WRITE = *@ff.unl.edu *@prairiefire.unl.edu *@glidein.unl.edu execute-side@matchsession anonymous@claimtobe/10.158.*
+#DENY_ADVERTISE_SCHEDD = *
+#DENY_ADMINISTRATOR = anonymous@*
+#ALLOW_ADMINISTRATOR = dweitzel@ff.unl.edu/ff-grid.unl.edu anonymous@claimtobe/ff.unl.edu
+#DENY_DAEMON = anonymous@*
+#ALLOW_DAEMON = $(ALLOW_ADMINISTRATOR) *@claimtobe/prairiefire.unl.edu *@claimtobe/glidein.unl.edu *@claimtobe/ff.unl.edu execute-side@matchsession *@claimtobe/129.93.227.* anonymous@claimtobe/10.158.*
+#DENY_NEGOTIATOR = anonymous@glidein.unl.edu
+#ALLOW_NEGOTIATOR = */ff-grid.unl.edu */prairiefire.unl.edu 
+
+#INTERNAL_FF = */10.158.* */ff-grid.unl.edu */129.93.227.* 
+#ALLOW_ADVERTISE_STARTD = $(INTERNAL_FF)
+#ALLOW_ADVERTISE_MASTER = $(INTERNAL_FF)
+#ALLOW_DAEMON = $(ALLOW_DAEMON) $(INTERNAL_FF)
+
+#ALLOW_ADVERTISE_SCHEDD = */ff-grid.unl.edu $(FLOCK_FROM) */10.158.50.2
+
+#SEC_READ_INTEGRITY = OPTIONAL
+#SEC_CLIENT_INTEGRITY = OPTIONAL
+#SEC_READ_ENCRYPTION = OPTIONAL
+#SEC_CLIENT_ENCRYPTION = OPTIONAL
+
+
+
+
+
+
