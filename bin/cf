@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh 
 #
 # Really simple script to start/stop/restart the factory
 #
@@ -6,7 +6,7 @@
 
 if [ "$#" -eq 1 ]; then
     if [ $1 == "start" ]; then
-        condor_submit share/factory.job
+        condor_submit $0/../share/factory.job
     elif [ $1 == "stop" ]; then
         condor_rm -const 'IsFactory =?= true'
     elif [ $1 == "restart" ]; then
