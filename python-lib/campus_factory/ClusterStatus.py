@@ -60,7 +60,7 @@ class CondorConfig:
         """
         if self.config_dict.has_key(key):
             return self.config_dict.has_key(key)
-        else
+        else:
             (stdout, stderr) = RunExternal("condor_config_val %s" % key)
             if len(stdout) == 0:
                 logging.error("Unable to get any output from condor_config_val.  Is key = %s correct?" % key)
