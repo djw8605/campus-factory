@@ -47,8 +47,8 @@ class Factory:
             sys.exit(1)
             
         self._SetLogging()
-        
-        if self.config.get("general", "useoffline").lower() == "true":
+       
+        if  self.config.has_option("general", "useoffline") and (self.config.get("general", "useoffline").lower() == "true"):
             self.UseOffline = True
         else:
             self.UseOffline = False
