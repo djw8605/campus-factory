@@ -32,6 +32,8 @@ class CondorConfig:
     __metaclass__ = Singleton
     
     def __init__(self):
+        self.config_dict = {}
+
         (stdout, stderr) = RunExternal("condor_config_val -dump")
         if len(stdout) == 0:
             error_msg = "Unable to get any output from condor_config_val.  Is condor binaries in the path?"
@@ -48,7 +50,7 @@ class CondorConfig:
             config_dict[key] = value
         
         logging.info("Got %s values from condor_config_val" % len(config_dict.keys()))
-        self.config_dict = config_dict
+        #self.config_dict = config_dict
         
     def get(self, key):
         """
@@ -57,9 +59,20 @@ class CondorConfig:
                         
         """
         if self.config_dict.has_key(key):
-            return self.config_dict[key]
-        else:
-            return ""
+            return self.config_dict.has_key(key)
+        else
+            (stdout, stderr) = RunExternal("condor_config_val %s" % key)
+            if len(stdout) == 0:
+                logging.error("Unable to get any output from condor_config_val.  Is key = %s correct?" % key)
+                logging.error("Stderr: %s" % stderr)
+
+            self.config_dict[key] = stdout.strip()
+            return stdout.strip()
+
+        #if self.config_dict.has_key(key):
+        #    return self.config_dict[key]
+        #else:
+        #    return ""
 
 
 class ClusterStatus:
