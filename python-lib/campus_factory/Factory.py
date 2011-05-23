@@ -263,7 +263,7 @@ class Factory:
         
         # TODO: These options should be moved to a better location
         options = {"WN_TMP": self.config.get("general", "worker_tmp"), \
-                   "GLIDEIN_HOST": self.condor_config.get("CONDOR_HOST"), \
+                   "GLIDEIN_HOST": self.condor_config.get("COLLECTOR_HOST"), \
                    "GLIDEIN_Site": self.GetClusterUnique()}
         
         options_str = ""
