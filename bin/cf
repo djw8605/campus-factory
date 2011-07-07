@@ -6,6 +6,7 @@
 
 script_location=`dirname $0`
 original_path=$PATH
+python_path=$script_location/../python-lib
 . /etc/rc.d/init.d/functions
 
 exec="$script_location/runfactory"
@@ -17,8 +18,23 @@ start() {
     [ -x $exec ] || exit 5
     [ -f $config ] || exit 6
     echo -n $"Starting $prog: "
+
+    # Restore the original path
     export PATH=$PATH:$original_path
-    condor_submit $script_location/../share/factory.job > /dev/null 2>&1
+    export PYTHONPATH=$PYTHONPATH:$python_path
+
+    # Move to the proper directory.  This is mostly
+    # for the factory.job submit file.
+    pushd "$script_location/../" >> /dev/null
+    submit_out=`condor_submit $script_location/../share/factory.job 2>&1`
+    popd >> /dev/null
+
+    retval=$?
+    if [ "$retval" -ne "0" ]; then
+        echo $submit_out
+        echo_failure
+        return $retval
+    fi
     sleep 1
     rh_status_q
     retval=$?
@@ -35,7 +51,13 @@ start() {
 stop() {
     export PATH=$PATH:$original_path
     echo -n $"Stopping $prog: "
-    condor_rm -const 'IsFactory =?= true' > /dev/null 2>&1
+    rm_out=`condor_rm -const 'IsFactory =?= true'  2>&1`
+    retval=$?
+    if [ "$retval" -ne "0" ]; then
+        echo $submit_out
+        echo_failure
+        return $retval
+    fi
     sleep 1
     rh_status_q
     retval=$?
