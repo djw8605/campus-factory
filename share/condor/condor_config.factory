@@ -59,6 +59,7 @@ ALLOW_READ = $(ALLOW_WRITE)
 SEC_DEFAULT_ENCRYPTION = OPTIONAL
 SEC_DEFAULT_INTEGRITY = REQUIRED
 
+ALLOW_ADMINISTRATOR = $(FULL_HOSTNAME)
 
 #DENY_WRITE = anonymous@*
 #ALLOW_WRITE = *@ff.unl.edu *@prairiefire.unl.edu *@glidein.unl.edu execute-side@matchsession anonymous@claimtobe/10.158.*
