@@ -38,7 +38,7 @@ CERTIFICATE_MAPFILE=$(RELEASE_DIR)/etc/condor_mapfile
 DAEMON_LIST = COLLECTOR, SCHEDD, NEGOTIATOR, MASTER
 
 # Location of the PBS_GAHP to be used to submit the glideins.
-GLITE_LOCATION = $(LIB)/glite
+GLITE_LOCATION = $(LIBEXEC)/glite
 PBS_GAHP       = $(GLITE_LOCATION)/bin/batch_gahp
 
 # Remove glidein jobs that get put on hold for over 24 hours.
