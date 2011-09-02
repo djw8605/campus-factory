@@ -128,6 +128,9 @@ class Factory:
             if self.UseOffline:
                 toSubmit = offline.Update( [self.GetClusterUnique()] )
 
+            if self.UseMultiUser:
+                self.UpdateUsers()
+                
             # Check for idle glideins (idle startd's)
             idleslots = status.GetIdleGlideins()
             if idleslots == None:
@@ -200,6 +203,33 @@ class Factory:
         sleeptime = int(self.config.get("general", "iterationtime"))
         logging.info("Sleeping for %i seconds" % sleeptime)
         time.sleep(sleeptime)
+        
+        
+    def UpdateUsers(self):
+        """
+        Update the users
+        """
+        idle_user_jobs = status.GetIdleJobsByUser()
+        idle_user_glideins = status.GetIdleGlideinsByUser()
+        running_user_jobs = status.GetRunningJobs()
+        
+        # Update the idle user jobs
+        for user in idle_user_jobs.keys():
+            if not self.users.has_key(user):
+                self.users = MultiUser.SingleUser(user)
+            self.users.SetIdleJobs(idle_user_jobs[user])
+        
+        # Update the idle user glideins
+        for user in idle_user_glideins.keys():
+            if not self.users.has_key(user):
+                self.users = MultiUser.SingleUser(user)
+            self.users.SetIdleJobs(idle_user_glideins[user])
+        
+        # Update the running jobs
+        for user in running_user_jobs.keys():
+            if not self.users.has_key(user):
+                self.users = MultiUser.SingleUser(user)
+            self.users.SetIdleJobs(running_user_jobs[user])
         
         
     def GetNumSubmit(self, idleslots, idlejobs, idleuserjobs):
