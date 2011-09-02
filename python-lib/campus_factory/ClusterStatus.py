@@ -104,7 +104,7 @@ class ClusterStatus:
         pass
 
     
-    def GetCondorQ(self):
+    def GetCondorQ(self, schedd_name=None):
         """
         Returns the current queue.  Refreshes data if necessary
         
@@ -113,17 +113,16 @@ class ClusterStatus:
         """
         
         # Refresh the condor_q, if necessary
-        if self.q_refresh_timer < int(time.time()):
-            condorq = CondorQ()
-            try:
-                self.condor_q = condorq.fetch(constraint=self.queue_constraint)
-                self.q_refresh_timer = int(time.time()) + self.refresh_interval
-            except:
-                # There was an error getting information from condor_q
-                self.condor_q = {}
+        condorq = CondorQ(schedd_name=schedd_name)
+        try:
+            self.condor_q = condorq.fetch(constraint=self.queue_constraint)
+        except:
+            # There was an error getting information from condor_q
+            self.condor_q = {}
         
         # Return the queue
         return self.condor_q
+    
     
     def GetCondorStatus(self, constraint=None):
         """
@@ -230,6 +229,39 @@ class ClusterStatus:
         """
         return self.CountDict(self.GetCondorStatus(), IS_GLIDEIN = True)
 
+    
+    def GetIdleJobsByUser(self, schedds):
+        """
+        
+        """
+        users = {}
+        for schedd in schedds:
+            jobs = self.GetCondorQ(schedd)
+            for job in jobs:
+                owner = job["Owner"]
+                if owner not in users.keys():
+                    users[owner] = 0
+                users[owner] += 1
+                
+        return users
+            
+        
+    def GetIdleGlideinsByUser(self):
+        """
+        
+        """
+        users = {}
+        jobs = self.GetCondorQ(None)
+        for job in jobs:
+            owner = job["Owner"]
+            if owner not in users.keys():
+                users[owner] = 0
+            users[owner] += 1
+        return users
+        
+        
+    def GetRunningJobsByUser(self):
+        pass
     
     
     
