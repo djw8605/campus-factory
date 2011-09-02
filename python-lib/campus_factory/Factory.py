@@ -211,7 +211,7 @@ class Factory:
         """
         idle_user_jobs = status.GetIdleJobsByUser()
         idle_user_glideins = status.GetIdleGlideinsByUser()
-        running_user_jobs = status.GetRunningJobs()
+        running_user_jobs = status.GetRunningJobsByUser()
         
         # Update the idle user jobs
         for user in idle_user_jobs.keys():
