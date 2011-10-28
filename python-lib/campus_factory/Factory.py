@@ -160,7 +160,7 @@ class Factory:
                     
                 if (len(toSubmit) > 0) or num_submit[self.GetClusterUnique()]:
                     idleuserjobs = max([ num_submit[self.GetClusterUnique()], 5 ])
-                    logging.debug("OFfline ads detected jobs should be submitted.  Idle user jobs set to %i", idleuserjobs)
+                    logging.debug("Offline ads detected jobs should be submitted.  Idle user jobs set to %i", idleuserjobs)
                 else:
                     logging.debug("Offline ads did not detect any matches or Delinquencies.")
                     idleuserjobs = 0
