@@ -6,6 +6,7 @@
 GLIDEIN_HOST = example.com          # From COLLECTOR_HOST from condor_config
 WN_TMP = /tmp                       # From worker_tmp from campus_factory.conf
 GLIDEIN_Site = Grid site            # From COLLECTOR_NAME from condor_config
+BOSCOCluster = "None"				# From Cluster Hosts in campus_factory.conf
 
 
 Universe = Grid
@@ -24,7 +25,8 @@ Environment = 	_condor_CONDOR_HOST=$(GLIDEIN_HOST); \
 				_condor_MAIL=/bin/mail; \
 				_condor_STARTD_NOCLAIM_SHUTDOWN=1200; \
 				_campusfactory_wntmp=$(WN_TMP); \
-				_condor_GLIDEIN_Site="$(GLIDEIN_Site)"
+				_condor_GLIDEIN_Site="$(GLIDEIN_Site)"; \
+				_condor_BOSCOCluster="$(BOSCOCluster)"
 
 Transfer_Executable = True
 transfer_input_files = share/glidein_jobs/glideinExec.tar.gz, share/glidein_jobs/glidein_condor_config, share/glidein_jobs/user_job_wrapper.sh
@@ -37,6 +39,7 @@ GlobusRSL =
 
 Grid_Resource = pbs
 +GlideinJob=TRUE
++BOSCOCluster=$(BOSCOCluster)
 
 Notification = Never
 Queue 
