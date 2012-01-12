@@ -59,6 +59,10 @@ class Factory:
             logging.exception(str(inst))
             raise inst
         
+        # Get the cluster lists
+        if self.config.has_option("general", "clusterlist"):
+            self.cluster_list = self.config.get("general", "clusterlist").split(',')
+            
         
     def _SetLogging(self):
         """
@@ -117,7 +121,7 @@ class Factory:
         """
         self.Intialize()
 
-        status = ClusterStatus(status_constraint="IsUndefined(Offline)")
+        statuses = {}
         offline = OfflineAds()
 
         # First, daemonize?
@@ -128,29 +132,37 @@ class Factory:
             if self.UseOffline:
                 toSubmit = offline.Update( [self.GetClusterUnique()] )
 
-            # Check for idle glideins (idle startd's)
-            idleslots = status.GetIdleGlideins()
-            if idleslots == None:
-                logging.info("Received None from idle glideins, going to try later")
-                self.SleepFactory()
-                continue
-            logging.debug("Idle glideins = %i" % idleslots)
-            if idleslots >= int(self.config.get("general", "MAXIDLEGLIDEINS")):
-                logging.info("Too many idle glideins")
-                self.SleepFactory()
-                continue
+            # For each ssh'd blahp
+            for cluster in self.cluster_list:
+                
+                # Create a cluster specific status object
+                if not statuses.has_key(cluster):
+                    statuses[cluster] = ClusterStatus(status_constraint="IsUndefined(Offline) && BOSCOCluster =?= \"%s\"" % cluster)
+                status = statuses[cluster]
+                
+                # Check for idle glideins (idle startd's)
+                idleslots = status.GetIdleGlideins()
+                if idleslots == None:
+                    logging.info("Received None from idle glideins, going to try later")
+                    self.SleepFactory()
+                    continue
+                logging.debug("Idle glideins = %i" % idleslots)
+                if idleslots >= int(self.config.get("general", "MAXIDLEGLIDEINS")):
+                    logging.info("Too many idle glideins")
+                    self.SleepFactory()
+                    continue
 
-            # Check for idle glidein jobs
-            idlejobs = status.GetIdleGlideinJobs()
-            if idlejobs == None:
-                logging.info("Received None from idle glidein jobs, going to try later")
-                self.SleepFactory()
-                continue
-            logging.debug("Queued jobs = %i" % idlejobs)
-            if idlejobs >= int(self.config.get("general", "maxqueuedjobs")):
-                logging.info("Too many queued jobs")
-                self.SleepFactory()
-                continue
+                # Check for idle glidein jobs
+                idlejobs = status.GetIdleGlideinJobs()
+                if idlejobs == None:
+                    logging.info("Received None from idle glidein jobs, going to try later")
+                    self.SleepFactory()
+                    continue
+                logging.debug("Queued jobs = %i" % idlejobs)
+                if idlejobs >= int(self.config.get("general", "maxqueuedjobs")):
+                    logging.info("Too many queued jobs")
+                    self.SleepFactory()
+                    continue
 
             # Get the offline ads to update.
             if self.UseOffline:
