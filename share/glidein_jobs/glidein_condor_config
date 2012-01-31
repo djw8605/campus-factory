@@ -16,6 +16,10 @@ ALLOW_ADMINISTRATOR = $(HOSTNAME), $(GLIDEIN_HOST)
 # How long should the glidein run if it's not running any jobs.  In seconds.
 STARTD_NOCLAIM_SHUTDOWN=1200
 
+# Retirement time - 72000 = 20 hours
+SHUTDOWN_GRACEFUL_TIMEOUT = 72000
+MAXJOBRETIREMENTTIME = 34800
+
 #
 # Things you should probably leave alone
 #
