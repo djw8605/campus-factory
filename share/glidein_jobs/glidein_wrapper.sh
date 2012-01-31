@@ -23,7 +23,7 @@ then
 export _condor_USER_JOB_WRAPPER=`pwd`/user_job_wrapper.sh
 fi
 
-./glideinExec/glidein_startup -dyn -f
+./glideinExec/glidein_startup -dyn -f -r 1200
 
 
 rm -rf $local_dir
