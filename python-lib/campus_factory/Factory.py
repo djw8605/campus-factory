@@ -133,7 +133,7 @@ class Factory:
                 toSubmit = offline.Update( [self.GetClusterUnique()] )
 
             # Check for idle jobs to flock from
-            if not self.UseOffline
+            if not self.UseOffline:
                 if self.config.has_option("general", "FLOCK_FROM"):
                     schedds = self.config.get("general", "FLOCK_FROM").split(",")
                     logging.debug("Using FLOCK_FROM from the factory config.")
