@@ -62,6 +62,9 @@ class Factory:
         # Get the cluster lists
         if self.config.has_option("general", "clusterlist"):
             self.cluster_list = self.config.get("general", "clusterlist").split(',')
+        else:
+            # Initialize as emtpy, which infers to submit 'here'
+            self.cluster_list = [ "" ]
             
         
     def _SetLogging(self):
