@@ -132,21 +132,12 @@ class Factory:
             if self.UseOffline:
                 toSubmit = offline.Update( [self.GetClusterUnique()] )
 
-            # Check for idle jobs to flock from
-            if not self.UseOffline:
-                if self.config.has_option("general", "FLOCK_FROM"):
-                    schedds = self.config.get("general", "FLOCK_FROM").split(",")
-                    logging.debug("Using FLOCK_FROM from the factory config.")
-                else:
-                    schedds = self.condor_config.get('FLOCK_FROM').split(",")
-                    logging.debug("Using FLOCK_FROM from the condor configuration")
-                            
-                logging.debug("Schedds to query: %s" % str(schedds))
-                idleuserjobs = status.GetIdleJobs(schedds)
-                if idleuserjobs == None:
-                    logging.info("Received None from idle user jobs, going to try later")
-                    self.SleepFactory()
-                    continue
+            else:
+                user_idle = self.GetIdleJobs()
+                idleuserjobs = 0
+                for user in user_idle.keys():
+                    idleuserjobs += user_idle[user]
+                    
                 logging.debug("Idle jobs = %i" % idleuserjobs)
                 if idleuserjobs < 1:
                     logging.info("No idle jobs")
@@ -301,4 +292,40 @@ class Factory:
             return self.config.get("general", "GLIDEIN_Site")
         else:
             return self.condor_config.get("COLLECTOR_NAME")
+        
+        
+    def GetIdleJobs(self):
+        """
+        Get the number of idle jobs from configured flock from hosts.
+        
+        @return: { user, int } - Number of idle jobs by user (dictionary)
+        """
+        # Check for idle jobs to flock from
+        if not self.UseOffline:
+            
+            # Get schedd's to query
+            if self.config.has_option("general", "FLOCK_FROM"):
+                schedds = self.config.get("general", "FLOCK_FROM").split(",")
+                logging.debug("Using FLOCK_FROM from the factory config.")
+            else:
+                schedds = self.condor_config.get('FLOCK_FROM').split(",")
+                logging.debug("Using FLOCK_FROM from the condor configuration")
+                            
+            logging.debug("Schedds to query: %s" % str(schedds))
+            
+            
+            idleuserjobs = status.GetIdleJobs(schedds)
+            if idleuserjobs == None:
+                logging.info("Received None from idle user jobs, going to try later")
+                return None
+            
+            # Add all the idle jobs from all the schedds, unique on user (owner)
+            user_idle = {}
+            for schedd in idleuserjobs.keys():
+                for user in idleuserjobs[schedd].keys():
+                    if not user_idle.has_key(user):
+                        user_idle[user] = 0
+                    user_idle[user] += idleuserjobs[schedd][user]
+
+            return user_idle
 

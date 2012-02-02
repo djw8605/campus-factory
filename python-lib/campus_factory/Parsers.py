@@ -59,6 +59,7 @@ class AvailableGlideins(xml.sax.handler.ContentHandler):
     command = "condor_status -avail -const '(IsUndefined(Offline) == True) || (Offline == false)' -format '<glidein name=\"%s\"/>' 'Name'"
     
     def __init__(self):
+        self.owner_idle = {}
         pass
 
     def GetIdle(self):
@@ -97,6 +98,13 @@ class AvailableGlideins(xml.sax.handler.ContentHandler):
         if name == "glidein":
             self.idle += 1
             self.found = True
+            
+            if not self.owner_idle.has_key(attributes[owner]):
+                self.owner_idle[attributes[owner]] = 0
+            self.owner_idle[attributes[owner]] += 1
+            
+    def GetOwnerIdle(self):
+        return self.owner_idle
 
 
 class IdleGlideins(AvailableGlideins):
