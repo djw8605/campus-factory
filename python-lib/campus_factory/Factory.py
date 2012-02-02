@@ -137,6 +137,11 @@ class Factory:
 
             else:
                 user_idle = self.GetIdleJobs()
+                if user_idle == None:
+                    logging.info("Received None from idle jobs")
+                    self.SleepFactory()
+                    continue
+                
                 idleuserjobs = 0
                 for user in user_idle.keys():
                     idleuserjobs += user_idle[user]
