@@ -100,9 +100,9 @@ class AvailableGlideins(xml.sax.handler.ContentHandler):
             self.idle += 1
             self.found = True
             
-            if not self.owner_idle.has_key(attributes[owner]):
-                self.owner_idle[attributes[owner]] = 0
-            self.owner_idle[attributes[owner]] += 1
+            if not self.owner_idle.has_key(attributes['owner']):
+                self.owner_idle[attributes['owner']] = 0
+            self.owner_idle[attributes['owner']] += 1
             
     def GetOwnerIdle(self):
         return self.owner_idle
