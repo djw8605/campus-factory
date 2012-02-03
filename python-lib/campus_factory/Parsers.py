@@ -58,8 +58,9 @@ class AvailableGlideins(xml.sax.handler.ContentHandler):
     # Command to query the collector for available glideins
     command = "condor_status -avail -const '(IsUndefined(Offline) == True) || (Offline == false)' -format '<glidein name=\"%s\"/>' 'Name'"
     
+    owner_idle = {}
+    
     def __init__(self):
-        self.owner_idle = {}
         pass
 
     def GetIdle(self):
