@@ -59,9 +59,11 @@ class Factory:
             logging.exception(str(inst))
             raise inst
         
+        self.cluster_list = []
         # Get the cluster lists
         if self.config.has_option("general", "clusterlist"):
-            self.cluster_list = self.config.get("general", "clusterlist").split(',')
+            for cluster_id in self.config.get("general", "clusterlist").split(','):
+                self.cluster_list.append(Cluster(cluster_id, self.config, useOffline = self.UseOffline))
         else:
             # Initialize as emtpy, which infers to submit 'here'
             self.cluster_list = [ "" ]
@@ -157,46 +159,11 @@ class Factory:
             for cluster in self.cluster_list:
                 
                 # Create a cluster specific status object
-                if not statuses.has_key(cluster):
-                    statuses[cluster] = ClusterStatus(status_constraint="IsUndefined(Offline) && BOSCOCluster =?= \"%s\"" % cluster)
-                status = statuses[cluster]
                 
-                # Check for idle glideins (idle startd's)
-                idleslots = status.GetIdleGlideins()
-                if idleslots == None:
-                    logging.info("Received None from idle glideins, going to try later")
-                    self.SleepFactory()
-                    continue
-                logging.debug("Idle glideins = %i" % idleslots)
-                if idleslots >= int(self.config.get("general", "MAXIDLEGLIDEINS")):
-                    logging.info("Too many idle glideins")
-                    self.SleepFactory()
-                    continue
-
-                # Check for idle glidein jobs
-                idlejobs = status.GetIdleGlideinJobs()
-                if idlejobs == None:
-                    logging.info("Received None from idle glidein jobs, going to try later")
-                    self.SleepFactory()
-                    continue
-                logging.debug("Queued jobs = %i" % idlejobs)
-                if idlejobs >= int(self.config.get("general", "maxqueuedjobs")):
-                    logging.info("Too many queued jobs")
-                    self.SleepFactory()
-                    continue
 
                 # Get the offline ads to update.
                 if self.UseOffline:
-                    num_submit = offline.GetDelinquentSites( [self.GetClusterUnique()] )
-                    logging.debug("toSubmit from offline %s", str(toSubmit))
-                    logging.debug("num_submit = %s\n", str(num_submit))
-                        
-                    if (len(toSubmit) > 0) or num_submit[self.GetClusterUnique()]:
-                        idleuserjobs = max([ num_submit[self.GetClusterUnique()], 5 ])
-                        logging.debug("Offline ads detected jobs should be submitted.  Idle user jobs set to %i", idleuserjobs)
-                    else:
-                        logging.debug("Offline ads did not detect any matches or Delinquencies.")
-                        idleuserjobs = 0 
+                    
                     
     
                 
