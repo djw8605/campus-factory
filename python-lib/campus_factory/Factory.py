@@ -134,10 +134,7 @@ class Factory:
         while 1:
             logging.info("Starting iteration...")
             
-            if self.UseOffline:
-                toSubmit = offline.Update( [self.GetClusterUnique()] )
-
-            else:
+            if not self.UseOffline:
                 user_idle = self.GetIdleJobs()
                 if user_idle == None:
                     logging.info("Received None from idle jobs")
@@ -157,6 +154,9 @@ class Factory:
 
             # For each ssh'd blahp
             for cluster in self.cluster_list:
+                
+                if self.UseOffline:
+                    idleuserjobs = cluster.GetIdleJobs()
                 
                 # Check if the cluster is able to submit jobs
                 try:
