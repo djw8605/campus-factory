@@ -3,10 +3,10 @@
 
 # Define the default variables that will be used below
 # NOTE - These will be automatically overwritten by configuration options
+BOSCOCluster = None				# From Cluster Hosts in campus_factory.conf
 GLIDEIN_HOST = $(BOSCOCluster)          # From COLLECTOR_HOST from condor_config
 WN_TMP = /tmp                       # From worker_tmp from campus_factory.conf
 GLIDEIN_Site = Grid site            # From COLLECTOR_NAME from condor_config
-BOSCOCluster = "None"				# From Cluster Hosts in campus_factory.conf
 
 
 Universe = Grid
@@ -39,7 +39,7 @@ GlobusRSL =
 
 Grid_Resource = pbs $(BOSCOCluster)
 +GlideinJob=TRUE
-+BOSCOCluster=$(BOSCOCluster)
++BOSCOCluster="$(BOSCOCluster)"
 
 Notification = Never
 Queue 

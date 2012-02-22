@@ -127,6 +127,7 @@ class Factory:
         self.Intialize()
 
         statuses = {}
+        status = ClusterStatus(status_constraint="IsUndefined(Offline)")
         offline = OfflineAds()
 
         # First, daemonize?
@@ -279,7 +280,7 @@ class Factory:
             return self.condor_config.get("COLLECTOR_NAME")
         
         
-    def GetIdleJobs(self):
+    def GetIdleJobs(self, status):
         """
         Get the number of idle jobs from configured flock from hosts.
         
