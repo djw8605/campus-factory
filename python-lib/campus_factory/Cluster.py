@@ -4,6 +4,13 @@ import logging
 from campus_factory.ClusterStatus import ClusterStatus
 from campus_factory.OfflineAds.OfflineAds import OfflineAds
 
+class ClusterPreferenceException(Exception):
+    def __init__(self, value):
+        self.value
+    def __str__(self):
+        return repr(self.value)
+
+
 class Cluster:
     
     def __init__(self, cluster_unique, config, useOffline = False):
@@ -19,23 +26,23 @@ class Cluster:
         idleslots = status.GetIdleGlideins()
         if idleslots == None:
             logging.info("Received None from idle glideins, going to try later")
-            return False
+            raise ClusterPreferenceException("Received None from idle glideins")
         logging.debug("Idle glideins = %i" % idleslots)
         if idleslots >= int(self.config.get("general", "MAXIDLEGLIDEINS")):
             logging.info("Too many idle glideins")
-            return False
+            raise ClusterPreferenceException("Too many idle glideins")
 
         # Check for idle glidein jobs
         idlejobs = status.GetIdleGlideinJobs()
         if idlejobs == None:
             logging.info("Received None from idle glidein jobs, going to try later")
-            return False
+            raise ClusterPreferenceException("Received None from idle glidein jobs")
         logging.debug("Queued jobs = %i" % idlejobs)
         if idlejobs >= int(self.config.get("general", "maxqueuedjobs")):
             logging.info("Too many queued jobs")
-            return False
+            raise ClusterPreferenceException("Too many queued jobs")
 
-        return True
+        return (idleslots, idlejobs)
 
 
 

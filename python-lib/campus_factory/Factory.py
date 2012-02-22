@@ -158,12 +158,21 @@ class Factory:
             # For each ssh'd blahp
             for cluster in self.cluster_list:
                 
-                # Create a cluster specific status object
+                # Check if the cluster is able to submit jobs
+                try:
+                    (idleslots, idlejobs) = cluster.ClusterMeetPreferences()
+                except ClusterPreferenceException as e:
+                    logging.debug("Received error from ClusterMeetPreferences")
+                    logging.debug(e)
+                    idleslots = idlejobs = None
                 
+                # If the cluster preferences weren't met, then move on
+                if idleslots == None or idlejobs == None:
+                    continue
 
                 # Get the offline ads to update.
                 if self.UseOffline:
-                    
+                    num_submit = cluster.GetIdleJobs()
                     
     
                 
