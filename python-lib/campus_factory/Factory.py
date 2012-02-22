@@ -134,6 +134,7 @@ class Factory:
         while 1:
             logging.info("Starting iteration...")
             
+            # Check if there are any idle jobs
             if not self.UseOffline:
                 user_idle = self.GetIdleJobs()
                 if user_idle == None:
