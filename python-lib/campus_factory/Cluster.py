@@ -23,7 +23,7 @@ class Cluster:
         self.config = config
         
     def ClusterMeetPreferences(self):
-        idleslots = status.GetIdleGlideins()
+        idleslots = self.status.GetIdleGlideins()
         if idleslots == None:
             logging.info("Received None from idle glideins, going to try later")
             raise ClusterPreferenceException("Received None from idle glideins")
@@ -33,7 +33,7 @@ class Cluster:
             raise ClusterPreferenceException("Too many idle glideins")
 
         # Check for idle glidein jobs
-        idlejobs = status.GetIdleGlideinJobs()
+        idlejobs = self.status.GetIdleGlideinJobs()
         if idlejobs == None:
             logging.info("Received None from idle glidein jobs, going to try later")
             raise ClusterPreferenceException("Received None from idle glidein jobs")
