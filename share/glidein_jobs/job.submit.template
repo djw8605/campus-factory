@@ -11,7 +11,7 @@ GLIDEIN_Site = Grid site            # From COLLECTOR_NAME from condor_config
 
 Universe = Grid
 
-Executable = share/glidein_jobs/glidein_wrapper.sh
+Executable = ~/bosco/campus_factory/share/glidein_jobs/glidein_wrapper.sh
 
 Arguments = -dyn -f
 
@@ -31,6 +31,7 @@ Environment = 	_condor_CONDOR_HOST=$(GLIDEIN_HOST); \
 transfer_executable = false
 #transfer_input_files = share/glidein_jobs/glideinExec.tar.gz, share/glidein_jobs/glidein_condor_config, share/glidein_jobs/user_job_wrapper.sh
 should_transfer_files = NO
+skip_filechecks = True
 #when_to_transfer_output = ON_EXIT
 
 # Remove the job if it gets held for too long (1 day)
