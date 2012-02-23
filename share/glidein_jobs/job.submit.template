@@ -41,6 +41,7 @@ Grid_Resource = pbs $(BOSCOCluster)
 +GlideinJob=TRUE
 +BOSCOCluster="$(BOSCOCluster)"
 
++remote_iwd = "~/"
 Notification = Never
 Queue 
 
