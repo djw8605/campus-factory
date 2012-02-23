@@ -10,6 +10,7 @@ from campus_factory.ClusterStatus import ClusterStatus
 from campus_factory.ClusterStatus import CondorConfig
 from campus_factory.Parsers import RunExternal
 from campus_factory.OfflineAds.OfflineAds import OfflineAds
+from campus_factory.Cluster import *
 
 class Factory:
     """
@@ -137,7 +138,7 @@ class Factory:
             
             # Check if there are any idle jobs
             if not self.UseOffline:
-                user_idle = self.GetIdleJobs()
+                user_idle = self.GetIdleJobs(ClusterStatus())
                 if user_idle == None:
                     logging.info("Received None from idle jobs")
                     self.SleepFactory()
