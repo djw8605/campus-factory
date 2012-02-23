@@ -53,14 +53,14 @@ def RunExternal(command, str_stdin=""):
     return str_stdout, str_stderr
 
 
-class AvailableGlideins(xml.sax.handler.ContentHandler):
+class AvailableGlideins(xml.sax.handler.ContentHandler, object):
     
     # Command to query the collector for available glideins
     command = "condor_status -avail -const '(IsUndefined(Offline) == True) || (Offline == false)' -format '<glidein name=\"%s\"/>' 'Name'"
     
-    owner_idle = {}
     
     def __init__(self):
+	self.owner_idle = {}
         pass
 
     def GetIdle(self):
@@ -118,6 +118,7 @@ class IdleJobs(AvailableGlideins):
     command = "condor_q -name %s -const '(GlideinJob =!= true) &&  (JobStatus == 1)' -format '<glidein owner=\"%%s\"/>' 'Owner'"
 
     def __init__(self, schedd):
+        super(IdleJobs, self).__init__()
         self.command = self.command % schedd
 
 
