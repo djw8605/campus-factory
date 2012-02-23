@@ -164,7 +164,7 @@ class Factory:
                 # Check if the cluster is able to submit jobs
                 try:
                     (idleslots, idlejobs) = cluster.ClusterMeetPreferences()
-                except ClusterPreferenceException:
+                except ClusterPreferenceException, e:
                     logging.debug("Received error from ClusterMeetPreferences")
                     logging.debug(e)
                     idleslots = idlejobs = None
