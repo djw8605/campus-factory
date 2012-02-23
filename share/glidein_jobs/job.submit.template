@@ -28,10 +28,10 @@ Environment = 	_condor_CONDOR_HOST=$(GLIDEIN_HOST); \
 				_condor_GLIDEIN_Site="$(GLIDEIN_Site)"; \
 				_condor_BOSCOCluster="$(BOSCOCluster)"
 
-Transfer_Executable = True
-transfer_input_files = share/glidein_jobs/glideinExec.tar.gz, share/glidein_jobs/glidein_condor_config, share/glidein_jobs/user_job_wrapper.sh
-should_transfer_files = YES
-when_to_transfer_output = ON_EXIT
+transfer_executable = false
+#transfer_input_files = share/glidein_jobs/glideinExec.tar.gz, share/glidein_jobs/glidein_condor_config, share/glidein_jobs/user_job_wrapper.sh
+should_transfer_files = NO
+#when_to_transfer_output = ON_EXIT
 
 # Remove the job if it gets held for too long (1 day)
 PeriodicRemove = (JobStatus == 5 && CurrentTime - EnteredCurrentStatus > 3600*24*1)
