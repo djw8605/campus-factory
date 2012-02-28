@@ -12,6 +12,8 @@ from campus_factory.Parsers import RunExternal
 from campus_factory.OfflineAds.OfflineAds import OfflineAds
 from campus_factory.Cluster import *
 
+BOSCO_CLUSTERLIST = "~/.bosco/.clusterlist"
+
 class Factory:
     """
     The main class of the factory.  Designed to be run inside the condor scheduler.
@@ -66,8 +68,15 @@ class Factory:
             for cluster_id in self.config.get("general", "clusterlist").split(','):
                 self.cluster_list.append(Cluster(cluster_id, self.config, useOffline = self.UseOffline))
         else:
-            # Initialize as emtpy, which infers to submit 'here'
-            self.cluster_list = [ "" ]
+            # Check for the bosco directory
+            if (os.path.exists(BOSCO_CLUSTERLIST)):
+                clusterlist = open(BOSCO_CLUSTERLIST)
+                for line in clusterlist.readlines():
+                    self.cluster_list.append(Cluster(line, self.config, useOffline = self.UseOffline))
+            
+            else:
+                # Initialize as emtpy, which infers to submit 'here'
+                self.cluster_list = [ "" ]
             
         
     def _SetLogging(self):
