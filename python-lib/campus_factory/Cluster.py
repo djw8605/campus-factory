@@ -107,7 +107,7 @@ class Cluster:
         cluster_tmp = _GetClusterSpecificConfig("worker_tmp", "/tmp")
         
         # TODO: These options should be moved to a better location
-        options = {"WN_TMP": self.config.get("general", "worker_tmp"), \
+        options = {"WN_TMP": cluster_tmp, \
                    "GLIDEIN_HOST": self.condor_config.get("COLLECTOR_HOST"), \
                    "GLIDEIN_Site": self.cluster_unique, \
                    "BOSCOCluster": self.cluster_unique}
