@@ -40,3 +40,9 @@ This project is licensed under the Apache 2.0 license.
    limitations under the License.
 
 
+Condor is distributed with the OSG Campus Factory.  It is licensed under Apache
+2.0.
+http://research.cs.wisc.edu/condor/
+
+
+
