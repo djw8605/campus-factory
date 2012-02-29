@@ -82,23 +82,21 @@ class Cluster:
         Submit numSubmit glideins.
         
         @param numSubmit: The number of glideins to submit.
-        @param cluster: The cluster to submit to
         """
         # Substitute values in submit file
         file = "share/glidein_jobs/job.submit.template"
 
         # Submit jobs
         for i in range(numSubmit):
-            self.SingleSubmit(file, cluster)
+            self.SingleSubmit(file)
 
         # Delete the submit file
 
-    def SingleSubmit(self, file, cluster):
+    def SingleSubmit(self, file):
         """
         Submit a single glidein job
         
         @param file: The file (string) to submit
-        @param cluster: The cluster to submit to
         
         """
         
