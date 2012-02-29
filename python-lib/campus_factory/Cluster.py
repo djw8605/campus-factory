@@ -69,6 +69,13 @@ class Cluster:
         
         return toSubmit
     
+    def _GetClusterSpecificConfig(self, option, default=None):
+        if self.config.has_option(self.cluster_unique, option):
+            return self.config.get(self.cluster_unique, option)
+        elif self.config.has_option("general", option):
+            return self.config.get("general", option)
+        else:
+            return default
     
     def SubmitGlideins(self, numSubmit):
         """
@@ -94,6 +101,10 @@ class Cluster:
         @param cluster: The cluster to submit to
         
         """
+        
+        # Get the cluster specific information
+        # First, the cluster tmp directory
+        cluster_tmp = _GetClusterSpecificConfig("worker_tmp", "/tmp")
         
         # TODO: These options should be moved to a better location
         options = {"WN_TMP": self.config.get("general", "worker_tmp"), \
