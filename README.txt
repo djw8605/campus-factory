@@ -1,10 +1,10 @@
 
-OSG Campus Factory
-==================
+Open Science Grid Campus Factory
+================================
 
-The OSG Campus Factory is program that will expand a campus's resources to
-include non-condor clusters.  Details about the function of the campus factory
-where highlighted in Derek Weitzel's thesis:
+The Open Science Grid Campus Factory is program that will expand a campus's 
+resources to include non-condor clusters.  Details about the function of the 
+campus factory where highlighted in Derek Weitzel's thesis:
 http://digitalcommons.unl.edu/computerscidiss/21/
 
 
