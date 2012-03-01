@@ -9,7 +9,7 @@ from campus_factory.Parsers import IdleJobs
 from campus_factory.Parsers import FactoryID
 from campus_factory.Parsers import RunningGlideinsJobs
 from campus_factory.Parsers import RunningGlideins
-from campus_factory.Parsers import RunExternal
+from campus_factory.util.ExternalCommands import RunExternal
 
 from GlideinWMS.condorMonitor import CondorQ, CondorStatus
 

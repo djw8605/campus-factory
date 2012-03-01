@@ -8,7 +8,7 @@ import os
 
 from campus_factory.ClusterStatus import ClusterStatus
 from campus_factory.ClusterStatus import CondorConfig
-from campus_factory.Parsers import RunExternal
+from campus_factory.util.ExternalCommands import RunExternal
 from campus_factory.OfflineAds.OfflineAds import OfflineAds
 from campus_factory.Cluster import *
 
