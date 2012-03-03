@@ -105,15 +105,13 @@ class Cluster:
         # First, the cluster tmp directory
         cluster_tmp = self._GetClusterSpecificConfig("worker_tmp", "/tmp")
         remote_factory_location = self._GetClusterSpecificConfig("remote_factory", "bosco/campus-factory")
-        remote_iwd = self._GetClusterSpecificConfig("home_dir", os.path.expanduser("~/"))
         
         # TODO: These options should be moved to a better location
         options = {"WN_TMP": cluster_tmp, \
                    "GLIDEIN_HOST": self.condor_config.get("COLLECTOR_HOST"), \
                    "GLIDEIN_Site": self.cluster_unique, \
                    "BOSCOCluster": self.cluster_unique, \
-                   "REMOTE_FACTORY": remote_factory_location, \
-                   "REMOTE_IWD": remote_iwd }
+                   "REMOTE_FACTORY": remote_factory_location }
         
         options_str = ""
         for key in options.keys():
