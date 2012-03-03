@@ -1,6 +1,10 @@
 # File for running external commands
 #
 #
+import logging
+import os
+from popen2 import Popen3
+from select import select
 
 
 def RunExternal(command, str_stdin=""):
