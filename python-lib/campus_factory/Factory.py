@@ -77,7 +77,7 @@ class Factory:
                     self.cluster_list.append(Cluster(cluster_id, self.config, useOffline = self.UseOffline))
             else:
                 # Initialize as emtpy, which infers to submit 'here'
-                self.cluster_list = [ "" ]
+                self.cluster_list = [ self.condor_config.get("CONDOR_HOST") ]
             
         
     def _SetLogging(self):

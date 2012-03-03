@@ -106,12 +106,20 @@ class Cluster:
         cluster_tmp = self._GetClusterSpecificConfig("worker_tmp", "/tmp")
         remote_factory_location = self._GetClusterSpecificConfig("remote_factory", "bosco/campus-factory")
         
+        # If we are submtiting to ourselves, then don't need remote cluster
+        condor_config = CondorConfig()
+        if condor_config.get("CONDOR_HOST") == self.cluster_unique:
+            remote_cluster = ""
+        else:
+            remote_cluster = self.cluster_unique
+        
         # TODO: These options should be moved to a better location
         options = {"WN_TMP": cluster_tmp, \
                    "GLIDEIN_HOST": self.condor_config.get("COLLECTOR_HOST"), \
                    "GLIDEIN_Site": self.cluster_unique, \
                    "BOSCOCluster": self.cluster_unique, \
-                   "REMOTE_FACTORY": remote_factory_location }
+                   "REMOTE_FACTORY": remote_factory_location, \
+                   "REMOTE_CLUSTER": remote_cluster }
         
         options_str = ""
         for key in options.keys():
