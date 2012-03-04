@@ -192,7 +192,7 @@ class Factory:
                 # Determine how many glideins to submit
                 num_submit = self.GetNumSubmit(idleslots, idlejobs, idleuserjobs)
                 logging.info("Submitting %i glidein jobs", num_submit)
-                self.SubmitGlideins(num_submit, cluster.cluster_unique)
+                SubmitGlideins(num_submit)
 
             self.SleepFactory()
 

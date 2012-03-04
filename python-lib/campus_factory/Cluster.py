@@ -115,7 +115,7 @@ class Cluster:
         
         # TODO: These options should be moved to a better location
         options = {"WN_TMP": cluster_tmp, \
-                   "GLIDEIN_HOST": self.condor_config.get("COLLECTOR_HOST"), \
+                   "GLIDEIN_HOST": condor_config.get("COLLECTOR_HOST"), \
                    "GLIDEIN_Site": self.cluster_unique, \
                    "BOSCOCluster": self.cluster_unique, \
                    "REMOTE_FACTORY": remote_factory_location, \
