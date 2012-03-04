@@ -238,17 +238,7 @@ class Factory:
                     idleuserjobs,\
                     int(self.config.get("general", "MaxIdleGlideins")) - idleslots])
         
-        
-
-    def GetClusterUnique(self):
-        """
-        @return: str - The unique identifier for each cluster.  Assuming only 1 cluster for now.
-        """
-        if self.config.has_option("general", "GLIDEIN_Site"):
-            return self.config.get("general", "GLIDEIN_Site")
-        else:
-            return self.condor_config.get("COLLECTOR_NAME")
-        
+           
         
     def GetIdleJobs(self, status):
         """
