@@ -305,7 +305,9 @@ class Factory:
                 schedds = self.config.get("general", "FLOCK_FROM").split(",")
                 logging.debug("Using FLOCK_FROM from the factory config.")
             else:
-                schedds = self.condor_config.get('FLOCK_FROM').split(",")
+                schedds = self.condor_config.get('FLOCK_FROM')
+                if len(schedds):
+                    schedds = schedds.split(",")
                 logging.debug("Using FLOCK_FROM from the condor configuration")
             
             schedds.append(self.condor_config.get("CONDOR_HOST"))
