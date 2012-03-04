@@ -240,47 +240,6 @@ class Factory:
         
         
 
-    def SubmitGlideins(self, numSubmit, cluster):
-        """
-        Submit numSubmit glideins.
-        
-        @param numSubmit: The number of glideins to submit.
-        @param cluster: The cluster to submit to
-        """
-        # Substitute values in submit file
-        file = "share/glidein_jobs/job.submit.template"
-
-        # Submit jobs
-        for i in range(numSubmit):
-            self.SingleSubmit(file, cluster)
-
-        # Delete the submit file
-
-    def SingleSubmit(self, file, cluster):
-        """
-        Submit a single glidein job
-        
-        @param file: The file (string) to submit
-        @param cluster: The cluster to submit to
-        
-        """
-        
-        # TODO: These options should be moved to a better location
-        options = {"WN_TMP": self.config.get("general", "worker_tmp"), \
-                   "GLIDEIN_HOST": self.condor_config.get("COLLECTOR_HOST"), \
-                   "GLIDEIN_Site": self.GetClusterUnique(), \
-                   "BOSCOCluster": cluster}
-        
-        options_str = ""
-        for key in options.keys():
-            options_str += " -a %s=\"%s\"" % (key, options[key])
-            
-        (stdout, stderr) = RunExternal("condor_submit %s %s" % (file, options_str))
-        logging.debug("stdout: %s" % stdout)
-        logging.debug("stderr: %s" % stderr)
-
-
-
     def GetClusterUnique(self):
         """
         @return: str - The unique identifier for each cluster.  Assuming only 1 cluster for now.
