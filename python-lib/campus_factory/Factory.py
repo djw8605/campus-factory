@@ -299,16 +299,17 @@ class Factory:
         """
         # Check for idle jobs to flock from
         if not self.UseOffline:
-            
+
+            schedds = []
             # Get schedd's to query
             if self.config.has_option("general", "FLOCK_FROM"):
                 schedds = self.config.get("general", "FLOCK_FROM").split(",")
                 logging.debug("Using FLOCK_FROM from the factory config.")
             else:
-                schedds = self.condor_config.get('FLOCK_FROM')
-                if len(schedds):
-                    schedds = schedds.split(",")
-                logging.debug("Using FLOCK_FROM from the condor configuration")
+                schedds_config = self.condor_config.get('FLOCK_FROM')
+                if len(schedds_config) >= 0 and schedds_config != '':
+                    schedds = schedds_config.strip().split(",")
+                    logging.debug("Using FLOCK_FROM from the condor configuration")
             
             schedds.append(self.condor_config.get("CONDOR_HOST"))
                             
