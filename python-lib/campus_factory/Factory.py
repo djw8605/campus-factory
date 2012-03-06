@@ -72,8 +72,8 @@ class Factory:
             # Check for the bosco cluster command
             (stdout, stderr) = RunExternal("bosco_cluster -l")
             if len(stdout) != 0:
+                logging.debug("Using the cluster list installed with BOSCO")
                 for cluster_id in stdout.split("\n"):
-                    logging.debug("Using the cluster list installed with BOSCO")
                     self.cluster_list.append(Cluster(cluster_id, self.config, useOffline = self.UseOffline))
             else:
                 # Initialize as emtpy, which infers to submit 'here'
