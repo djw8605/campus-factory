@@ -74,7 +74,8 @@ class Factory:
             if len(stdout) != 0:
                 logging.debug("Using the cluster list installed with BOSCO")
                 for cluster_id in stdout.split("\n"):
-                    self.cluster_list.append(Cluster(cluster_id, self.config, useOffline = self.UseOffline))
+                    if len(cluster_id) > 0 and cluster_id != "":
+                        self.cluster_list.append(Cluster(cluster_id, self.config, useOffline = self.UseOffline))
             else:
                 # Initialize as emtpy, which infers to submit 'here'
                 self.cluster_list = [ self.condor_config.get("CONDOR_HOST") ]
@@ -167,7 +168,8 @@ class Factory:
 
             # For each ssh'd blahp
             for cluster in self.cluster_list:
-                
+                idleslots = idlejobs = 0
+
                 if self.UseOffline:
                     idleuserjobs = cluster.GetIdleJobs()
                 
