@@ -18,7 +18,7 @@ class Cluster:
     def __init__(self, cluster_unique, config, useOffline = False):
         self.cluster_unique = cluster_unique
         
-        self.status = ClusterStatus(status_constraint="IsUndefined(Offline) && BOSCOCluster =?= \"%s\"" % self.cluster_unique)
+        self.status = ClusterStatus(status_constraint="IsUndefined(Offline) && BOSCOCluster =?= \"%s\"" % self.cluster_unique, queue_constraint = "BOSCOCluster =?= \"%s\"" % self.cluster_unique)
         self.useOffline = useOffline
         if useOffline:
              self.offline = OfflineAds()
