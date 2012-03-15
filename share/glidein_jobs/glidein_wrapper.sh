@@ -14,6 +14,7 @@ cd $local_dir
 
 # Copy the exec tar file
 cp $campus_factory_dir/glideinExec.tar.gz $local_dir
+cp $campus_factory_dir/passwdfile $local_dir
 
 # Untar the executables
 tar xzf $campus_factory_dir/glideinExec.tar.gz
