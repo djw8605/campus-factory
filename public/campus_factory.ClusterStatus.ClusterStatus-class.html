@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>campus_factory.ClusterStatus.ClusterStatus</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css"></link>
+</head>
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+
+<!-- =========== START OF NAVBAR =========== -->
+<table class="navbar" border="0" width="100%" cellpadding="0" bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="center">
+    <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar" href="campus_factory-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+    <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar" href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+    <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar" href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+    <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar" href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+    <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <font size="-1"><b class="breadcrumbs">
+        <a href="campus_factory-module.html">Package&nbsp;campus_factory</a> ::
+        <a href="campus_factory.ClusterStatus-module.html">Module&nbsp;ClusterStatus</a> ::
+        Class&nbsp;ClusterStatus
+      </b></font></br>
+    </td>
+    <td><table cellpadding="0" cellspacing="0">
+      <tr><td align="right"><font size="-2">[<a href="../private/campus_factory.ClusterStatus.ClusterStatus-class.html">show&nbsp;private</a>&nbsp;|&nbsp;hide&nbsp;private]</font></td></tr>
+      <tr><td align="right"><font size="-2">[<a href="frames.html"target="_top">frames</a>&nbsp;|&nbsp;<a href="campus_factory.ClusterStatus.ClusterStatus-class.html" target="_top">no&nbsp;frames</a>]</font></td></tr>
+    </table></td>
+</tr></table>
+
+<!-- =========== START OF CLASS DESCRIPTION =========== -->
+<h2 class="class">Class ClusterStatus</h2>
+
+<hr/>
+
+Gather statistics on the cluster status
+<hr/>
+
+
+<!-- =========== START OF METHOD SUMMARY =========== -->
+<table class="summary" border="1" cellpadding="3" cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="summary">
+  <th colspan="2">Method Summary</th></tr>
+<tr><td align="right" valign="top" width="15%"><font size="-1">&nbsp;</font></td>
+  <td><code><span class="summary-sig"><a href="campus_factory.ClusterStatus.ClusterStatus-class.html#__init__" class="summary-sig-name"><code>__init__</code></a>(<span class=summary-sig-arg>self</span>,
+          <span class=summary-sig-arg>status_constraint</span>,
+          <span class=summary-sig-arg>queue_constraint</span>)</span></code>
+<br />
+Initialize the ClusterStatus</td></tr>
+<tr><td align="right" valign="top" width="15%"><font size="-1">&nbsp;</font></td>
+  <td><code><span class="summary-sig"><a href="campus_factory.ClusterStatus.ClusterStatus-class.html#CountDict" class="summary-sig-name"><code>CountDict</code></a>(<span class=summary-sig-arg>self</span>,
+          <span class=summary-sig-arg>in_dict</span>,
+          <span class="summary-sig-kwarg">**kwargs</span>)</span></code>
+<br />
+Returns the number (int) of entries in the dictionary in_dict with 
+**kwargs true</td></tr>
+<tr><td align="right" valign="top" width="15%"><font size="-1">&nbsp;</font></td>
+  <td><code><span class="summary-sig"><a href="campus_factory.ClusterStatus.ClusterStatus-class.html#GetCondorQ" class="summary-sig-name"><code>GetCondorQ</code></a>(<span class=summary-sig-arg>self</span>)</span></code>
+<br />
+Returns the current queue.</td></tr>
+<tr><td align="right" valign="top" width="15%"><font size="-1">&nbsp;</font></td>
+  <td><code><span class="summary-sig"><a href="campus_factory.ClusterStatus.ClusterStatus-class.html#GetCondorStatus" class="summary-sig-name"><code>GetCondorStatus</code></a>(<span class=summary-sig-arg>self</span>,
+          <span class=summary-sig-arg>constraint</span>)</span></code>
+<br />
+Returns the current condor_status.</td></tr>
+<tr><td align="right" valign="top" width="15%"><font size="-1">&nbsp;</font></td>
+  <td><code><span class="summary-sig"><a href="campus_factory.ClusterStatus.ClusterStatus-class.html#GetFactoryID" class="summary-sig-name"><code>GetFactoryID</code></a>(<span class=summary-sig-arg>self</span>)</span></code>
+<br />
+Returns the condor ClusterId for the factory.</td></tr>
+<tr><td align="right" valign="top" width="15%"><font size="-1">&nbsp;</font></td>
+  <td><code><span class="summary-sig"><a href="campus_factory.ClusterStatus.ClusterStatus-class.html#GetIdleGlideinJobs" class="summary-sig-name"><code>GetIdleGlideinJobs</code></a>(<span class=summary-sig-arg>self</span>)</span></code>
+<br />
+Returns the number of glidein jobs that are idle (condor_q)</td></tr>
+<tr><td align="right" valign="top" width="15%"><font size="-1">&nbsp;</font></td>
+  <td><code><span class="summary-sig"><a href="campus_factory.ClusterStatus.ClusterStatus-class.html#GetIdleGlideins" class="summary-sig-name"><code>GetIdleGlideins</code></a>(<span class=summary-sig-arg>self</span>)</span></code>
+<br />
+Returns the number of glideins idle in the cluster (condor_status 
+-avail)</td></tr>
+<tr><td align="right" valign="top" width="15%"><font size="-1">&nbsp;</font></td>
+  <td><code><span class="summary-sig"><a href="campus_factory.ClusterStatus.ClusterStatus-class.html#GetIdleJobs" class="summary-sig-name"><code>GetIdleJobs</code></a>(<span class=summary-sig-arg>self</span>,
+          <span class=summary-sig-arg>schedds</span>)</span></code>
+<br />
+Returns the number of idle user jobs (condor_q)</td></tr>
+<tr><td align="right" valign="top" width="15%"><font size="-1">&nbsp;</font></td>
+  <td><code><span class="summary-sig"><a href="campus_factory.ClusterStatus.ClusterStatus-class.html#GetRunningGlideinJobs" class="summary-sig-name"><code>GetRunningGlideinJobs</code></a>(<span class=summary-sig-arg>self</span>)</span></code>
+<br />
+Return int - Number of running glidein jobs</td></tr>
+<tr><td align="right" valign="top" width="15%"><font size="-1">&nbsp;</font></td>
+  <td><code><span class="summary-sig"><a href="campus_factory.ClusterStatus.ClusterStatus-class.html#GetRunningGlideins" class="summary-sig-name"><code>GetRunningGlideins</code></a>(<span class=summary-sig-arg>self</span>)</span></code>
+<br />
+Return int - Number of running glidein startds</td></tr>
+</table><br />
+
+
+<!-- =========== START OF METHOD DETAILS =========== -->
+<table class="details" border="1" cellpadding="3" cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="details">
+  <th colspan="2">Method Details</th></tr>
+</table>
+
+<a name="__init__"></a>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <h3><span class="sig"><span class="sig-name">__init__</span>(<span class=sig-arg>self</span>,
+          <span class=sig-arg>status_constraint</span>=<span class=sig-default>None</span>,
+          <span class=sig-arg>queue_constraint</span>=<span class=sig-default>None</span>)</span>
+    <br /><i>(Constructor)</i>
+  </h3>
+  Initialize the ClusterStatus
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+
+<a name="CountDict"></a>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <h3><span class="sig"><span class="sig-name">CountDict</span>(<span class=sig-arg>self</span>,
+          <span class=sig-arg>in_dict</span>,
+          <span class="sig-kwarg">**kwargs</span>)</span>
+  </h3>
+  Returns the number (int) of entries in the dictionary in_dict with 
+  **kwargs true
+  <dl><dt></dt><dd>
+    <dl><dt><b>Returns:</b></dt>
+      <dd>
+        int - Number of dictionary items with kwargs true
+      </dd>
+    </dl>
+  </dd></dl>
+</td></tr></table>
+
+<a name="GetCondorQ"></a>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <h3><span class="sig"><span class="sig-name">GetCondorQ</span>(<span class=sig-arg>self</span>)</span>
+  </h3>
+  Returns the current queue. Refreshes data if necessary
+  <dl><dt></dt><dd>
+    <dl><dt><b>Returns:</b></dt>
+      <dd>
+        [(ClusterID, ProcID): [classad,...]]
+      </dd>
+    </dl>
+  </dd></dl>
+</td></tr></table>
+
+<a name="GetCondorStatus"></a>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <h3><span class="sig"><span class="sig-name">GetCondorStatus</span>(<span class=sig-arg>self</span>,
+          <span class=sig-arg>constraint</span>=<span class=sig-default>None</span>)</span>
+  </h3>
+  Returns the current condor_status. Refreshes data if necessary
+  <dl><dt></dt><dd>
+    <dl><dt><b>Returns:</b></dt>
+      <dd>
+        [(ClusterID, ProcID): [classad,...]]
+      </dd>
+    </dl>
+  </dd></dl>
+</td></tr></table>
+
+<a name="GetFactoryID"></a>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <h3><span class="sig"><span class="sig-name">GetFactoryID</span>(<span class=sig-arg>self</span>)</span>
+  </h3>
+  Returns the condor ClusterId for the factory.
+  <dl><dt></dt><dd>
+    <dl><dt><b>Returns:</b></dt>
+      <dd>
+        str - ClusterId of the factory
+      </dd>
+    </dl>
+  </dd></dl>
+</td></tr></table>
+
+<a name="GetIdleGlideinJobs"></a>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <h3><span class="sig"><span class="sig-name">GetIdleGlideinJobs</span>(<span class=sig-arg>self</span>)</span>
+  </h3>
+  Returns the number of glidein jobs that are idle (condor_q)
+  <dl><dt></dt><dd>
+    <dl><dt><b>Returns:</b></dt>
+      <dd>
+        int - Number of glidein jobs submitted but still idle.
+      </dd>
+    </dl>
+  </dd></dl>
+</td></tr></table>
+
+<a name="GetIdleGlideins"></a>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <h3><span class="sig"><span class="sig-name">GetIdleGlideins</span>(<span class=sig-arg>self</span>)</span>
+  </h3>
+  Returns the number of glideins idle in the cluster (condor_status 
+  -avail)
+  <dl><dt></dt><dd>
+    <dl><dt><b>Returns:</b></dt>
+      <dd>
+        int - Number of idle glidein slots.
+      </dd>
+    </dl>
+  </dd></dl>
+</td></tr></table>
+
+<a name="GetIdleJobs"></a>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <h3><span class="sig"><span class="sig-name">GetIdleJobs</span>(<span class=sig-arg>self</span>,
+          <span class=sig-arg>schedds</span>)</span>
+  </h3>
+  Returns the number of idle user jobs (condor_q)
+  <dl><dt></dt><dd>
+    <dl><dt><b>Parameters:</b></dt>
+      <dd><code><b>schedds</b></code> -
+         List [] of schedd names to check for idle jobs.
+      </dd>
+    </dl>
+    <dl><dt><b>Returns:</b></dt>
+      <dd>
+        int - Number of jobs idle
+      </dd>
+    </dl>
+  </dd></dl>
+</td></tr></table>
+
+<a name="GetRunningGlideinJobs"></a>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <h3><span class="sig"><span class="sig-name">GetRunningGlideinJobs</span>(<span class=sig-arg>self</span>)</span>
+  </h3>
+  <dl><dt></dt><dd>
+    <dl><dt><b>Returns:</b></dt>
+      <dd>
+        int - Number of running glidein jobs
+      </dd>
+    </dl>
+  </dd></dl>
+</td></tr></table>
+
+<a name="GetRunningGlideins"></a>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <h3><span class="sig"><span class="sig-name">GetRunningGlideins</span>(<span class=sig-arg>self</span>)</span>
+  </h3>
+  <dl><dt></dt><dd>
+    <dl><dt><b>Returns:</b></dt>
+      <dd>
+        int - Number of running glidein startds
+      </dd>
+    </dl>
+  </dd></dl>
+</td></tr></table>
+<br />
+
+
+<!-- =========== START OF NAVBAR =========== -->
+<table class="navbar" border="0" width="100%" cellpadding="0" bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="center">
+    <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar" href="campus_factory-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+    <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar" href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+    <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar" href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+    <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar" href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+    <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td align="left"><font size="-2">Generated by Epydoc 2.1 on Wed Mar 21 12:23:21 2012</font></td>
+    <td align="right"><a href="http://epydoc.sourceforge.net"
+                      ><font size="-2">http://epydoc.sf.net</font></a></td>
+  </tr>
+</table>
+</body>
+</html>
