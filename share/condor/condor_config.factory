@@ -20,9 +20,6 @@ FLOCK_TO =
 # Things that are 'safe' to leave
 #
 
-# Where the certificate mapfile is located.
-CERTIFICATE_MAPFILE=$(RELEASE_DIR)/etc/condor_mapfile
-
 # What daemons should I run?
 DAEMON_LIST = COLLECTOR, SCHEDD, NEGOTIATOR, MASTER
 
