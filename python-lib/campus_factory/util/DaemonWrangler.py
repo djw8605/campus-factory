@@ -7,6 +7,8 @@ import tarfile
 import logging
 import os
 import sys
+import shutil
+import tempfile
 from campus_factory.ClusterStatus import CondorConfig
 
 
@@ -34,24 +36,29 @@ class DaemonWrangler:
             logging.error("Unable to read all daemons, not packaging...")
             raise Exception("Unable to check all daemons")
         
+        # Copy the daemons to a special directory to tar them
+        tmpdir = tempfile.mkdtemp()
+        target_dir = os.path.join(tmpdir, "glideinExec")
+        os.mkdir(target_dir)
+        for daemon_path in daemon_paths:
+            shutil.copy(daemon_path, target_dir)
+        
         tfile = None
         try:
             tfile = tarfile.open(name, mode='w:gz')
+            tfile.add(target_dir)
+            tfile.close()
         except IOError as e:
             logging.error("Unable to open package file %s" % name)
             logging.error(str(e))
             raise e
-            
-        try:
-            for daemon_path in daemon_paths:
-                tfile.add(daemon_path)
-            tfile.close()
-        except IOError as e:
-            logging.error("Error adding files to tar file")
-            logging.error(str(e))
-            raise e
+        finally:
+            # Clean up the temporary file
+            shutil.rmtree(tmpdir)
         
-
+        
+        
+    
 
     def _CheckDaemons(self):
         """
