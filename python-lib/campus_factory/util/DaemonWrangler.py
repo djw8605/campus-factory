@@ -43,6 +43,9 @@ class DaemonWrangler:
         for daemon_path in daemon_paths:
             shutil.copy(daemon_path, target_dir)
         
+        # Add any other files that should go into the tar file
+        shutil.copy("share/glidein_jobs/glidein_startup", target_dir)
+        
         tfile = None
         try:
             tfile = tarfile.open(name, mode='w:gz')
