@@ -46,7 +46,7 @@ class DaemonWrangler:
         tfile = None
         try:
             tfile = tarfile.open(name, mode='w:gz')
-            tfile.add(target_dir)
+            tfile.add(target_dir, arcname="glideinExec")
             tfile.close()
         except IOError, e:
             logging.error("Unable to open package file %s" % name)
