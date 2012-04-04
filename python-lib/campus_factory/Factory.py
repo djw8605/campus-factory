@@ -10,6 +10,7 @@ from campus_factory.ClusterStatus import ClusterStatus
 from campus_factory.ClusterStatus import CondorConfig
 from campus_factory.util.ExternalCommands import RunExternal
 from campus_factory.OfflineAds.OfflineAds import OfflineAds
+from campus_factory.util.DaemonWrangler import DaemonWrangler
 from campus_factory.Cluster import *
 
 BOSCO_CLUSTERLIST = "~/.bosco/.clusterlist"
@@ -79,6 +80,10 @@ class Factory:
             else:
                 # Initialize as emtpy, which infers to submit 'here'
                 self.cluster_list = [ self.condor_config.get("CONDOR_HOST") ]
+        
+        # Tar up the executables
+        wrangler = DaemonWrangler()
+        wrangler.Package()
             
         
     def _SetLogging(self):
