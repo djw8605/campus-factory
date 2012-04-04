@@ -5,6 +5,7 @@ import time
 import logging
 import logging.handlers
 import os
+import signal
 
 from campus_factory.ClusterStatus import ClusterStatus
 from campus_factory.ClusterStatus import CondorConfig
@@ -40,6 +41,9 @@ class Factory:
         Function to initialize the factory's variables such as configuration
         and logging
         """
+        # Set the sighup signal handler
+        signal.signal(signal.SIGHUP, self.Intialize())
+        
         # Read in the configuration file
         self.config_file = self.options.config
         self.config = ConfigParser.ConfigParser()
