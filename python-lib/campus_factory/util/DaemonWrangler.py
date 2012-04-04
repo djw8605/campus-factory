@@ -48,13 +48,14 @@ class DaemonWrangler:
             tfile = tarfile.open(name, mode='w:gz')
             tfile.add(target_dir)
             tfile.close()
-        except IOError as e:
+        except IOError, e:
             logging.error("Unable to open package file %s" % name)
             logging.error(str(e))
-            raise e
-        finally:
-            # Clean up the temporary file
             shutil.rmtree(tmpdir)
+            raise e
+        
+        # Clean up the temporary file
+        shutil.rmtree(tmpdir)
         
         
         
@@ -81,7 +82,7 @@ class DaemonWrangler:
                     fp = open(daemon_path)
                     fp.close()
                     daemon_paths.append(daemon_path)
-                except IOError as e:
+                except IOError, e:
                     logging.error("Unable to open file: %s" % daemon_path)
                     logging.error(str(e))
                     return None
