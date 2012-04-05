@@ -86,7 +86,7 @@ class Factory:
                 self.cluster_list = [ self.condor_config.get("CONDOR_HOST") ]
         
         # Tar up the executables
-        wrangler = DaemonWrangler()
+        wrangler = DaemonWrangler(self.config)
         wrangler.Package()
             
         

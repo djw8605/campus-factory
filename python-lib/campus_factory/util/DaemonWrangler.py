@@ -16,7 +16,7 @@ DEFAULT_GLIDEIN_DAEMONS = [ 'condor_master', 'condor_procd', 'condor_startd', \
                             'condor_starter' ]
 
 class DaemonWrangler:
-    def __init__(self, daemons=None):
+    def __init__(self, config, daemons=None):
         """
         @param daemons: A list of daemons that will be included in the package
         """
@@ -25,10 +25,12 @@ class DaemonWrangler:
         else:
             self.daemons = daemons
             
+        self.config = config
+        self.campus_dir = os.environ['CAMPUSFACTORY_DIR']
             
     def Package(self, name=""): 
         if name == "":
-            name = "share/glidein_jobs/glideinExec.tar.gz"
+            name = os.path.join(self.campus_dir,"share/glidein_jobs/glideinExec.tar.gz")
         
         # See if the daemons exist
         daemon_paths = self._CheckDaemons()
@@ -44,7 +46,7 @@ class DaemonWrangler:
             shutil.copy(daemon_path, target_dir)
         
         # Add any other files that should go into the tar file
-        shutil.copy("share/glidein_jobs/glidein_startup", target_dir)
+        shutil.copy(os.path.join(self.campus_dir, "share/glidein_jobs/glidein_startup"), target_dir)
         
         tfile = None
         try:
