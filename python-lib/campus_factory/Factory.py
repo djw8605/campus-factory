@@ -42,7 +42,7 @@ class Factory:
         and logging
         """
         # Set the sighup signal handler
-        signal.signal(signal.SIGHUP, self.Intialize())
+        signal.signal(signal.SIGHUP, self.Intialize)
         
         # Read in the configuration file
         self.config_file = self.options.config
