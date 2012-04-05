@@ -22,7 +22,7 @@ FLOCK_TO =
 
 CAMPUSFACTORY = $(SBIN)/runfactory
 CAMPUSFACTORY_ARGS = -c $(LIBEXEC)/campus_factory/etc/campus_factory.conf
-CAMPUSFACTORY_ENVIRONMENT = PYTHONPATH=$(LIBEXEC)/campus_factory/python-lib
+CAMPUSFACTORY_ENVIRONMENT = "PYTHONPATH=$(LIBEXEC)/campus_factory/python-lib CAMPUSFACTORY_DIR=$(LIBEXEC)/campus_factory"
 
 # What daemons should I run?
 DAEMON_LIST = COLLECTOR, SCHEDD, NEGOTIATOR, MASTER, CAMPUSFACTORY
