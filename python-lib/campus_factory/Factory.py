@@ -13,6 +13,7 @@ from campus_factory.util.ExternalCommands import RunExternal
 from campus_factory.OfflineAds.OfflineAds import OfflineAds
 from campus_factory.util.DaemonWrangler import DaemonWrangler
 from campus_factory.Cluster import *
+from campus_factory.util.StreamToLogger import StreamToLogger
 
 BOSCO_CLUSTERLIST = "~/.bosco/.clusterlist"
 
@@ -109,6 +110,16 @@ class Factory:
         formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
         handler.setFormatter(formatter)
         root_logger.addHandler(handler)
+        
+        # Send stdout to the log
+        stdout_logger = logging.getLogger()
+        sl = StreamToLogger(stdout_logger, logging.INFO)
+        sys.stdout = sl
+ 
+        stderr_logger = logging.getLogger()
+        sl = StreamToLogger(stderr_logger, logging.ERROR)
+        sys.stderr = sl
+        
         
         
     def Restart(self):
