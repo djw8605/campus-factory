@@ -105,7 +105,7 @@ class Cluster:
         # Get the cluster specific information
         # First, the cluster tmp directory
         cluster_tmp = self._GetClusterSpecificConfig("worker_tmp", "/tmp")
-        remote_factory_location = self._GetClusterSpecificConfig("remote_factory", "~/bosco/campus-factory")
+        remote_factory_location = self._GetClusterSpecificConfig("remote_factory", "~/bosco/campus_factory")
         
         # If we are submtiting to ourselves, then don't need remote cluster
         if get_option("CONDOR_HOST") == self.cluster_unique:
