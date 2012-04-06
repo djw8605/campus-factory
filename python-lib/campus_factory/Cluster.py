@@ -1,5 +1,6 @@
 
 import logging
+import os
 
 from campus_factory.ClusterStatus import ClusterStatus
 from campus_factory.OfflineAds.OfflineAds import OfflineAds
@@ -85,7 +86,7 @@ class Cluster:
         @param numSubmit: The number of glideins to submit.
         """
         # Substitute values in submit file
-        file = "share/glidein_jobs/job.submit.template"
+        file = os.path.join(get_option("GLIDEIN_DIRECTORY"), "job.submit.template")
 
         # Submit jobs
         for i in range(numSubmit):
