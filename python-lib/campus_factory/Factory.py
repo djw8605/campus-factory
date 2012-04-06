@@ -267,13 +267,7 @@ class Factory:
             schedds = []
             # Get schedd's to query
             if get_option("FLOCK_FROM"):
-                schedds = get_option("FLOCK_FROM").split(",")
-                logging.debug("Using FLOCK_FROM from the factory config.")
-            else:
-                schedds_config = get_option('FLOCK_FROM')
-                if len(schedds_config) >= 0 and schedds_config != '':
-                    schedds = schedds_config.strip().split(",")
-                    logging.debug("Using FLOCK_FROM from the condor configuration")
+                schedds = get_option("FLOCK_FROM").strip().split(",")
             
             # Add the local host to query
             schedds.append(get_option("CONDOR_HOST"))
