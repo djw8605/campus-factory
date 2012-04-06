@@ -35,6 +35,24 @@ def get_option(option, default=None):
     
     # If all else fails, return the default
     return default
+
+    
+
+def get_option_section(section, option, default=None):
+    """
+    Option argument only applies to the condor config file
+    
+    @param section: Section in the configuration file to search for the option
+    @param option: Option to return value for
+    @param default: Default value
+    
+    """ 
+    
+    config_response = _get_config_option(option, section)
+    if config_response != None:
+        return config_response
+    else:
+        return default
     
 
 def set_config_file(filename):
@@ -52,13 +70,13 @@ def _get_option_env(option):
         return None
     
     
-def _get_config_option (option):
+def _get_config_option (option, section="general"):
     global parsed_config_file
     if parsed_config_file == None:
         return None
     
-    if parsed_config_file.has_option("general", option):
-        return parsed_config_file.get("general", option)
+    if parsed_config_file.has_option(section, option):
+        return parsed_config_file.get(section, option)
     else:
         return None
 
