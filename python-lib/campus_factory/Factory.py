@@ -46,6 +46,7 @@ class Factory:
         signal.signal(signal.SIGHUP, self.Intialize)
         
         # Read in the configuration file
+        self.config_file = self.options.config
         files_read = set_config_file(self.config_file)
 
         # check if no files read in
