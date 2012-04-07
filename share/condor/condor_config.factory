@@ -3,7 +3,7 @@
 #
 
 ##  What machine is your central manager?
-CONDOR_HOST = $(HOSTNAME)
+CONDOR_HOST = $(FULL_HOSTNAME)
 COLLECTOR_HOST = $(CONDOR_HOST)
 
 
