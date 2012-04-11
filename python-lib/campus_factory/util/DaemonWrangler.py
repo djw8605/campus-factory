@@ -41,6 +41,13 @@ class DaemonWrangler:
             logging.error("Unable to read all daemons, not packaging...")
             raise Exception("Unable to check all daemons")
         
+        # And now libraries
+        library_paths = self._CheckLibraries()
+        if library_paths == None:
+            logging.error("Unable to read all libraries, not packaging libraries...")
+        else:
+            daemon_paths.extend(library_paths)
+        
         # Copy the daemons to a special directory to tar them
         tmpdir = tempfile.mkdtemp()
         target_dir = os.path.join(tmpdir, "glideinExec")
