@@ -29,6 +29,8 @@ class DaemonWrangler:
         else:
             self.daemons = daemons
             
+        self.libraries = DEFAULT_GLIDEIN_LIBRARIES
+            
         self.campus_dir = os.environ['CAMPUSFACTORY_DIR']
             
     def Package(self, name=""): 
