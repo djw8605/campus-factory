@@ -17,7 +17,7 @@ DEFAULT_GLIDEIN_DAEMONS = [ 'condor_master', 'condor_procd', 'condor_startd', \
                             'condor_starter' ]
 
 # Glidein Librairies, can be globs
-DEFAULT_GLIDEIN_LIBRARIES = [ 'libclassad.so', 'libcondor_utils_*.so' ]
+DEFAULT_GLIDEIN_LIBRARIES = [ 'libclassad.so*', 'libcondor_utils_*.so' ]
 
 class DaemonWrangler:
     def __init__(self, daemons=None):
