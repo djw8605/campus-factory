@@ -89,23 +89,8 @@ class DaemonWrangler:
         daemon_paths = []
         for daemon in self.daemons:
             daemon_path = os.path.join(condor_sbin, daemon)
-            logging.debug("Looking for daemon at: %s" % daemon_path)
-            
-            # Look for the daemons in the condor sbin directory.
-            if os.path.exists(daemon_path):
-                # Try opening the file
-                fp = None
-                try:
-                    fp = open(daemon_path)
-                    fp.close()
-                    daemon_paths.append(daemon_path)
-                except IOError, e:
-                    logging.error("Unable to open file: %s" % daemon_path)
-                    logging.error(str(e))
-                    return None
-            else:
-                # If the file doesn't exist
-                return None
+            if self._CheckFile(daemon_path):
+                daemon_paths.append(daemon_path)
         
         # Done checking all the daemons
         return daemon_paths
