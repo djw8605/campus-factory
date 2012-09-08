@@ -9,8 +9,8 @@ pygments: true
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
 #
-title : Jekyll Bootstrap
-tagline: Site Tagline
+title : Campus Factory
+tagline: Condor overlay for your campus
 author :
   name : Derek Weitzel
   email : djw8605@gmail.com
