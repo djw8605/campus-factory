@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Campus Factory
-tagline: Condor Overlay for you campus
+tagline: Condor Overlay for your campus
 ---
 {% include JB/setup %}
 
