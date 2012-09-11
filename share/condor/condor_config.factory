@@ -31,7 +31,7 @@ DAEMON_LIST = COLLECTOR, SCHEDD, NEGOTIATOR, MASTER, CAMPUSFACTORY
 BATCH_GAHP       = $(GLITE_LOCATION)/bin/batch_gahp
 
 # Remove glidein jobs that get put on hold for over 24 hours.
-SYSTEM_PERIODIC_REMOVE = (GlideinJob == TRUE && JobStatus == 5 && CurrentTime - EnteredCurrentStatus > 3600*24*1)
+SYSTEM_PERIODIC_REMOVE = (GlideinJob == TRUE && JobStatus == 5 && time() - EnteredCurrentStatus > 3600*24*1)
 
 #
 # Security definitions
