@@ -11,7 +11,7 @@ GLIDEIN_Site = Grid site            # From COLLECTOR_NAME from condor_config
 
 Universe = Grid
 
-Executable = $ENV(HOME)/bosco/libexec/campus-factory/share/glidein_jobs/glidein_wrapper.sh
+Executable = $(GLIDEIN_DIR)/glidein_wrapper.sh
 
 Arguments = -dyn -f
 
