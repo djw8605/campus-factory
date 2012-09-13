@@ -11,7 +11,7 @@ GLIDEIN_Site = Grid site            # From COLLECTOR_NAME from condor_config
 
 Universe = Grid
 
-Executable = ~/bosco/libexec/campus-factory/share/glidein_jobs/glidein_wrapper.sh
+Executable = $ENV(HOME)/bosco/libexec/campus-factory/share/glidein_jobs/glidein_wrapper.sh
 
 Arguments = -dyn -f
 
@@ -29,7 +29,7 @@ Environment = 	_condor_CONDOR_HOST=$(GLIDEIN_HOST); \
 				_condor_BOSCOCluster=\"$(BOSCOCluster)\"
 
 
-transfer_input_files = ~/bosco/libexec/campus-factory/share/glidein_jobs/glideinExec.tar.gz, ~/bosco/libexec/campus-factory/share/glidein_jobs/glidein_condor_config, ~/bosco/libexec/campus-factory/share/glidein_jobs/user_job_wrapper.sh, ~/bosco/libexec/campus-factory/share/glidein_jobs/glidein_startup, /home/rquick/bosco/local.csiu-submit/passwdfile
+transfer_input_files = $ENV(HOME)/bosco/libexec/campus-factory/share/glidein_jobs/glideinExec.tar.gz, $ENV(HOME)/bosco/libexec/campus-factory/share/glidein_jobs/glidein_condor_config, $ENV(HOME)/bosco/libexec/campus-factory/share/glidein_jobs/user_job_wrapper.sh, $ENV(HOME)/bosco/libexec/campus-factory/share/glidein_jobs/glidein_startup, /home/rquick/bosco/local.csiu-submit/passwdfile
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
 output = output
