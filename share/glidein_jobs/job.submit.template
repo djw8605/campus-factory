@@ -11,7 +11,7 @@ GLIDEIN_Site = Grid site            # From COLLECTOR_NAME from condor_config
 
 Universe = Grid
 
-Executable = $(REMOTE_FACTORY)/share/glidein_jobs/glidein_wrapper.sh
+Executable = share/glidein_jobs/glidein_wrapper.sh
 
 Arguments = -dyn -f
 
