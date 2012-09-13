@@ -33,7 +33,7 @@ transfer_input_files =  $(GLIDEIN_DIR)/glideinExec.tar.gz, \
                         $(GLIDEIN_DIR)/glidein_condor_config, \
                         $(GLIDEIN_DIR)/user_job_wrapper.sh, \
                         $(GLIDEIN_DIR)/glidein_startup, \
-                        /home/rquick/bosco/local.csiu-submit/passwdfile
+                        $(PASSWDFILE_LOCATION)
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
 output = output

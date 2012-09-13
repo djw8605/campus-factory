@@ -145,8 +145,9 @@ class Cluster:
                    "BOSCOCluster": self.cluster_unique, \
                    "REMOTE_FACTORY": remote_factory_location, \
                    "REMOTE_CLUSTER": remote_cluster, \
-                   "REMOTE_SCHEDULER": self.cluster_type,
-                   "GLIDEIN_DIR": get_option("GLIDEIN_DIR") }
+                   "REMOTE_SCHEDULER": self.cluster_type, \
+                   "GLIDEIN_DIR": get_option("GLIDEIN_DIR"), \
+                   "PASSWDFILE_LOCATION": get_option("SEC_PASSWORD_FILE")}
         
         options_str = ""
         for key in options.keys():
