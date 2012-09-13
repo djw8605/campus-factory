@@ -111,15 +111,15 @@ class Cluster:
         @param numSubmit: The number of glideins to submit.
         """
         # Substitute values in submit file
-        file = os.path.join(get_option("GLIDEIN_DIRECTORY"), "job.submit.template")
+        filename = os.path.join(get_option("GLIDEIN_DIRECTORY"), "job.submit.template")
 
         # Submit jobs
         for i in range(numSubmit):
-            self.SingleSubmit(file)
+            self.SingleSubmit(filename)
 
         # Delete the submit file
 
-    def SingleSubmit(self, file):
+    def SingleSubmit(self, filename):
         """
         Submit a single glidein job
         
