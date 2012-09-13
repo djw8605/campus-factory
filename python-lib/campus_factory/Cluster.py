@@ -123,7 +123,7 @@ class Cluster:
         """
         Submit a single glidein job
         
-        @param file: The file (string) to submit
+        @param filename: The file (string) to submit
         
         """
         
@@ -145,13 +145,14 @@ class Cluster:
                    "BOSCOCluster": self.cluster_unique, \
                    "REMOTE_FACTORY": remote_factory_location, \
                    "REMOTE_CLUSTER": remote_cluster, \
-                   "REMOTE_SCHEDULER": self.cluster_type }
+                   "REMOTE_SCHEDULER": self.cluster_type,
+                   "GLIDEIN_DIR": get_option("GLIDEIN_DIR") }
         
         options_str = ""
         for key in options.keys():
             options_str += " -a %s=\"%s\"" % (key, options[key])
             
-        (stdout, stderr) = RunExternal("condor_submit %s %s" % (file, options_str))
+        (stdout, stderr) = RunExternal("condor_submit %s %s" % (filename, options_str))
         logging.debug("stdout: %s" % stdout)
         logging.debug("stderr: %s" % stderr)
     
