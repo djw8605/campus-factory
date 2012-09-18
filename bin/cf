@@ -9,9 +9,20 @@ original_path=$PATH
 python_path=$script_location/../python-lib
 . /etc/rc.d/init.d/functions
 
-exec="$script_location/runfactory"
+if [ -e $script_location/runfactory ]; then
+    exec=$script_location/runfactory
+elif [ -e `condor_config_val SBIN`/runfactory ]; then
+	exec=`condor_config_val SBIN`/runfactory
+fi
+
 prog="Campus Factory"
-config="$script_location/../etc/campus_factory.conf"
+
+if [ -e $script_location/../etc/campus_factory.conf ]; then
+    config=$script_location/../etc/campus_factory.conf
+elif [ -e `condor_config_val ETC`/campus_factory.conf 
+	config=`condor_config_val ETC`/campus_factory.conf
+fi
+
 
 start() {
 

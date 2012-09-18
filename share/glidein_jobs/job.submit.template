@@ -3,14 +3,15 @@
 
 # Define the default variables that will be used below
 # NOTE - These will be automatically overwritten by configuration options
-GLIDEIN_HOST = example.com          # From COLLECTOR_HOST from condor_config
+BOSCOCluster = None				# From Cluster Hosts in campus_factory.conf
+GLIDEIN_HOST = $(BOSCOCluster)          # From COLLECTOR_HOST from condor_config
 WN_TMP = /tmp                       # From worker_tmp from campus_factory.conf
 GLIDEIN_Site = Grid site            # From COLLECTOR_NAME from condor_config
 
 
 Universe = Grid
 
-Executable = share/glidein_jobs/glidein_wrapper.sh
+Executable = $(GLIDEIN_DIR)/glidein_wrapper.sh
 
 Arguments = -dyn -f
 
@@ -24,19 +25,27 @@ Environment = 	_condor_CONDOR_HOST=$(GLIDEIN_HOST); \
 				_condor_MAIL=/bin/mail; \
 				_condor_STARTD_NOCLAIM_SHUTDOWN=1200; \
 				_campusfactory_wntmp=$(WN_TMP); \
-				_condor_GLIDEIN_Site="$(GLIDEIN_Site)"
+				_condor_GLIDEIN_Site=\"$(GLIDEIN_Site)\"; \
+				_condor_BOSCOCluster=\"$(BOSCOCluster)\"
 
-Transfer_Executable = True
-transfer_input_files = share/glidein_jobs/glideinExec.tar.gz, share/glidein_jobs/glidein_condor_config, share/glidein_jobs/user_job_wrapper.sh
+
+transfer_input_files =  $(GLIDEIN_DIR)/glideinExec.tar.gz, \
+                        $(GLIDEIN_DIR)/glidein_condor_config, \
+                        $(GLIDEIN_DIR)/user_job_wrapper.sh, \
+                        $(GLIDEIN_DIR)/glidein_startup, \
+                        $(PASSWDFILE_LOCATION)
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
+output = output
+error = error
 
 # Remove the job if it gets held for too long (1 day)
-PeriodicRemove = (JobStatus == 5 && CurrentTime - EnteredCurrentStatus > 3600*24*1)
+PeriodicRemove = (JobStatus == 5 && time() - EnteredCurrentStatus > 3600*24*1)
 GlobusRSL = 
 
-Grid_Resource = pbs
+Grid_Resource = batch $(REMOTE_SCHEDULER) $(REMOTE_CLUSTER)
 +GlideinJob=TRUE
++BOSCOCluster="$(BOSCOCluster)"
 
 Notification = Never
 Queue 

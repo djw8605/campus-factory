@@ -9,7 +9,7 @@ from campus_factory.Parsers import IdleJobs
 from campus_factory.Parsers import FactoryID
 from campus_factory.Parsers import RunningGlideinsJobs
 from campus_factory.Parsers import RunningGlideins
-from campus_factory.Parsers import RunExternal
+from campus_factory.util.ExternalCommands import RunExternal
 
 from GlideinWMS.condorMonitor import CondorQ, CondorStatus
 
@@ -196,16 +196,16 @@ class ClusterStatus:
         Returns the number of idle user jobs (condor_q) 
         
         @param schedds: List [] of schedd names to check for idle jobs.
-        @return: int - Number of jobs idle
+        @return: dictionary with {schedd_name: {owner: idle, owner: idle...}...}
         """
         sumidlejobs = 0
+        schedd_owner_idle = {}
         for schedd in schedds:
             idlejobs = IdleJobs(schedd)
             schedd_idlejobs = idlejobs.GetIdle()
-            if schedd_idlejobs != None:
-                sumidlejobs += schedd_idlejobs
+            schedd_owner_idle[schedd] = idlejobs.GetOwnerIdle()
 
-        return sumidlejobs
+        return schedd_owner_idle
 
 
     def GetFactoryID(self):

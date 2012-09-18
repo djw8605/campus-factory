@@ -3,7 +3,7 @@
 MINUTE = 60
 HOUR = MINUTE * 60
 
-from campus_factory.Parsers import RunExternal
+from campus_factory.util.ExternalCommands import RunExternal
 from campus_factory.OfflineAds.ClassAd import ClassAd, SortClassAdsByElement
 import time
 import random
