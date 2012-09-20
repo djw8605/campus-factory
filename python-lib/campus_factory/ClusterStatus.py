@@ -208,6 +208,7 @@ class ClusterStatus:
         
         # Also, always query the local schedd
         idle_local_jobs = IdleLocalJobs()
+        idle_local_jobs.GetIdle()
         schedd_owner_idle[""] = idle_local_jobs.GetOwnerIdle()
 
         return schedd_owner_idle
