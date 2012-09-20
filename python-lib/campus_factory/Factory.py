@@ -268,9 +268,6 @@ class Factory:
             # Get schedd's to query
             if get_option("FLOCK_FROM"):
                 schedds = get_option("FLOCK_FROM").strip().split(",")
-            
-            # Add the local host to query
-            schedds.append(get_option("CONDOR_HOST"))
                             
             logging.debug("Schedds to query: %s" % str(schedds))
             
