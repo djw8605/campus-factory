@@ -78,9 +78,6 @@ class IdleJobs(AvailableGlideins):
 class IdleLocalJobs(AvailableGlideins):
     
     command = "condor_q -const '(GlideinJob =!= true) &&  (JobStatus == 1) && (JobUniverse == 5)' -format '<glidein owner=\"%%s\"/>' 'Owner'"
-
-    def __init__(self):
-        super(IdleJobs, self).__init__()
         
 
 class FactoryID(AvailableGlideins):
