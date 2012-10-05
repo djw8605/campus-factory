@@ -98,6 +98,8 @@ class Factory:
             if get_option("CONDOR_IDS"):
                 logging.info("CONDOR_IDS is set, will use for dropping privledge")
                 (factory_uid, factory_gid) = get_option("CONDOR_IDS").split(".")
+                factory_uid = int(factory_uid)
+                factory_gid = int(factory_gid)
                 factory_user = pwd.getpwuid(factory_uid).pw_name
             elif current_uid == 0:
                 logging.error("We are running as root, which can not submit condor jobs.")
