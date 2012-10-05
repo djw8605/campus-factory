@@ -6,6 +6,8 @@ import logging
 import logging.handlers
 import os
 import signal
+import pwd
+import shutil
 
 from campus_factory.ClusterStatus import ClusterStatus
 from campus_factory.util.ExternalCommands import RunExternal
@@ -13,7 +15,7 @@ from campus_factory.OfflineAds.OfflineAds import OfflineAds
 from campus_factory.util.DaemonWrangler import DaemonWrangler
 from campus_factory.Cluster import *
 from campus_factory.util.StreamToLogger import StreamToLogger
-from campus_factory.util.CampusConfig import get_option, set_config_file
+from campus_factory.util.CampusConfig import get_option, set_config_file, set_option
 
 BOSCO_CLUSTERLIST = "~/.bosco/.clusterlist"
 
@@ -55,6 +57,10 @@ class Factory:
             sys.exit(1)
             
         self._SetLogging()
+        
+        if os.getuid() == 0 or get_option("factory_user"):
+            logging.info("Detected that factory should change user")
+            self._DropPriv()
        
         if  get_option("useoffline", "false").lower() == "true":
             self.UseOffline = True
@@ -83,6 +89,40 @@ class Factory:
         wrangler = DaemonWrangler()
         wrangler.Package()
             
+
+    def _DropPriv(self):
+        factory_user = get_option("factory_user")
+        current_uid = os.getuid()
+        if factory_user is None:
+            logging.error("factory_user is not set in campus factory config file")
+            if current_uid == 0:
+                logging.error("We are running as root, which can not submit condor jobs.")
+            logging.error("I can't do my job!")
+            logging.error("Exiting...")
+            sys.exit(1)
+            
+        factory_uid = pwd.getpwnam(factory_user).pw_uid
+        factory_gid = pwd.getpwnam(factory_user).pw_gid
+            
+        # We need the SEC_PASSWORD_FILE to send with our jobs, copy it to wherever
+        # the password file was before, but in a subdir with our new username
+        new_password_file = os.path.join(os.path.dirname(get_option("SEC_PASSWORD_FILE")), factory_user, os.path.basename(get_option("SEC_PASSWORD_FILE")) )
+        try:
+            if not os.path.exists(os.path.dirname(new_password_file)):
+                os.mkdir(os.path.dirname(new_password_file))
+            shutil.copy(get_option("SEC_PASSWORD_FILE"), new_password_file)
+            os.chown(new_password_file, factory_uid, factory_gid)
+        except IOError, e:
+            logging.error("Unable to copy file %s to %s" % ( get_option("SEC_PASSWORD_FILE"), new_password_file ))
+            raise e
+        set_option("SEC_PASSWORD_FILE", new_password_file)
+        
+        # Some parts of bosco need the HOME directory and USER to be defined
+        os.environ["HOME"] = pwd.getpwnam(factory_user).pw_dir
+        os.environ["USER"] = factory_user
+        os.setgid(factory_gid)
+        os.setuid(factory_uid)
+        
         
     def _SetLogging(self):
         """
