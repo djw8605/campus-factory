@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "About"
-description: "Features of the Campus Factory"
+tagline: "Features of the Campus Factory"
 ---
 {% include JB/setup %}
 
