@@ -8,7 +8,11 @@ tagline: Condor Overlay for your campus
 <div class="hero-unit">
 <h1>Campus Factory</h1>
 <p>A lightweight glidein factory designed to connect campus resources together into a on-demand Condor cluster</p>
-
+<p>
+<a class="btn btn-primary btn-large" href="about.html">
+Learn More
+</a>
+</p>
 </div>
 
 Read [Jekyll Quick Start](http://jekyllbootstrap.com/usage/jekyll-quick-start.html)
