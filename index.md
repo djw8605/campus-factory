@@ -9,11 +9,13 @@ tagline: Condor Overlay for your campus
 <h1>Campus Factory</h1>
 <p>A lightweight glidein factory designed to connect campus resources together into a on-demand Condor cluster</p>
 <p>
-<a class="btn btn-primary btn-large" href="https://github.com/djw8605/campus-factory/zipball/master">
-Download <i class="icon-download"></i>
+<a href="https://github.com/djw8605/campus-factory/zipball/master">
+<div class="btn btn-primary btn-large">
+Download <i class="icon-download pull-right"></i>
+</div>
 </a>
 <a class="btn btn-info btn-large" href="about.html">
-Learn More<i class="icon-chevron-right"></i>
+Learn More<i class="icon-chevron-right pull-right"></i>
 </a>
 </p>
 </div>
