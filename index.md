@@ -32,9 +32,9 @@ The Campus Factory is built on production software such as Condor and GlideinWMS
 </div> <!-- END SPAN -->
 <div class="span4">
 <div class="well">
-<h2>Simple Confugration</h2>
+<h2>Simple Configration</h2>
 <p>
-Configuration file is in standard ini format.  Simple to customize the configuration.
+Configuration file is in standard ini format.  Simple to customize the ini style configuration.
 </p>
 </div>
 </div> <!-- END SPAN -->
