@@ -1,7 +1,7 @@
 ---
 layout: main
 title: Campus Factory
-##tagline: A lightweight glidein factory designed to connect campus resources together into a on-demand Condor cluster
+tagline: A lightweight glidein factory designed to connect campus resources together into a on-demand Condor cluster
 actionbutton: Learn More
 actionurl: about.html
 ---
