@@ -1,7 +1,9 @@
 ---
-layout: page
+layout: main
 title: Campus Factory
-tagline: Condor Overlay for your campus
+##tagline: A lightweight glidein factory designed to connect campus resources together into a on-demand Condor cluster
+actionbutton: Learn More
+actionurl: about.html
 ---
 {% include JB/setup %}
 
