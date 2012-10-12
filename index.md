@@ -34,7 +34,7 @@ Learn More
 </div> <!-- END SPAN -->
 <div class="span4">
 <div class="well">
-<h2>Integrated with <a href="http://research.cs.wisc.edu/condor/">Condor</a></h2>
+<h2><a href="http://research.cs.wisc.edu/condor/">Condor</a> Integration</h2>
 </div>
 </div> <!-- END SPAN -->
 </div> <!-- END ROW -->
