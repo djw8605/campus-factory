@@ -7,6 +7,7 @@ actionurl: about.html
 ---
 {% include JB/setup %}
 
+<div class="row-fluid">
 <div class="hero-unit">
 <h1>Campus Factory</h1>
 <p>A lightweight glidein factory designed to connect campus resources together into a on-demand Condor cluster</p>
@@ -19,6 +20,24 @@ Learn More
 </a>
 </p>
 </div>
+</div>
+<div class="row-fluid">
+<div class="span4">
+<div class="well">
+<h2>Build on Production</h2>
+</div>
+</div> <!-- END SPAN -->
+<div class="span4">
+<div class="well">
+<h2>Simple Confugration</h2>
+</div>
+</div> <!-- END SPAN -->
+<div class="span4">
+<div class="well">
+<h2>Integrated with <a href="http://research.cs.wisc.edu/condor/">Condor</a></h2>
+</div>
+</div> <!-- END SPAN -->
+
 
 Read [Jekyll Quick Start](http://jekyllbootstrap.com/usage/jekyll-quick-start.html)
 
