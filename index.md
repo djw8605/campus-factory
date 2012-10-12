@@ -37,7 +37,7 @@ Learn More
 <h2>Integrated with <a href="http://research.cs.wisc.edu/condor/">Condor</a></h2>
 </div>
 </div> <!-- END SPAN -->
-
+</div> <!-- END ROW -->
 
 Read [Jekyll Quick Start](http://jekyllbootstrap.com/usage/jekyll-quick-start.html)
 
