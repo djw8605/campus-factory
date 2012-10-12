@@ -32,7 +32,7 @@ The Campus Factory is built on production software such as <a href="http://resea
 </div> <!-- END SPAN -->
 <div class="span4">
 <div class="well">
-<h2>Simple Configration</h2>
+<h2>Simple Configuration</h2>
 <p>
 Configuration file is in standard ini format.  Simple to customize the ini style configuration.
 </p>
