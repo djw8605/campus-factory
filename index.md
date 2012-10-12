@@ -12,7 +12,7 @@ actionurl: about.html
 <h1>Campus Factory</h1>
 <p>A lightweight glidein factory designed to connect campus resources together into a on-demand Condor cluster</p>
 <p>
-<a href="https://github.com/djw8605/campus-factory/zipball/master" class="btn btn-primary btn-large">
+<a href="https://github.com/djw8605/campus-factory/zipball/v1.0" class="btn btn-primary btn-large">
 Download
 </a>
 <a class="btn btn-info btn-large" href="about.html">
@@ -24,9 +24,9 @@ Learn More
 <div class="row-fluid">
 <div class="span4">
 <div class="well">
-<h2>Build on Production</h2>
+<h2>Production Software</h2>
 <p>
-The Campus Factory is built on production software such as Condor and GlideinWMS libraries.
+The Campus Factory is built on production software such as <a href="http://research.cs.wisc.edu/condor/">Condor</a> and <a href="http://www.uscms.org/SoftwareComputing/Grid/WMS/glideinWMS/">GlideinWMS</a> libraries.
 </p>
 </div>
 </div> <!-- END SPAN -->
