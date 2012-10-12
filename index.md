@@ -25,16 +25,25 @@ Learn More
 <div class="span4">
 <div class="well">
 <h2>Build on Production</h2>
+<p>
+The Campus Factory is built on production software such as Condor and GlideinWMS libraries.
+</p>
 </div>
 </div> <!-- END SPAN -->
 <div class="span4">
 <div class="well">
 <h2>Simple Confugration</h2>
+<p>
+Configuration file is in standard ini format.
+</p>
 </div>
 </div> <!-- END SPAN -->
 <div class="span4">
 <div class="well">
-<h2><a href="http://research.cs.wisc.edu/condor/">Condor</a> Integration</h2>
+<h2>Condor Integration</h2>
+<p>
+The Campus Factory is integrated with <a href="http://research.cs.wisc.edu/condor/">Condor</a>, the High Throughput Computing resource manager
+</p>
 </div>
 </div> <!-- END SPAN -->
 </div> <!-- END ROW -->
