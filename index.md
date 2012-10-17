@@ -46,8 +46,45 @@ The Campus Factory is integrated with <a href="http://research.cs.wisc.edu/condo
 </p>
 </div>
 </div> <!-- END SPAN -->
-</div> <!-- END ROW -->
+</div>
 
+<div class="row-fluid">
+<div class="span6">
+
+<h2> Simple Use </h2>
+<p>
+Its as easy as submitting a condor job: </p>
+
+<pre>
+<code>universe = vanilla
+executable = my-processing.exe
+transfer_input_files = input1, input2
+should_transfer_files = YES
+WhenToTransferOutput = ON_EXIT
+queue 1000</code> 
+</pre>
+
+<ul>
+<li><code>universe</code> tells Condor to run the <code>executable</code> directly.  </li>
+
+<li><code>transfer_input_files</code> lists the files that should be transferred to the execution node with the executable before starting.  <code>should_transfer_files</code> and <code>WhenToTransferOutput</code> both tell Condor to transfer the files to the execution host before starting.  </li>
+
+<li>
+<code>queue</code> is the last line in any Condor submit file.  It means to submit <code>1000</code> copies of this job.
+</li>
+</ul>
+
+</div><!-- end span -->
+<div class="span6">
+<div class="thumbnail">
+<img src="assets/images/campus-factory-title.png">
+</div>
+<h2>Enabling Science</h2>
+<p>The Campus Factory provides an on-demand personal cluster by combining shared resources into a consistent and transparent environment.  Workflow management is handled by integration with <a href="http://research.cs.wisc.edu/condor/">Condor</a>.</p>
+
+
+</div> <!-- end span -->
+</div> 
 Read [Jekyll Quick Start](http://jekyllbootstrap.com/usage/jekyll-quick-start.html)
 
 Complete usage and documentation available at: [Jekyll Bootstrap](http://jekyllbootstrap.com)
