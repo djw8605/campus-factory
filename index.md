@@ -76,11 +76,12 @@ queue 1000</code>
 
 </div><!-- end span -->
 <div class="span6">
+<h2>Enabling Science</h2>
+<p>The Campus Factory provides an on-demand personal cluster by combining shared resources into a consistent and transparent environment.  Workflow management is handled by integration with <a href="http://research.cs.wisc.edu/condor/">Condor</a>.  Researchers are able to spend less time worrying about the computing, and more time on their research.</p>
 <div class="thumbnail">
 <img src="assets/images/campus-factory-title.png">
 </div>
-<h2>Enabling Science</h2>
-<p>The Campus Factory provides an on-demand personal cluster by combining shared resources into a consistent and transparent environment.  Workflow management is handled by integration with <a href="http://research.cs.wisc.edu/condor/">Condor</a>.</p>
+
 
 
 </div> <!-- end span -->
