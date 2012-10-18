@@ -64,6 +64,25 @@ WhenToTransferOutput = ON_EXIT
 queue 1000</code> 
 </pre>
 
+<dl>
+
+<dt><code>unverse</code></dt>
+<dd>Tells Condor to run the executable direectly.</dd>
+
+<dt><code>executable</code></dt>
+<dd>The file to execute on the worker node.</dd>
+
+<dt><code>transfer_input_files</code></dt>
+<dd>Lists the files that should be transferred to the execution node with the executable before starting.</dd>
+
+<dt><code>should_transfer_files</code> and <code>WhenToTransferOutput</code></dt>
+<dd>Tell Condor to transfer the files to the execution host before starting.</dd>
+
+<dt><code>queue</code></dt>
+<dd>This is the last line in any Condor submit file.  It means to submit <code>1000</code> copies of this job.</dd>
+
+</dl>
+
 <ul>
 <li><code>universe</code> tells Condor to run the <code>executable</code> directly.  </li>
 
