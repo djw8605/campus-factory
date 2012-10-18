@@ -66,7 +66,7 @@ queue 1000</code>
 
 <dl>
 
-<dt>unverse</dt>
+<dt>universe</dt>
 <dd>Tells Condor to run the executable direectly.</dd>
 
 <dt>executable</dt>
@@ -83,15 +83,6 @@ queue 1000</code>
 
 </dl>
 
-<ul>
-<li><code>universe</code> tells Condor to run the <code>executable</code> directly.  </li>
-
-<li><code>transfer_input_files</code> lists the files that should be transferred to the execution node with the executable before starting.  <code>should_transfer_files</code> and <code>WhenToTransferOutput</code> both tell Condor to transfer the files to the execution host before starting.  </li>
-
-<li>
-<code>queue</code> is the last line in any Condor submit file.  It means to submit <code>1000</code> copies of this job.
-</li>
-</ul>
 
 </div><!-- end span -->
 <div class="span6">
