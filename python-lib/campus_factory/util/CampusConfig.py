@@ -36,7 +36,12 @@ def get_option(option, default=None, section="general"):
     if config_option:
         return config_option
     
-    # Forth, get from the condor configuration
+    # Forth, get factory configuration from general section
+    config_option = _get_config_option(option)
+    if config_option:
+        return config_option
+    
+    # Fifth, get from the condor configuration
     condor_option = _get_condor_option(option)
     if condor_option:
         return condor_option

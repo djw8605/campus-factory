@@ -31,7 +31,7 @@ class Cluster:
         
     def get_option(self, option, default=None):
         
-        CampusConfig.get_option(option, default, self.cluster_unique)
+        return campus_factory.util.CampusConfig.get_option(option, default, self.cluster_unique)
         
         
     
@@ -128,8 +128,8 @@ class Cluster:
         
         # Get the cluster specific information
         # First, the cluster tmp directory
-        cluster_tmp = self._GetClusterSpecificConfig("worker_tmp", "/tmp")
-        remote_factory_location = self._GetClusterSpecificConfig("remote_factory", "~/bosco/campus_factory")
+        cluster_tmp = self.get_option("worker_tmp", "/tmp")
+        remote_factory_location = self.get_option("remote_factory", "~/bosco/campus_factory")
         
         # If we are submtiting to ourselves, then don't need remote cluster
         if self.get_option("CONDOR_HOST") == self.cluster_unique:
