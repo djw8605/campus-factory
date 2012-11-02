@@ -27,11 +27,11 @@ class DaemonWrangler:
         else:
             self.daemons = daemons
             
-        self.campus_dir = os.environ['CAMPUSFACTORY_DIR']
+        self.glidein_dir = get_option("GLIDEIN_DIRECTORY")
             
     def Package(self, name=""): 
         if name == "":
-            name = os.path.join(self.campus_dir,"share/glidein_jobs/glideinExec.tar.gz")
+            name = os.path.join(self.glidein_dir,"glideinExec.tar.gz")
         
         # See if the daemons exist
         daemon_paths = self._CheckDaemons()
@@ -58,7 +58,7 @@ class DaemonWrangler:
             shutil.copy(daemon_path, target_dir)
         
         # Add any other files that should go into the tar file
-        shutil.copy(os.path.join(self.campus_dir, "share/glidein_jobs/glidein_startup"), target_dir)
+        shutil.copy(os.path.join(self.glidein_dir, "glidein_startup"), target_dir)
         
         tfile = None
         try:
