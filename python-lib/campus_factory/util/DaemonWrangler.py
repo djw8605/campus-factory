@@ -116,12 +116,16 @@ class DaemonWrangler:
         Get all libs in the lib directories 
         """
         toreturn = []
-        
+       
         # For each dir in libdirs, get the files
         for libdir in libdirs:
             pathname = os.path.join(self.base_condor_dir, libdir)
             for libfile in os.listdir(pathname):
-                toreturn.append(libfile)
+                full_libfile = os.path.join(pathname, libfile)
+                if not os.path.isdir(full_libfile):
+                    toreturn.append(full_libfile)
+
+        return toreturn
         
 
 
