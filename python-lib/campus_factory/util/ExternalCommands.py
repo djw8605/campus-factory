@@ -18,7 +18,7 @@ def RunExternal(command, str_stdin=""):
     """
 
     logging.info("Running external command: %s" % command)
-    popen_inst = subprocess.Popen(command.split(), shell=True, stdin=subprocess.PIPE,
+    popen_inst = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE,
                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE )
     logging.debug("stdin = %s" % str_stdin)
     str_stdout = str_stderr = ""
