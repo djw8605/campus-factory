@@ -44,8 +44,8 @@ def RunExternal(command, str_stdin=""):
             popen_inst.stdin.write(str_stdin[:min( [ len(str_stdin), 4096])])
             str_stdin = str_stdin[min( [ len(str_stdin), 4096]):]
             read_from_child += 1
-        elif popen_inst.tochild in wlist:
-            popen_inst.tochild.close()
+        elif popen_inst.stdin in wlist:
+            popen_inst.stdin.close()
 
         #logging.debug("len(str_stdin) = %i, read_from_child = %i, rlist = %s, wlist = %s", len(str_stdin), read_from_child, rlist, wlist)
         if popen_inst.poll() != None and len(str_stdin) == 0 and (read_from_child == -1 or read_from_child == 0):
