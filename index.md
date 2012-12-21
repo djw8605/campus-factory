@@ -42,7 +42,7 @@ Configuration file is in standard ini format.  Simple to customize the ini style
 <div class="well">
 <h2>Condor Integration</h2>
 <p>
-<i class="icon-paper-clip"></i> The Campus Factory is integrated with <a href="http://research.cs.wisc.edu/htcondor/">HTCondor</a>, the High Throughput Computing resource manager
+The Campus Factory is integrated with <a href="http://research.cs.wisc.edu/htcondor/">HTCondor</a>, the High Throughput Computing resource manager
 </p>
 </div>
 </div> <!-- END SPAN -->
