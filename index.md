@@ -12,8 +12,8 @@ actionurl: about.html
 <h1>Campus Factory</h1>
 <p>A lightweight glidein factory designed to connect campus resources together into a on-demand Condor cluster</p>
 <p>
-<a href="https://github.com/djw8605/campus-factory/zipball/v1.0" class="btn btn-primary btn-large">
-Download v1.0
+<a href="https://github.com/djw8605/campus-factory/zipball/v1.1" class="btn btn-primary btn-large">
+Download v1.1
 </a>
 <a class="btn btn-info btn-large" href="about.html">
 Learn More
