@@ -1,4 +1,3 @@
-
 Open Science Grid Campus Factory
 ================================
 
@@ -10,15 +9,15 @@ http://digitalcommons.unl.edu/computerscidiss/21/
 
 Installing and Configuring
 --------------------------
-Documentation for installing and configuring the campus factory can be found
-on the OSG twiki:
-https://twiki.grid.iu.edu/bin/view/Documentation/CampusFactoryInstall
+The Campus Factory is integrated into Bosco.  Documentation for installing
+and using Bosco can be found on the OSG Twiki:
+https://twiki.grid.iu.edu/bin/view/CampusGrids/BoSCO
 
 
 Source and Development
 ----------------------
-The source and development is officially hosted on the sourceforge page:
-http://sourceforge.net/projects/campusfactory/
+The source and development is officially hosted on the github page:
+https://github.com/djw8605/campus-factory
 
 
 License
@@ -40,9 +39,6 @@ This project is licensed under the Apache 2.0 license.
    limitations under the License.
 
 
-Condor is distributed with the OSG Campus Factory.  It is licensed under Apache
-2.0.
-http://research.cs.wisc.edu/condor/
 
 
 
