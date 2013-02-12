@@ -38,7 +38,7 @@ class Factory:
 
         
     
-    def Intialize(self):
+    def Intialize(self, signum=0, frame=None):
         """
         
         Function to initialize the factory's variables such as configuration
