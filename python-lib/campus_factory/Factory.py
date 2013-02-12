@@ -135,6 +135,9 @@ class Factory:
         handler = logging.handlers.RotatingFileHandler(os.path.join(logdirectory, "campus_factory.log"),
                         maxBytes=10000000, backupCount=5)
         root_logger = logging.getLogger()
+        # Clear out the logger
+        root_logger.handlers = []
+        
         root_logger.setLevel(level)
         formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
         handler.setFormatter(formatter)
