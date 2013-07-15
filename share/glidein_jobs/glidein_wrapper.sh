@@ -3,6 +3,10 @@
 starting_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 eval campus_factory_dir=$_campusfactory_CAMPUSFACTORY_LOCATION
 
+# BLAHP does weird things with home directory
+unset HOME
+export HOME
+
 # Make the temporary directory
 if [ ! -d $_campusfactory_wntmp ]
 then
