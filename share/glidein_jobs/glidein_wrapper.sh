@@ -27,6 +27,12 @@ export _condor_LIB=$local_dir/glideinExec
 
 export LD_LIBRARY_PATH=$_condor_LIB
 
+# Copy the user job wrapper
+if [ -e $starting_dir/user_job_wrapper.sh ]
+then
+cp $starting_dir/user_job_wrapper.sh `pwd`
+fi
+
 if [ -e `pwd`/user_job_wrapper.sh ]
 then
 export _condor_USER_JOB_WRAPPER=`pwd`/user_job_wrapper.sh
