@@ -1,6 +1,11 @@
 #!/bin/sh 
 
 starting_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# BLAHP does weird things with home directory
+unset HOME
+export HOME
+
 eval campus_factory_dir=$_campusfactory_CAMPUSFACTORY_LOCATION
 
 # Make the temporary directory
@@ -42,4 +47,3 @@ fi
 
 
 rm -rf $local_dir
-
