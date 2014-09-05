@@ -1,6 +1,11 @@
 #!/bin/sh 
 
 starting_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# BLAHP does weird things with home directory
+unset HOME
+export HOME
+
 eval campus_factory_dir=$_campusfactory_CAMPUSFACTORY_LOCATION
 
 # Make the temporary directory
@@ -27,6 +32,12 @@ export _condor_LIB=$local_dir/glideinExec
 
 export LD_LIBRARY_PATH=$_condor_LIB
 
+# Copy the user job wrapper
+if [ -e $starting_dir/user_job_wrapper.sh ]
+then
+cp $starting_dir/user_job_wrapper.sh `pwd`
+fi
+
 if [ -e `pwd`/user_job_wrapper.sh ]
 then
 export _condor_USER_JOB_WRAPPER=`pwd`/user_job_wrapper.sh
@@ -36,4 +47,3 @@ fi
 
 
 rm -rf $local_dir
-
